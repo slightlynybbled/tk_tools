@@ -3,7 +3,17 @@ from collections import OrderedDict
 
 
 class Grid(tk.Frame):
+    """
+    Creates a grid of widgets (intended to be subclassed)
+    """
     def __init__(self, parent, num_of_columns: int, headers: list=None):
+        """
+        Initialization of the grid object
+        
+        :param parent: the tk parent element of this frame
+        :param num_of_columns: the number of columns contained of the grid
+        :param headers: a list containing the names of the column headers
+        """
         tk.Frame.__init__(self, parent, padx=3, pady=3, borderwidth=2)
         self.grid()
 
@@ -22,9 +32,20 @@ class Grid(tk.Frame):
                 self.headers.append(label)
 
     def add_row(self, data: list):
+        """
+        Adds a row of data based on the entered data
+        
+        :param data: row of data as a list
+        :return: None
+        """
         raise NotImplementedError
 
     def _redraw(self):
+        """
+        Forgets the current layout and redraws with the most recent information
+        
+        :return: 
+        """
         for row in self.rows:
             for widget in row:
                 widget.grid_forget()
@@ -34,7 +55,13 @@ class Grid(tk.Frame):
             for j, widget in enumerate(row):
                 widget.grid(row=i+offset, column=j)
 
-    def remove_row(self, row_number: int):
+    def remove_row(self, row_number: int=-1):
+        """
+        Removes a specified row of data
+        
+        :param row_number: the row to remove (defaults to the last row)
+        :return: None
+        """
         if len(self.rows) == 0:
             return
 
@@ -43,15 +70,36 @@ class Grid(tk.Frame):
             widget.destroy()
 
     def clear(self):
+        """
+        Removes all elements of the grid
+        
+        :return: None 
+        """
         for i in range(len(self.rows)):
             self.remove_row(0)
 
 
 class LabelGrid(Grid):
+    """
+    A table-like display widget
+    """
     def __init__(self, parent, num_of_columns: int, headers: list=None):
+        """
+        Initialization of the label grid object
+
+        :param parent: the tk parent element of this frame
+        :param num_of_columns: the number of columns contained of the grid
+        :param headers: a list containing the names of the column headers
+        """
         super().__init__(parent, num_of_columns, headers)
 
     def add_row(self, data: list):
+        """
+        Add a row of data to the current widget
+        
+        :param data: a row of data
+        :return: None
+        """
         # validation
         if self.headers:
             if len(self.headers) != len(data):
@@ -66,10 +114,27 @@ class LabelGrid(Grid):
 
 
 class EntryGrid(Grid):
+    """
+    Add a spreadsheet-like grid of entry widgets
+    """
     def __init__(self, parent, num_of_columns: int, headers: list=None):
+        """
+        Initialization of the entry grid object
+
+        :param parent: the tk parent element of this frame
+        :param num_of_columns: the number of columns contained of the grid
+        :param headers: a list containing the names of the column headers
+        """
         super().__init__(parent, num_of_columns, headers)
 
     def add_row(self, data: list=None):
+        """
+        Add a row of data to the current widget, add a <Tab> binding to the 
+        last element of the last row, and set the focus at the beginning of the next row
+
+        :param data: a row of data
+        :return: None
+        """
         # validation
         if self.headers and data:
             if len(self.headers) != len(data):
@@ -109,6 +174,12 @@ class EntryGrid(Grid):
         self._redraw()
 
     def _read_as_dict(self):
+        """
+        Read the data contained in all entries as a list of 
+        dictionaries with the headers as the dictionary keys
+        
+        :return: list of dicts containing all tabular data 
+        """
         data = list()
         for row in self.rows:
             row_data = OrderedDict()
@@ -120,6 +191,12 @@ class EntryGrid(Grid):
         return data
 
     def _read_as_table(self):
+        """
+        Read the data contained in all entries as a list of 
+        lists containing all of the data
+
+        :return: list of dicts containing all tabular data 
+        """
         rows = list()
 
         for row in self.rows:
@@ -127,8 +204,14 @@ class EntryGrid(Grid):
 
         return rows
 
-    def read(self, as_dict=True):
-        if as_dict:
+    def read(self, as_dicts=True):
+        """
+        Read the data from the entry fields
+        
+        :param as_dicts: True if the data is desired as a list of dicts, else False
+        :return: 
+        """
+        if as_dicts:
             return self._read_as_dict()
         else:
             return self._read_as_table()
