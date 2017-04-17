@@ -8,6 +8,7 @@ class Grid(tk.Frame):
 
         self.headers = list()
         self.rows = list()
+        self.num_of_columns = num_of_columns
 
         # do some validation
         if headers:
@@ -16,8 +17,18 @@ class Grid(tk.Frame):
 
             for i, element in enumerate(headers):
                 label = tk.Label(self, text=str(element), relief=tk.GROOVE)
-                label.grid(row=0, column=i)
+                label.grid(row=0, column=i, sticky='E,W')
                 self.headers.append(label)
+
+    def _redraw(self):
+        for row in self.rows:
+            for widget in row:
+                widget.grid_forget()
+
+        offset = 0 if not self.headers else 1
+        for i, row in enumerate(self.rows):
+            for j, widget in enumerate(row):
+                widget.grid(row=i+offset, column=j)
 
     def add_row(self, data: list):
         raise NotImplementedError
@@ -57,21 +68,42 @@ class EntryGrid(Grid):
     def __init__(self, parent, num_of_columns: int, headers: list=None):
         super().__init__(parent, num_of_columns, headers)
 
-    def add_row(self, data: list):
-        print(self.rows)
+    def add_row(self, data: list=None):
         # validation
-        if self.headers:
+        if self.headers and data:
             if len(self.headers) != len(data):
                 raise ValueError
 
         offset = 0 if not self.headers else 1
         row = list()
-        for i, element in enumerate(data):
-            entry = tk.Entry(self, text=str(element))
-            entry.grid(row=len(self.rows) + offset, column=i, sticky='E,W')
-            row.append(entry)
+        if data:
+            for i, element in enumerate(data):
+                entry = tk.Entry(self, text=str(element))
+                entry.grid(row=len(self.rows) + offset, column=i, sticky='E,W')
+                row.append(entry)
+        else:
+            for i in range(self.num_of_columns):
+                entry = tk.Entry(self)
+                entry.grid(row=len(self.rows) + offset, column=i, sticky='E,W')
+                row.append(entry)
 
         self.rows.append(row)
+
+        # clear all bindings
+        for row in self.rows:
+            for widget in row:
+                widget.unbind('<Tab>')
+
+        def add(e):
+            self.add_row()
+
+        last_entry = self.rows[-1][-1]
+        last_entry.bind('<Tab>', add)
+
+        e = self.rows[-1][0]
+        e.focus_set()
+        
+        self._redraw()
 
 
 if __name__ == '__main__':
