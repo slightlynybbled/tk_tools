@@ -76,10 +76,16 @@ class EntryGrid(Grid):
 
         offset = 0 if not self.headers else 1
         row = list()
+
         if data:
             for i, element in enumerate(data):
                 contents = '' if element is not None else str(element)
                 entry = tk.Entry(self, text=contents)
+                entry.grid(row=len(self.rows) + offset, column=i, sticky='E,W')
+                row.append(entry)
+        else:
+            for i in range(self.num_of_columns):
+                entry = tk.Entry(self)
                 entry.grid(row=len(self.rows) + offset, column=i, sticky='E,W')
                 row.append(entry)
 
