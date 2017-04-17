@@ -78,12 +78,8 @@ class EntryGrid(Grid):
         row = list()
         if data:
             for i, element in enumerate(data):
-                entry = tk.Entry(self, text=str(element))
-                entry.grid(row=len(self.rows) + offset, column=i, sticky='E,W')
-                row.append(entry)
-        else:
-            for i in range(self.num_of_columns):
-                entry = tk.Entry(self)
+                contents = '' if element is not None else str(element)
+                entry = tk.Entry(self, text=contents)
                 entry.grid(row=len(self.rows) + offset, column=i, sticky='E,W')
                 row.append(entry)
 
@@ -102,7 +98,7 @@ class EntryGrid(Grid):
 
         e = self.rows[-1][0]
         e.focus_set()
-        
+
         self._redraw()
 
 
