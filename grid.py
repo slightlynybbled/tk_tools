@@ -1,4 +1,5 @@
 import tkinter as tk
+from collections import OrderedDict
 
 
 class Grid(tk.Frame):
@@ -20,6 +21,9 @@ class Grid(tk.Frame):
                 label.grid(row=0, column=i, sticky='E,W')
                 self.headers.append(label)
 
+    def add_row(self, data: list):
+        raise NotImplementedError
+
     def _redraw(self):
         for row in self.rows:
             for widget in row:
@@ -29,9 +33,6 @@ class Grid(tk.Frame):
         for i, row in enumerate(self.rows):
             for j, widget in enumerate(row):
                 widget.grid(row=i+offset, column=j)
-
-    def add_row(self, data: list):
-        raise NotImplementedError
 
     def remove_row(self, row_number: int):
         if len(self.rows) == 0:
@@ -107,6 +108,31 @@ class EntryGrid(Grid):
 
         self._redraw()
 
+    def _read_as_dict(self):
+        data = list()
+        for row in self.rows:
+            row_data = OrderedDict()
+            for i, header in enumerate(self.headers):
+                row_data[header.cget('text')] = row[i].get()
+
+            data.append(row_data)
+
+        return data
+
+    def _read_as_table(self):
+        rows = list()
+
+        for row in self.rows:
+            rows.append([row[i].get() for i in range(self.num_of_columns)])
+
+        return rows
+
+    def read(self, as_dict=True):
+        if as_dict:
+            return self._read_as_dict()
+        else:
+            return self._read_as_table()
+
 
 if __name__ == '__main__':
     root = tk.Tk()
@@ -126,5 +152,12 @@ if __name__ == '__main__':
 
     remove_row_btn = tk.Button(text='Remove Row', command=remove_row)
     remove_row_btn.grid(row=2, column=0)
+
+    def read():
+        print(entry_grid.read(as_dict=False))
+
+    read_btn = tk.Button(text='Read', command=read)
+    read_btn.grid(row=3, column=0)
+
 
     root.mainloop()
