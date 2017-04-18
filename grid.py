@@ -237,7 +237,7 @@ if __name__ == '__main__':
     remove_row_btn.grid(row=2, column=0)
 
     def read():
-        print(entry_grid.read(as_dict=False))
+        print(entry_grid.read(as_dicts=False))
 
     read_btn = tk.Button(text='Read', command=read)
     read_btn.grid(row=3, column=0)
