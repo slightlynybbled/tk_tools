@@ -6,7 +6,7 @@ class Grid(tk.Frame):
     """
     Creates a grid of widgets (intended to be subclassed)
     """
-    def __init__(self, parent, num_of_columns: int, headers: list=None):
+    def __init__(self, parent, num_of_columns: int, headers: list=None, **options):
         """
         Initialization of the grid object
         
@@ -14,7 +14,7 @@ class Grid(tk.Frame):
         :param num_of_columns: the number of columns contained of the grid
         :param headers: a list containing the names of the column headers
         """
-        tk.Frame.__init__(self, parent, padx=3, pady=3, borderwidth=2)
+        tk.Frame.__init__(self, parent, padx=3, pady=3, borderwidth=2, **options)
         self.grid()
 
         self.headers = list()
@@ -83,7 +83,7 @@ class LabelGrid(Grid):
     """
     A table-like display widget
     """
-    def __init__(self, parent, num_of_columns: int, headers: list=None):
+    def __init__(self, parent, num_of_columns: int, headers: list=None, **options):
         """
         Initialization of the label grid object
 
@@ -91,7 +91,7 @@ class LabelGrid(Grid):
         :param num_of_columns: the number of columns contained of the grid
         :param headers: a list containing the names of the column headers
         """
-        super().__init__(parent, num_of_columns, headers)
+        super().__init__(parent, num_of_columns, headers, **options)
 
     def add_row(self, data: list):
         """
@@ -117,7 +117,7 @@ class EntryGrid(Grid):
     """
     Add a spreadsheet-like grid of entry widgets
     """
-    def __init__(self, parent, num_of_columns: int, headers: list=None):
+    def __init__(self, parent, num_of_columns: int, headers: list=None, **options):
         """
         Initialization of the entry grid object
 
@@ -125,7 +125,7 @@ class EntryGrid(Grid):
         :param num_of_columns: the number of columns contained of the grid
         :param headers: a list containing the names of the column headers
         """
-        super().__init__(parent, num_of_columns, headers)
+        super().__init__(parent, num_of_columns, headers, **options)
 
     def add_row(self, data: list=None):
         """
@@ -215,6 +215,121 @@ class EntryGrid(Grid):
             return self._read_as_dict()
         else:
             return self._read_as_table()
+
+
+class KeyValueEntry(tk.Frame):
+    """
+    Creates a key-value frame so common in modern GUI
+    """
+    def __init__(self, parent, keys: list, defaults: list=None,
+                 unit_labels: list=None, enables: list=None,
+                 title=None, on_change_callback=None, **options):
+        """
+        Key/Value constructor
+        
+        :param parent: the parent frame
+        :param keys: the keys represented
+        :param defaults: default values for each key
+        :param unit_labels: unit labels for each key (to the right of the value)
+        :param enables: True/False for each key
+        :param title: The title of the block
+        :param on_change_callback: a function callback when any element is changed
+        :param options: frame tk options
+        """
+        tk.Frame.__init__(self, parent,
+                          borderwidth=2,
+                          padx=5, pady=5,
+                          **options)
+
+        self.defaults = defaults
+
+        row_offset = 0
+        columns = 3 if unit_labels else 2
+
+        if title:
+            self.title = tk.Label(self, text=title)
+            self.title.grid(row=row_offset, column=0, columnspan=columns)
+            row_offset += 1
+
+        def callback(event):
+            on_change_callback()
+
+        self.keys = []
+        self.values = []
+        self.units = []
+        for i, key in enumerate(keys):
+            label = tk.Label(self, text=key)
+            label.grid(row=row_offset, column=0, sticky='E')
+            self.keys.append(label)
+
+            entry = tk.Entry(self)
+            entry.grid(row=row_offset, column=1)
+            self.values.append(entry)
+
+            if self.defaults:
+                entry.insert(0, self.defaults[i])
+
+            if enables:
+                if not enables[i]:
+                    entry.config(state=tk.DISABLED)
+
+            if unit_labels:
+                unit = tk.Label(self, text=unit_labels[i])
+                unit.grid(row=row_offset, column=2, sticky='W')
+                self.units.append(unit)
+
+            if on_change_callback:
+                entry.bind('<Return>', callback)
+                entry.bind('<Tab>', callback)
+
+            row_offset += 1
+
+    def reset(self):
+        """
+        Clears all entries
+        
+        :return: None
+        """
+        for i, entry in enumerate(self.values):
+            entry.delete(0, tk.END)
+            entry.insert(0, self.defaults[i])
+
+    def change_enables(self, enables_list: list):
+        """
+        Enable/disable inputs
+        
+        :param enables_list: list containing enables for each key
+        
+        :return: None
+        """
+        for i, entry in enumerate(self.values):
+            if enables_list[i]:
+                entry.config(state=tk.NORMAL)
+
+    def load(self, data: dict):
+        """
+        Load values into the key/values via dict
+        
+        :param data: dict containing the key/values that should be inserted
+        :return: 
+        """
+        for i, label in enumerate(self.keys):
+            key = label.cget('text')
+            if key in data.keys():
+                self.values[i].delete(0, tk.END)
+                self.values[i].insert(0, str(data[key]))
+
+    def get(self):
+        """
+        Retrieve the GUI elements for program use
+        
+        :return: a dictionary containing all of the data from the key/value entries 
+        """
+        data = dict()
+        for label, entry in zip(self.keys, self.values):
+            data[label.cget('text')] = entry.get()
+
+        return data
 
 
 if __name__ == '__main__':
