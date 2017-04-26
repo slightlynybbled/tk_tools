@@ -28,7 +28,11 @@ Examples of these widgets may be found within the [examples](./examples/) direct
 
 # Widgets
 
+Most of the widgets added here fall into three rough classes:
 
+ - conglomerations of sub-widgets (i.e. grids)
+ - graphical aids (i.e. graph, rotary scale)
+ - improvements on existing widgets (i.e. dropdown)
 
 ## Label Grid
 
@@ -167,4 +171,21 @@ p.grid(row=0, column=0)
 p.set_value(5)
 ```
 
+## Drop Down
 
+The `DropDown` is an improvement on the `OptionMenu` in which you don't have to
+create a `StringVar`.  It is simply managed as part of the class and is provided for
+easy creation of drop down menus.
+
+![Drop Down](./examples/img/dropdown.png)
+
+```python 
+dd = tk_tools.DropDown(root, ['one', 'two', 'three'])
+dd.grid()
+
+
+def callback():
+    print(dd.get())
+
+dd.add_callback(lambda: print(dd.get()))
+```
