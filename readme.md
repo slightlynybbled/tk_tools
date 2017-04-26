@@ -12,6 +12,10 @@ For the moment, download this library and navigate to the root directory of the 
 python setup.py install
 ```
 
+# Contributions
+
+Please request additional widgets in the [issues]()
+
 # Using the Widgets
 
 All widgets are implemented as subclasses of frames and are - as a result - easily used
