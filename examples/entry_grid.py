@@ -8,8 +8,7 @@ entry_grid.grid(row=0, column=0)
 
 
 def add_row():
-    row = [1, 2, 3]
-    entry_grid.add_row(row)
+    entry_grid.add_row()
 
 
 def remove_row():

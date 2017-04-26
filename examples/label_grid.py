@@ -3,7 +3,7 @@ import tk_tools
 
 root = tk.Tk()
 
-label_grid = tk_tools.LabelGrid(root, 3, ['L0', 'L1', 'L2'])
+label_grid = tk_tools.LabelGrid(root, 3, ['Column0', 'Column1', 'Column2'])
 label_grid.grid(row=0, column=0)
 
 
