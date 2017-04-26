@@ -14,7 +14,8 @@ python setup.py install
 
 # Contributions
 
-Please request additional widgets in the [issues]()
+Please request additional widgets in the
+[issues](https://github.com/slightlynybbled/tk_tools/issues).
 
 # Using the Widgets
 
@@ -30,8 +31,8 @@ Examples of these widgets may be found within the [examples](./examples/) direct
 
 Most of the widgets added here fall into three rough classes:
 
- - conglomerations of sub-widgets (i.e. grids)
- - graphical aids (i.e. graph, rotary scale)
+ - groups of sub-widgets (i.e. grids)
+ - visual aids using the canvas (i.e. graph, rotary scale)
  - improvements on existing widgets (i.e. dropdown)
 
 ## Label Grid
