@@ -182,7 +182,7 @@ class Graph(tk.Frame):
         :param visible: True if the individual point should be visible
         :param color: the color of the point
         :param size: the point size in pixels
-        :return: 
+        :return: The absolute coordinates as a tuple
         """
         xp = (self.px_x * (x - self.x_min)) / self.x_scale
         yp = (self.px_y * (self.y_max - y)) / self.y_scale
@@ -220,10 +220,21 @@ class Graph(tk.Frame):
             # print last_point
 
     @staticmethod
-    def frange(x, y, jump, digits_to_round=3):
-        while x < y:
-            yield round(x, digits_to_round)
-            x += jump
+    def frange(start, stop, step, digits_to_round=3):
+        """
+        Works like range for doubles
+        
+        :param start: starting value
+        :param stop: ending value
+        :param step: the increment
+        :param digits_to_round: the digits to which to 
+        round (makes floating-point numbers much easier 
+        to work with)
+        :return: generator
+        """
+        while start < stop:
+            yield round(start, digits_to_round)
+            start += step
 
 
 if __name__ == '__main__':
