@@ -113,16 +113,28 @@ class RotaryScale(Dial):
 
 class Graph(tk.Frame):
     """
-    Tkinter native graph
+    Tkinter native graph (pretty basic, but doesn't require heavy install)
     
     Notes: the core of this object was creating using the 
     basic structure found at: https://gist.github.com/ajbennieston/3072649
     """
     def __init__(self, parent, x_min, x_max, y_min, y_max, x_scale, y_scale, **options):
-        tk.Frame.__init__(parent)
+        """
+        Initializes the graph object.
+        
+        :param parent: the parent frame
+        :param x_min: the x minimum
+        :param x_max: the x maximum
+        :param y_min: the y minimum
+        :param y_max: the y maximum
+        :param x_scale: the 'tick' on the x-axis
+        :param y_scale: the 'tick' on the y-axis
+        :param options: additional valid tkinter.canvas options
+        """
+        tk.Frame.__init__(self, parent)
 
-        self.canvas = tk.Canvas(**options)
-        self.canvas.grid()
+        self.canvas = tk.Canvas(self, **options)
+        self.canvas.grid(row=0, column=0)
 
         self.w = float(self.canvas.config('width')[4])
         self.h = float(self.canvas.config('height')[4])
@@ -138,6 +150,12 @@ class Graph(tk.Frame):
         self.draw_axes()
 
     def draw_axes(self):
+        """
+        Removes all existing series and re-draws the axes
+        
+        :return: None 
+        """
+        self.canvas.delete('all')
         rect = 50, 50, self.w - 50, self.h - 50
 
         self.canvas.create_rectangle(rect, outline="black")
@@ -156,20 +174,48 @@ class Graph(tk.Frame):
             coord = 35, 50 + y_step
             self.canvas.create_text(coord, fill="black", text=str(self.y_max - y))
 
-    def plot_point(self, x, y):
+    def plot_point(self, x, y, visible=True, color='black', size=5):
+        """
+        Places a single point on the 
+        :param x: 
+        :param y: 
+        :param visible: True if the individual point should be visible
+        :param color: the color of the point
+        :param size: the point size in pixels
+        :return: 
+        """
         xp = (self.px_x * (x - self.x_min)) / self.x_scale
         yp = (self.px_y * (self.y_max - y)) / self.y_scale
         coord = 50 + xp, 50 + yp
-        # self.canvas.create_text(coord, fill="white", text="x")
+
+        if visible:
+            # divide down to an appropriate size
+            size = int(size/2) if int(size/2) > 1 else 1
+            x, y = coord
+
+            self.canvas.create_oval(
+                x-size, y-size,
+                x+size, y+size,
+                fill=color
+            )
+
         return coord
 
-    def plot_line(self, points):
+    def plot_line(self, points, color='black', point_visibility=False):
+        """
+        Plot a line of points
+        
+        :param points: a list of tuples, each tuple containing an (x, y) point
+        :param color: the color of the line
+        :param point_visibility: True if the points should be individually visible
+        :return: None
+        """
         last_point = ()
         for point in points:
-            this_point = self.plot_point(point[0], point[1])
+            this_point = self.plot_point(point[0], point[1], color=color, visible=point_visibility)
 
             if last_point:
-                self.canvas.create_line(last_point + this_point, fill="black")
+                self.canvas.create_line(last_point + this_point, fill=color)
             last_point = this_point
             # print last_point
 
