@@ -112,6 +112,8 @@ class LabelGrid(Grid):
             label.grid(row=len(self.rows) + offset, column=i, sticky='E,W')
             row.append(label)
 
+        self.rows.append(row)
+
 
 class EntryGrid(Grid):
     """
