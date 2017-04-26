@@ -273,7 +273,7 @@ class KeyValueEntry(tk.Frame):
 
             if enables:
                 if not enables[i]:
-                    entry.config(state=tk.DISABLED)
+                    entry.config(state='disabled')
 
             if unit_labels:
                 unit = tk.Label(self, text=unit_labels[i])
@@ -318,8 +318,15 @@ class KeyValueEntry(tk.Frame):
         for i, label in enumerate(self.keys):
             key = label.cget('text')
             if key in data.keys():
+                entry_was_enabled = True if self.values[i].cget('state') == 'normal' else False
+                if not entry_was_enabled:
+                    self.values[i].config(state='normal')
+
                 self.values[i].delete(0, tk.END)
                 self.values[i].insert(0, str(data[key]))
+
+                if not entry_was_enabled:
+                    self.values[i].config(state='disabled')
 
     def get(self):
         """
