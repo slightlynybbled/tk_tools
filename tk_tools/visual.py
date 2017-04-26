@@ -3,40 +3,77 @@ import cmath
 
 
 class Dial(tk.Frame):
-    def __init__(self, parent, **options):
+    """
+    Base class for all dials and dial-like widgets
+    """
+    def __init__(self, parent, size=100, **options):
         tk.Frame.__init__(self, parent, padx=3, pady=3, borderwidth=2, **options)
 
+        self.size = size
 
-class Compass(tk.Frame):
-    def __init__(self, parent, **options):
-        tk.Frame.__init__(self, parent, padx=3, pady=3, borderwidth=2, **options)
+    def to_absolute(self, x, y):
+        """
+        Converts coordinates provided with reference to the center of the canvas (0, 0)
+        to absolute coordinates which are used by the canvas object in which (0, 0) is
+        located in the top left of the object.
+        
+        :param x: x value in pixels
+        :param y: x value in pixels
+        :return: 
+        """
+        return x + self.size/2, y + self.size/2
 
 
-class RotaryScale(tk.Frame):
-    def __init__(self, parent, range=100.0, size=100, **options):
-        tk.Frame.__init__(self, parent, padx=3, pady=3, borderwidth=2, **options)
+class Compass(Dial):
+    """
+    Displays a compass typically seen on a map
+    """
+    def __init__(self, parent, size=100, **options):
+        super().__init__(parent, size=size, **options)
+        raise NotImplementedError()
 
-        self.range = range
+        # todo: import an image, place the image on the canvas, then place an arrow on top of the image
+
+
+class RotaryScale(Dial):
+    """
+    Shows a rotary scale, much like a speedometer.
+    """
+    def __init__(self, parent, max_value=100.0, size=100, **options):
+        """
+        Initializes the RotaryScale object
+        
+        :param parent: tkinter parent frame
+        :param max_value: the value corresponding to the maximum value on the scale
+        :param size: the size in pixels
+        :param options: the frame options
+        """
+        super().__init__(parent, size=size, **options)
+
+        self.max_value = float(max_value)
         self.size = size
 
         self.canvas = tk.Canvas(self, width=self.size, height=self.size)
         self.canvas.grid()
 
         initial_value = 0.0
-        self.arrow(initial_value)
+        self.set_value(initial_value)
 
-    def to_absolute(self, x, y):
-        return x + self.size/2, y + self.size/2
-
-    def arrow(self, number: float):
+    def set_value(self, number: float):
+        """
+        Sets the value of the graphic
+        
+        :param number: the number (must be between 0 and 'max_range' or the scale will peg the limits
+        :return: None
+        """
         self.canvas.delete('all')
+        self.draw_background()
 
-        number = number if number <= self.range else self.range
+        number = number if number <= self.max_value else self.max_value
         number = 0.0 if number < 0.0 else number
-        self.draw_scale()
 
         radius = 0.9 * self.size/2.0
-        angle_in_radians = (2.0 * cmath.pi / 3.0) + number / self.range * (5.0 * cmath.pi / 3.0)
+        angle_in_radians = (2.0 * cmath.pi / 3.0) + number / self.max_value * (5.0 * cmath.pi / 3.0)
 
         center = cmath.rect(0, 0)
         outer = cmath.rect(radius, angle_in_radians)
@@ -47,7 +84,13 @@ class RotaryScale(tk.Frame):
             width=5
         )
 
-    def draw_scale(self, divisions=10):
+    def draw_background(self, divisions=10):
+        """
+        Draws the background of the dial
+        
+        :param divisions: the number of divisions between 'ticks' shown on the dial
+        :return: 
+        """
         self.canvas.create_arc(2, 2, self.size-2, self.size-2, style=tk.PIESLICE, start=-60, extent=30, fill='red')
         self.canvas.create_arc(2, 2, self.size-2, self.size-2, style=tk.PIESLICE, start=-30, extent=60, fill='yellow')
         self.canvas.create_arc(2, 2, self.size-2, self.size-2, style=tk.PIESLICE, start=30, extent=210, fill='green')
@@ -69,6 +112,12 @@ class RotaryScale(tk.Frame):
 
 
 class Graph(tk.Frame):
+    """
+    Tkinter native graph
+    
+    Notes: the core of this object was creating using the 
+    basic structure found at: https://gist.github.com/ajbennieston/3072649
+    """
     def __init__(self, parent, x_min, x_max, y_min, y_max, x_scale, y_scale, **options):
         tk.Frame.__init__(parent)
 
@@ -134,7 +183,7 @@ class Graph(tk.Frame):
 if __name__ == '__main__':
     root = tk.Tk()
 
-    p = RotaryScale(root, range=20.0)
+    p = RotaryScale(root, max_value=20.0)
     p.grid(row=0, column=0)
 
     increment = 1.0
@@ -143,7 +192,7 @@ if __name__ == '__main__':
     def inc():
         global value
         value += increment
-        p.arrow(value)
+        p.set_value(value)
         print(value)
 
     zero_btn = tk.Button(root, text='increment by {}'.format(increment), command=inc)

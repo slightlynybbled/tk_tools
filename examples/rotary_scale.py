@@ -3,7 +3,7 @@ import tk_tools
 
 root = tk.Tk()
 
-p = tk_tools.RotaryScale(root, range=20.0)
+p = tk_tools.RotaryScale(root, max_value=20.0)
 p.grid(row=0, column=0)
 
 increment = 1.0
@@ -13,14 +13,14 @@ value = 0.0
 def inc():
     global value
     value += increment
-    p.arrow(value)
+    p.set_value(value)
     print(value)
 
 
 def dec():
     global value
     value -= increment
-    p.arrow(value)
+    p.set_value(value)
     print(value)
 
 
