@@ -6,11 +6,20 @@ type hints), but could easily be back-ported to earlier versions if desired.
 
 # Installation
 
-For the moment, download this library and navigate to the root directory of the install.
+## Direct Installation
 
-```python 
-python setup.py install
+Clone this repository, and navigate to the root directory of the install and run
+the setup.py installer:
+
+```bash
+$> git clone https://github.com/slightlynybbled/tk_tools
+$> cd tk_tools
+$> python setup.py install
 ```
+
+## Pip
+
+You can also `pip install tk_tools`.
 
 # Contributions
 
