@@ -150,11 +150,11 @@ graph.plot_line(line_0)
 
 # plot the line with points
 line_1 = [(x/5 - 1.0, x/10.0) for x in range(10)]
-graph.plot_line(line_1, point_visibility=True)
+graph.plot_line(line_1, point_visibility=True, color='blue')
 
 # plot a single point
 point = (0.5, 0.75)
-graph.plot_point(*point)
+graph.plot_point(*point, color='red')
 ```
 
 ## Rotary Scale
