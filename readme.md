@@ -188,5 +188,5 @@ dd.grid()
 def callback():
     print(dd.get())
 
-dd.add_callback(lambda: print(dd.get()))
+dd.add_callback(callback)
 ```
