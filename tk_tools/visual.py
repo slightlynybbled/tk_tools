@@ -1,5 +1,6 @@
 import tkinter as tk
 import cmath
+import os
 
 
 class Dial(tk.Frame):
@@ -39,7 +40,7 @@ class RotaryScale(Dial):
     """
     Shows a rotary scale, much like a speedometer.
     """
-    def __init__(self, parent, max_value=100.0, size=100, **options):
+    def __init__(self, parent, max_value=100.0, size=100, image_path=None, **options):
         """
         Initializes the RotaryScale object
         
@@ -56,6 +57,11 @@ class RotaryScale(Dial):
         self.canvas = tk.Canvas(self, width=self.size, height=self.size)
         self.canvas.grid()
 
+        this_path = os.path.abspath(os.path.dirname(__file__))
+        img_path = os.path.join(this_path, 'img/rotary-gauge-bg.png')
+        self.image = tk.PhotoImage(file=img_path)
+        self.image = self.image.subsample(int(1000/self.size), int(1000/self.size))
+
         initial_value = 0.0
         self.set_value(initial_value)
 
@@ -67,7 +73,7 @@ class RotaryScale(Dial):
         :return: None
         """
         self.canvas.delete('all')
-        self.draw_background()
+        self.canvas.create_image(0, 0, image=self.image, anchor='nw')
 
         number = number if number <= self.max_value else self.max_value
         number = 0.0 if number < 0.0 else number
@@ -81,7 +87,8 @@ class RotaryScale(Dial):
         self.canvas.create_line(
             *self.to_absolute(center.real, center.imag),
             *self.to_absolute(outer.real, outer.imag),
-            width=5
+            width=5,
+            fill='blue'
         )
 
     def draw_background(self, divisions=10):

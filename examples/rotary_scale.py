@@ -3,7 +3,7 @@ import tk_tools
 
 root = tk.Tk()
 
-p = tk_tools.RotaryScale(root, max_value=20.0)
+p = tk_tools.RotaryScale(root, max_value=20.0, size=200)
 p.grid(row=0, column=0)
 
 increment = 1.0
