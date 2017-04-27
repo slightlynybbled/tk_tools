@@ -34,6 +34,23 @@ Most of the widgets added here fall into three rough classes:
  - groups of sub-widgets (i.e. grids)
  - visual aids using the canvas (i.e. graph, rotary scale)
  - improvements on existing widgets (i.e. dropdown)
+ 
+Omitted in each are the tkinter setup and run code.  As such, it is assumed that all of
+the below will have the proper import and a tkinter object called `root` on which to
+populate:
+
+```python 
+import tkinter as tk
+import tk_tools
+
+root = tk.Tk()
+
+# -----------------------------------
+# ----- your GUI widget(s) here -----
+# -----------------------------------
+
+root.mainloop()
+```
 
 ## Label Grid
 
@@ -42,15 +59,11 @@ The `LabelGrid` is intended to display tabular data easily and effectively.
 ![Label Grid](./examples/img/label-grid.png)
 
 ```python 
-root = tk.Tk()
-
 label_grid = tk_tools.LabelGrid(root, 3, ['Column0', 'Column1', 'Column2'])
 label_grid.grid(row=0, column=0)
 
 for _ in range(5):
     label_grid.add_row([1, 2, 3])
-
-root.mainloop()
 ```
 
 ## Entry Grid
@@ -63,15 +76,11 @@ will add a new row.
 
 
 ```python 
-root = tk.Tk()
-
 entry_grid = tk_tools.EntryGrid(root, 3, ['L0', 'L1', 'L2'])
 entry_grid.grid(row=0, column=0)
 
 for _ in range(5):
     entry_grid.add_row()
-
-root.mainloop()
 ```
 
 ## Key/Value
@@ -86,8 +95,6 @@ Here, we are shown three key/value entries in various conditions.
 ![Key/Value](./examples/img/key-value.png)
 
 ```python 
-root = tk.Tk()
-
 # create the key-value with a title
 kve0 = tk_tools.KeyValueEntry(
     root,
@@ -114,8 +121,6 @@ kve2 = tk_tools.KeyValueEntry(
 )
 kve2.grid(row=2)
 kve2.load({'Buckets': 'x', 'Dollars': 'y', 'Hens': 'z'})
-
-root.mainloop()
 ```
 
 ## Graph
