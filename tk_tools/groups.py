@@ -145,12 +145,9 @@ class EntryGrid(Grid):
         offset = 0 if not self.headers else 1
         row = list()
 
-        print(data)
-
         if data:
             for i, element in enumerate(data):
                 contents = '' if element is None else str(element)
-                print(element, contents)
                 entry = tk.Entry(self)
                 entry.insert(0, contents)
                 entry.grid(row=len(self.rows) + offset, column=i, sticky='E,W')
