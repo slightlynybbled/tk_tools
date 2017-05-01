@@ -1,6 +1,10 @@
 import tkinter as tk
 from collections import OrderedDict
 
+import tk_tools
+import xlrd
+import xlwt
+
 
 class Grid(tk.Frame):
     """
@@ -340,6 +344,61 @@ class KeyValueEntry(tk.Frame):
             data[label.cget('text')] = entry.get()
 
         return data
+
+
+class SpreadSheetReader(tk.Frame):
+    def __init__(self, parent, path, rows_to_display=20, cols_do_display=8, sheetname=None, **options):
+        tk.Frame.__init__(self, parent, **options)
+
+        self.header = tk.Label(self, text='Select the column you wish to import')
+        self.header.grid(row=0, column=0, columnspan=4)
+
+        self.entry_grid = tk_tools.EntryGrid(self, num_of_columns=8)
+        self.entry_grid.grid(row=1, column=0, columnspan=4, rowspan=4)
+
+        self.move_page_up_btn = tk.Button(self, text='^\n^')
+        self.move_page_up_btn.grid(row=1, column=4, sticky='NS')
+        self.move_page_up_btn = tk.Button(self, text='^')
+        self.move_page_up_btn.grid(row=2, column=4, sticky='NS')
+
+        self.move_page_down_btn = tk.Button(self, text='v')
+        self.move_page_down_btn.grid(row=3, column=4, sticky='NS')
+        self.move_page_down_btn = tk.Button(self, text='v\nv')
+        self.move_page_down_btn.grid(row=4, column=4, sticky='NS')
+
+        # add buttons to navigate the spreadsheet
+        self.move_page_left_btn = tk.Button(self, text='<<')
+        self.move_page_left_btn.grid(row=5, column=0, sticky='EW')
+        self.move_left_btn = tk.Button(self, text='<')
+        self.move_left_btn.grid(row=5, column=1, sticky='EW')
+        self.move_right_btn = tk.Button(self, text='>')
+        self.move_right_btn.grid(row=5, column=2, sticky='EW')
+        self.move_page_right_btn = tk.Button(self, text='>>')
+        self.move_page_right_btn.grid(row=5, column=3, sticky='EW')
+
+        self.path = path
+        self.rows_to_display = rows_to_display
+        self.cols_to_display = cols_do_display
+
+        self.read_xl(sheetname=sheetname)
+
+    def read_xl(self, row_number=0, column_number=0, sheetname=None, sheetnum=0):
+        workbook = xlrd.open_workbook(self.path)
+
+        if sheetname:
+            sheet = workbook.sheet_by_name(sheetname)
+        else:
+            sheet = workbook.sheet_by_index(sheetnum)
+
+        for i, row in enumerate(sheet.get_rows()):
+            data = row[column_number:self.cols_to_display]
+            data = [point.value for point in data]
+            self.entry_grid.add_row(data=data)
+
+            if i >= (self.rows_to_display - row_number):
+                break
+
+
 
 
 if __name__ == '__main__':
