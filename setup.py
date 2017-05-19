@@ -2,9 +2,6 @@
 
 from setuptools import setup, find_packages
 
-
-exec(open('tk_tools/version.py').read())
-
 requirements = []
 
 setup(
