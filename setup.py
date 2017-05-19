@@ -9,7 +9,7 @@ requirements = []
 
 setup(
     name='tk_tools',
-    version=__version__,
+    version=0.1.1,
     description='Tkinter-native toolset and widget library',
     author='Jason R. Jones',
     author_email='slightlynybbled@gmail.com',
