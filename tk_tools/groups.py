@@ -294,7 +294,9 @@ class KeyValueEntry(tk.Frame):
         """
         for i, entry in enumerate(self.values):
             entry.delete(0, tk.END)
-            entry.insert(0, self.defaults[i])
+
+            if self.defaults is not None:
+                entry.insert(0, self.defaults[i])
 
     def change_enables(self, enables_list: list):
         """
