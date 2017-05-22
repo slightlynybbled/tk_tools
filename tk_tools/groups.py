@@ -3,6 +3,8 @@ from collections import OrderedDict
 
 
 class Grid(tk.Frame):
+    padding = 3
+
     """
     Creates a grid of widgets (intended to be subclassed)
     """
@@ -27,7 +29,7 @@ class Grid(tk.Frame):
                 raise ValueError
 
             for i, element in enumerate(headers):
-                label = tk.Label(self, text=str(element), relief=tk.GROOVE)
+                label = tk.Label(self, text=str(element), relief=tk.GROOVE, padx=self.padding, pady=self.padding)
                 label.grid(row=0, column=i, sticky='E,W')
                 self.headers.append(label)
 
@@ -108,7 +110,7 @@ class LabelGrid(Grid):
         offset = 0 if not self.headers else 1
         row = list()
         for i, element in enumerate(data):
-            label = tk.Label(self, text=str(element), relief=tk.GROOVE)
+            label = tk.Label(self, text=str(element), relief=tk.GROOVE, padx=self.padding, pady=self.padding)
             label.grid(row=len(self.rows) + offset, column=i, sticky='E,W')
             row.append(label)
 
