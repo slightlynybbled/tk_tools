@@ -58,9 +58,9 @@ class RotaryScale(Dial):
         self.canvas.grid()
 
         this_path = os.path.abspath(os.path.dirname(__file__))
-        img_path = os.path.join(this_path, 'img/rotary-gauge-bg.png')
+        img_path = os.path.join(this_path, 'img/rotary-scale.png')
         self.image = tk.PhotoImage(file=img_path)
-        self.image = self.image.subsample(int(1000/self.size), int(1000/self.size))
+        self.image = self.image.subsample(int(200/self.size), int(200/self.size))
 
         initial_value = 0.0
         self.set_value(initial_value)
