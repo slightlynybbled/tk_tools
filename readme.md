@@ -4,6 +4,15 @@ This repository is intended to hold some of the most useful, higher-level widget
 that are native to tkinter.  This library is currently compatible with Python 3.5+ (uses
 type hints), but could easily be back-ported to earlier versions if desired.
 
+# Samples
+
+![Label Grid](./examples/img/label-grid.png)
+![Entry Grid](./examples/img/entry-grid.png)
+![Key/Value](./examples/img/key-value.png)
+![Drop Down](./examples/img/dropdown.png)
+![Graph](./examples/img/graph.png)
+![Rotary Scale](./examples/img/rotary-scale.png)
+
 # Installation
 
 ## Direct Installation
