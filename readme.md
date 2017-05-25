@@ -180,7 +180,7 @@ will do the job.
 ![Rotary Scale](./examples/img/rotary-scale.png)
 
 ```python 
-p = tk_tools.RotaryScale(root, max_value=20.0)
+p = tk_tools.RotaryScale(root, max_value=100.0, size=100, unit='km/h')
 p.grid(row=0, column=0)
 
 p.set_value(5)
