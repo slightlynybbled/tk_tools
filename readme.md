@@ -183,7 +183,7 @@ will do the job.
 p = tk_tools.RotaryScale(root, max_value=100.0, size=100, unit='km/h')
 p.grid(row=0, column=0)
 
-p.set_value(5)
+p.set_value(65.0)
 ```
 
 ## Drop Down
