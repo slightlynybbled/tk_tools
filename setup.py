@@ -6,7 +6,10 @@ import os
 here = os.path.dirname(os.path.dirname(__file__))
 exec(open(os.path.join(here, 'tk_tools/version.py')).read())
 
-requirements = []
+requirements = [
+    'xlrd >= 1.0.0',
+    'xlwt >= 1.0.0'
+]
 
 setup(
     name='tk_tools',
