@@ -1,12 +1,16 @@
 #!/usr/bin/env python
 
 from setuptools import setup, find_packages
+import os
+
+here = os.path.dirname(os.path.dirname(__file__))
+exec(open(os.path.join(here, 'tk_tools/version.py')).read())
 
 requirements = []
 
 setup(
     name='tk_tools',
-    version='0.1.2',
+    version=__version__,
     description='Tkinter-native toolset and widget library',
     author='Jason R. Jones',
     author_email='slightlynybbled@gmail.com',

@@ -1,2 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea/
+*/__pycache__
+/build
+/dist
+/tk_tools.egg-info

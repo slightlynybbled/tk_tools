@@ -40,7 +40,7 @@ class RotaryScale(Dial):
     """
     Shows a rotary scale, much like a speedometer.
     """
-    def __init__(self, parent, max_value=100.0, size=100, image_path=None, **options):
+    def __init__(self, parent, max_value=100.0, size=100, unit='', **options):
         """
         Initializes the RotaryScale object
         
@@ -53,9 +53,12 @@ class RotaryScale(Dial):
 
         self.max_value = float(max_value)
         self.size = size
+        self.unit = unit
 
         self.canvas = tk.Canvas(self, width=self.size, height=self.size)
-        self.canvas.grid()
+        self.canvas.grid(row=0)
+        self.readout = tk.Label(self, text='-{}'.format(self.unit))
+        self.readout.grid(row=1)
 
         this_path = os.path.abspath(os.path.dirname(__file__))
         img_path = os.path.join(this_path, 'img/rotary-scale.png')
@@ -84,12 +87,16 @@ class RotaryScale(Dial):
         center = cmath.rect(0, 0)
         outer = cmath.rect(radius, angle_in_radians)
 
+        line_width = int(5 * self.size/200)
+        line_width = 1 if line_width < 1 else line_width
         self.canvas.create_line(
             *self.to_absolute(center.real, center.imag),
             *self.to_absolute(outer.real, outer.imag),
-            width=5,
+            width=line_width,
             fill='blue'
         )
+
+        self.readout['text'] = '{}{}'.format(number, self.unit)
 
     def draw_background(self, divisions=10):
         """
