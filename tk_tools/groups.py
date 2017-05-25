@@ -1,6 +1,10 @@
 import tkinter as tk
 from collections import OrderedDict
 
+import tk_tools
+import xlrd
+import xlwt
+
 
 class Grid(tk.Frame):
     padding = 3
@@ -149,8 +153,9 @@ class EntryGrid(Grid):
 
         if data:
             for i, element in enumerate(data):
-                contents = '' if element is not None else str(element)
-                entry = tk.Entry(self, text=contents)
+                contents = '' if element is None else str(element)
+                entry = tk.Entry(self)
+                entry.insert(0, contents)
                 entry.grid(row=len(self.rows) + offset, column=i, sticky='E,W')
                 row.append(entry)
         else:
@@ -344,6 +349,115 @@ class KeyValueEntry(tk.Frame):
 
         return data
 
+
+class SpreadSheetReader(tk.Frame):
+    def __init__(self, parent, path, rows_to_display=20, cols_do_display=8, sheetname=None, **options):
+        tk.Frame.__init__(self, parent, **options)
+
+        self.header = tk.Label(self, text='Select the column you wish to import')
+        self.header.grid(row=0, column=0, columnspan=4)
+
+        self.entry_grid = tk_tools.EntryGrid(self, num_of_columns=8)
+        self.entry_grid.grid(row=1, column=0, columnspan=4, rowspan=4)
+
+        self.move_page_up_btn = tk.Button(self, text='^\n^', command=lambda: self.move_up(page=True))
+        self.move_page_up_btn.grid(row=1, column=4, sticky='NS')
+        self.move_page_up_btn = tk.Button(self, text='^', command=self.move_up)
+        self.move_page_up_btn.grid(row=2, column=4, sticky='NS')
+
+        self.move_page_down_btn = tk.Button(self, text='v', command=self.move_down)
+        self.move_page_down_btn.grid(row=3, column=4, sticky='NS')
+        self.move_page_down_btn = tk.Button(self, text='v\nv', command=lambda: self.move_down(page=True))
+        self.move_page_down_btn.grid(row=4, column=4, sticky='NS')
+
+        # add buttons to navigate the spreadsheet
+        self.move_page_left_btn = tk.Button(self, text='<<', command=lambda: self.move_left(page=True))
+        self.move_page_left_btn.grid(row=5, column=0, sticky='EW')
+        self.move_left_btn = tk.Button(self, text='<', command=self.move_left)
+        self.move_left_btn.grid(row=5, column=1, sticky='EW')
+        self.move_right_btn = tk.Button(self, text='>', command=self.move_right)
+        self.move_right_btn.grid(row=5, column=2, sticky='EW')
+        self.move_page_right_btn = tk.Button(self, text='>>', command=lambda: self.move_right(page=True))
+        self.move_page_right_btn.grid(row=5, column=3, sticky='EW')
+
+        self.path = path
+        self.sheetname = sheetname
+        self.rows_to_display = rows_to_display
+        self.cols_to_display = cols_do_display
+        self.current_position = (0, 0)
+
+        self.read_xl(sheetname=self.sheetname)
+
+    def read_xl(self, row_number=0, column_number=0, sheetname=None, sheetnum=0):
+        workbook = xlrd.open_workbook(self.path)
+
+        if sheetname:
+            sheet = workbook.sheet_by_name(sheetname)
+        else:
+            sheet = workbook.sheet_by_index(sheetnum)
+
+        for i, row in enumerate(sheet.get_rows()):
+            if i >= row_number:
+                data = row[column_number:column_number + self.cols_to_display]
+                data = [point.value for point in data]
+                self.entry_grid.add_row(data=data)
+
+            if i >= (self.rows_to_display + row_number):
+                break
+
+    def move_right(self, page=False):
+        row_pos, col_pos = self.current_position
+        self.entry_grid.clear()
+
+        if page:
+            self.current_position = (row_pos, col_pos + self.cols_to_display)
+        else:
+            self.current_position = (row_pos, col_pos + 1)
+        self.read_xl(*self.current_position, sheetname=self.sheetname)
+
+    def move_left(self, page=False):
+        row_pos, col_pos = self.current_position
+
+        if not page and col_pos == 0:
+            return
+
+        if page and col_pos < self.cols_to_display:
+            return
+
+        self.entry_grid.clear()
+
+        if page:
+            self.current_position = (row_pos, col_pos - self.cols_to_display)
+        else:
+            self.current_position = (row_pos, col_pos - 1)
+        self.read_xl(*self.current_position, sheetname=self.sheetname)
+
+    def move_down(self, page=False):
+        row_pos, col_pos = self.current_position
+        self.entry_grid.clear()
+
+        if page:
+            self.current_position = (row_pos + self.rows_to_display, col_pos)
+        else:
+            self.current_position = (row_pos + 1, col_pos)
+        self.read_xl(*self.current_position, sheetname=self.sheetname)
+
+    def move_up(self, page=False):
+        row_pos, col_pos = self.current_position
+
+        if not page and row_pos == 0:
+            return
+
+        if page and row_pos < self.rows_to_display:
+            return
+
+        self.entry_grid.clear()
+
+        if page:
+            self.current_position = (row_pos - self.rows_to_display, col_pos)
+        else:
+            self.current_position = (row_pos - 1, col_pos)
+        self.read_xl(*self.current_position, sheetname=self.sheetname)
 
 if __name__ == '__main__':
     root = tk.Tk()
