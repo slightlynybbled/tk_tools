@@ -213,3 +213,21 @@ def callback():
 
 dd.add_callback(callback)
 ```
+
+The `SmartSpinBox` is an improvement on the `SpinBox` already available in tkinter.
+You simply don't have to create any variables to manage as they are included as part
+of the package.  The below code illustrates the creation and addition of TWO functions
+to the `SmartSpinBox`.  Functions may be added at initialization or later, as desired.
+I'm not including a graphic as it looks like any other `SpinBox`.
+
+```python 
+ssb = SmartSpinBox(root, 'float', from_=0, to=5, increment=0.1, callback=lambda: print('it works'))
+ssb.grid()
+
+print(ssb)
+
+def callback():
+    print(ssb.get())
+
+ssb.add_callback(callback)
+```
