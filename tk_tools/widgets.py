@@ -73,7 +73,7 @@ class SmartSpinBox(tk.Spinbox):
 
     Example use:
         # create the smart spinbox and grid
-        ssb = SmartSpinBox(root, ['one', 'two', 'three'])
+        ssb = SmartSpinBox(root, )
         ssb.grid()
 
         # define a callback function that retrieves the currently selected option
@@ -116,15 +116,14 @@ class SmartSpinBox(tk.Spinbox):
 if __name__ == '__main__':
     root = tk.Tk()
 
-    dd = SmartSpinBox(root, 'float', from_=0, to=5, increment=0.1, callback=lambda: print('it works'))
-    dd.grid()
+    ssb = SmartSpinBox(root, 'float', from_=0, to=5, increment=0.1, callback=lambda: print('it works'))
+    ssb.grid()
 
-    print(dd)
+    print(ssb)
 
     def callback():
-        print(dd.get())
+        print(ssb.get())
 
-    dd.add_callback(callback)
-
+    ssb.add_callback(callback)
 
     root.mainloop()
