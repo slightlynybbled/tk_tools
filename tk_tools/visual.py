@@ -145,9 +145,9 @@ class Graph(tk.Frame):
         :param y_scale: the 'tick' on the y-axis
         :param options: additional valid tkinter.canvas options
         """
-        tk.Frame.__init__(self, parent)
+        tk.Frame.__init__(self, parent, **options)
 
-        self.canvas = tk.Canvas(self, **options)
+        self.canvas = tk.Canvas(self)
         self.canvas.grid(row=0, column=0)
 
         self.w = float(self.canvas.config('width')[4])
@@ -215,7 +215,7 @@ class Graph(tk.Frame):
 
         return coord
 
-    def plot_line(self, points, color='black', point_visibility=False):
+    def plot_line(self, points: list, color='black', point_visibility=False):
         """
         Plot a line of points
         
