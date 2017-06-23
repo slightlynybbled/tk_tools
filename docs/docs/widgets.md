@@ -314,6 +314,8 @@ Methods:
 
  - `.add_callback(callback: callable)` - a callback function to be called
  when the spinbox variable changes
+ - `.set(value)` - set the value
+ - `.get()` - returns the value
 
 Example:
 
@@ -327,4 +329,40 @@ def callback():
     print(ssb.get())
 
 ssb.add_callback(callback)
+```
+
+## SmartCheckbutton
+
+The `SmartCheckbutton` is a subclass of `tkinter.Checkbutton` that simply
+wraps the variable into the object and adding a callback function.  The
+variable is always a `bool` type.
+
+```python 
+SmartCheckbutton(
+    parent,                     # parent widget (root or frame)
+    callback: callable=None,    # a callback function
+    **options                   # tkinter.Checkbutton options
+)
+```
+
+Methods:
+
+ - `.add_callback(callback: callable)` - a callback function to be called
+ when the spinbox variable changes
+ - `.set(value)` - set the value
+ - `.get()` - returns the value
+
+Example:
+
+```python 
+# create the smart spinbox and grid
+scb = SmartCheckbutton(root)
+scb.grid()
+
+# define a callback function that retrieves the currently selected option
+def callback():
+    print(scb.get())
+
+# add the callback function to the checkbutton
+scb.add_callback(callback)
 ```
