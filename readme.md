@@ -4,6 +4,8 @@ This repository is intended to hold some of the most useful, higher-level widget
 that are native to tkinter.  This library is currently compatible with Python 3.5+ (uses
 type hints), but could easily be back-ported to earlier versions if desired.
 
+For more details, check out the [documentation](http://pythonhosted.org/tk-tools/).
+
 # Samples
 
 ![Label Grid](./examples/img/label-grid.png)
