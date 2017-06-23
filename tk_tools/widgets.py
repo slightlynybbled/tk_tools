@@ -65,7 +65,24 @@ class SmartOptionMenu(tk.OptionMenu):
         self.var.set(value)
 
 
-class SmartSpinBox(tk.Spinbox):
+class SmartWidget:
+    def __init__(self):
+        self.var = None
+
+    def add_callback(self, callback: callable):
+        def internal_callback(*args):
+            callback()
+
+        self.var.trace('w', internal_callback)
+
+    def get(self):
+        return self.var.get()
+
+    def set(self, value):
+        self.var.set(value)
+
+
+class SmartSpinBox(tk.Spinbox, SmartWidget):
     """
     Easy-to-use spinbox.  Takes most options that work with a normal SpinBox.
     Attempts to call your callback function - if assigned - whenever there
@@ -102,20 +119,27 @@ class SmartSpinBox(tk.Spinbox):
         sb_options['textvariable'] = self.var
         super().__init__(parent, **sb_options)
 
-        def internal_callback(*args):
-            callback()
-        self.var.trace('w', internal_callback)
+        if callback is not None:
+            def internal_callback(*args):
+                callback()
+            self.var.trace('w', internal_callback)
 
-    def add_callback(self, callback: callable):
-        def internal_callback(*args):
-            callback()
 
-        self.var.trace('w', internal_callback)
+class SmartCheckbutton(tk.Checkbutton, SmartWidget):
+    def __init__(self, parent, callback: callable=None, **options):
+
+        self.var = tk.BooleanVar()
+        super().__init__(parent, variable=self.var, **options)
+
+        if callback is not None:
+            def internal_callback(*args):
+                callback()
+            self.var.trace('w', internal_callback)
 
 
 if __name__ == '__main__':
     root = tk.Tk()
-
+    '''
     ssb = SmartSpinBox(root, 'float', from_=0, to=5, increment=0.1, callback=lambda: print('it works'))
     ssb.grid()
 
@@ -125,5 +149,13 @@ if __name__ == '__main__':
         print(ssb.get())
 
     ssb.add_callback(callback)
+    '''
+    scb = SmartCheckbutton(root, text='Enable')
+    scb.grid()
+
+    def callback():
+        print(scb.get())
+
+    scb.add_callback(callback)
 
     root.mainloop()
