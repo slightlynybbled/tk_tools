@@ -3,7 +3,7 @@ import tk_tools
 
 root = tk.Tk()
 
-dd = tk_tools.DropDown(root, ['one', 'two', 'three'])
+dd = tk_tools.SmartOptionMenu(root, ['one', 'two', 'three'])
 dd.grid()
 
 

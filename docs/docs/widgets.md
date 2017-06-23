@@ -259,3 +259,72 @@ p.grid(row=0, column=0)
 
 p.set_value(65.0)
 ```
+
+## SmartOptionMenu
+
+The `SmartOptionMenu` is an exact copy of the `tkinter.OptionMenu` widget
+in which the user doesn't have to create a variable to track.  Additionally,
+callbacks can be added that will be called when the user makes a selection.
+
+```python
+SmartOptionMenu(
+    parent,                     # parent widget (root or frame)
+    options: list,              # a list of the options to give to the user
+    initial_value: str=None,    # set a default initial value
+    callback: callable=None     # a callback function when changed
+)
+```
+
+Methods:
+
+ - `.add_callback(callback: callable)` - a function to be called when
+ the user makes a selection
+ - `.get()` - returns a string representing the user selection
+ - `.set(value: str)` - sets the value of the widget
+
+Example:
+
+```python
+som = tk_tools.SmartOptionMenu(root, ['one', 'two', 'three'])
+som.grid()
+
+
+def callback():
+    print(som.get())
+
+som.add_callback(callback)
+```
+
+## SmartSpinBox
+
+Much like the `SmartOptionMenu`, the `SmartSpinBox` is a copy of its
+base widget `tkinter.SpinBox`.  Again, the user simply doesn't need
+to create a variable to trace, simplifying overall code structure.
+
+```python
+SmartSpinBox(
+    parent,                     # parent widget (root or frame)
+    entry_type: str='float',    # 'str', 'int', or 'float'
+    callback: callable=None,    # a callback function
+    **options                   # options valid for tkinter.SpinBox
+)
+```
+
+Methods:
+
+ - `.add_callback(callback: callable)` - a callback function to be called
+ when the spinbox variable changes
+
+Example:
+
+```python
+ssb = SmartSpinBox(root, 'float', from_=0, to=5, increment=0.1, callback=lambda: print('it works'))
+ssb.grid()
+
+print(ssb)
+
+def callback():
+    print(ssb.get())
+
+ssb.add_callback(callback)
+```

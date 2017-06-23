@@ -195,24 +195,26 @@ p.grid(row=0, column=0)
 p.set_value(65.0)
 ```
 
-## Drop Down
+## SmartOptionMenu/Drop Down
 
 The `DropDown` is an improvement on the `OptionMenu` in which you don't have to
 create a `StringVar`.  It is simply managed as part of the class and is provided for
 easy creation of drop down menus.
 
-![Drop Down](./examples/img/dropdown.png)
+![SmartOptionMenu](./examples/img/dropdown.png)
 
 ```python 
-dd = tk_tools.DropDown(root, ['one', 'two', 'three'])
-dd.grid()
+som = tk_tools.SmartOptionMenu(root, ['one', 'two', 'three'])
+som.grid()
 
 
 def callback():
-    print(dd.get())
+    print(som.get())
 
-dd.add_callback(callback)
+som.add_callback(callback)
 ```
+
+## SmartSpinBox
 
 The `SmartSpinBox` is an improvement on the `SpinBox` already available in tkinter.
 You simply don't have to create any variables to manage as they are included as part

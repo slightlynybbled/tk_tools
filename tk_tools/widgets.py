@@ -1,7 +1,7 @@
 import tkinter as tk
 
 
-class DropDown(tk.OptionMenu):
+class SmartOptionMenu(tk.OptionMenu):
     """
     Classic drop down entry
     
@@ -83,7 +83,7 @@ class SmartSpinBox(tk.Spinbox):
         # add the callback function to the dropdown
         ssb.add_callback(callback)
     """
-    def __init__(self, parent, entry_type: str='float', callback=None, **options):
+    def __init__(self, parent, entry_type: str='float', callback: callable=None, **options):
 
         sb_options = options.copy()
 
@@ -106,7 +106,7 @@ class SmartSpinBox(tk.Spinbox):
             callback()
         self.var.trace('w', internal_callback)
 
-    def add_callback(self, callback):
+    def add_callback(self, callback: callable):
         def internal_callback(*args):
             callback()
 
