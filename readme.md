@@ -235,3 +235,10 @@ def callback():
 
 ssb.add_callback(callback)
 ```
+
+# Log
+
+## v0.2.0
+
+ * Added SmartSpinBox
+ * Changed `DropDown` to `SmartOptionMenu`
