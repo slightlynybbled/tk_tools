@@ -250,48 +250,88 @@ class KeyValueEntry(tk.Frame):
                           padx=5, pady=5,
                           **options)
 
-        self.defaults = defaults
-
-        row_offset = 0
-        columns = 3 if unit_labels else 2
-
-        if title:
-            self.title = tk.Label(self, text=title)
-            self.title.grid(row=row_offset, column=0, columnspan=columns)
-            row_offset += 1
-
-        def callback(event):
-            on_change_callback()
+        # some checks before proceeding
+        if defaults:
+            if len(keys) != len(defaults):
+                raise ValueError('unit_labels length does not match keys length')
+        if unit_labels:
+            if len(keys) != len(unit_labels):
+                raise ValueError('unit_labels length does not match keys length')
+        if enables:
+            if len(keys) != len(enables):
+                raise ValueError('enables length does not match keys length')
 
         self.keys = []
         self.values = []
-        self.units = []
-        for i, key in enumerate(keys):
-            label = tk.Label(self, text=key)
-            label.grid(row=row_offset, column=0, sticky='E')
-            self.keys.append(label)
+        self.defaults = []
+        self.unit_labels = []
+        self.enables = []
+        self.callback = on_change_callback
 
-            entry = tk.Entry(self)
-            entry.grid(row=row_offset, column=1)
-            self.values.append(entry)
+        if title is not None:
+            self.title = tk.Label(self, text=title)
+            self.title.grid(row=0, column=0, columnspan=3)
+        else:
+            self.title = None
 
-            if self.defaults:
-                entry.insert(0, self.defaults[i])
+        for i in range(len(keys)):
+            self.add_row(
+                key=keys[i],
+                default=defaults[i] if defaults else None,
+                unit_label=unit_labels[i] if unit_labels else None,
+                enable=enables[i] if enables else None
+            )
 
-            if enables:
-                if not enables[i]:
-                    entry.config(state='disabled')
+    def add_row(self, key, default=None, unit_label=None, enable=None):
+        """
+        Add a single row and re-draw as necessary
 
-            if unit_labels:
-                unit = tk.Label(self, text=unit_labels[i])
-                unit.grid(row=row_offset, column=2, sticky='W')
-                self.units.append(unit)
+        :param key: the name and dict accessor
+        :param default: the default value
+        :param unit_label: the label that should be applied at the right of the entry
+        :param enable: the 'enabled' state (defaults to true)
+        :return:
+        """
+        self.keys.append(tk.Label(self, text=key))
 
-            if on_change_callback:
-                entry.bind('<Return>', callback)
-                entry.bind('<Tab>', callback)
+        self.defaults.append(default)
+        self.unit_labels.append(tk.Label(self, text=unit_label if unit_label else ''))
+        self.enables.append(enable)
+        self.values.append(tk.Entry(self))
+
+        row_offset = 1 if self.title is not None else 0
+
+        for i in range(len(self.keys)):
+            self.keys[i].grid_forget()
+
+            self.keys[i].grid(row=row_offset, column=0, sticky='e')
+            self.values[i].grid(row=row_offset, column=1)
+
+            if self.unit_labels[i]:
+                self.unit_labels[i].grid(row=row_offset, column=3, sticky='w')
+
+            if self.defaults[i]:
+                self.values[i].config(state=tk.NORMAL)
+                self.values[i].delete(0, tk.END)
+                self.values[i].insert(0, self.defaults[i])
+
+            if self.enables[i] in [True, None]:
+                self.values[i].config(state=tk.NORMAL)
+            elif self.enables[i] is False:
+                self.values[i].config(state=tk.DISABLED)
 
             row_offset += 1
+
+            # strip <Return> and <Tab> bindings, add callbacks to all entries
+            self.values[i].unbind('<Return>')
+            self.values[i].unbind('<Tab>')
+
+            if self.callback is not None:
+                def callback(event):
+                    self.callback()
+
+                self.values[i].bind('<Return>', callback)
+                self.values[i].bind('<Tab>', callback)
 
     def reset(self):
         """
@@ -299,11 +339,11 @@ class KeyValueEntry(tk.Frame):
         
         :return: None
         """
-        for i, entry in enumerate(self.values):
-            entry.delete(0, tk.END)
+        for i in range(len(self.values)):
+            self.values[i].delete(0, tk.END)
 
-            if self.defaults is not None:
-                entry.insert(0, self.defaults[i])
+            if self.defaults[i] is not None:
+                self.values[i].insert(0, self.defaults[i])
 
     def change_enables(self, enables_list: list):
         """
@@ -316,6 +356,8 @@ class KeyValueEntry(tk.Frame):
         for i, entry in enumerate(self.values):
             if enables_list[i]:
                 entry.config(state=tk.NORMAL)
+            else:
+                entry.config(state=tk.DISABLED)
 
     def load(self, data: dict):
         """
