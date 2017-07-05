@@ -14,6 +14,7 @@ For more details, check out the [documentation](http://pythonhosted.org/tk-tools
 ![Drop Down](./examples/img/dropdown.png)
 ![Graph](./examples/img/graph.png)
 ![Rotary Scale](./examples/img/rotary-scale.png)
+![Calendar](./examples/img/calendar.png)
 
 # Installation
 
