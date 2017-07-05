@@ -1,10 +1,11 @@
-# Source: http://svn.python.org/projects/sandbox/trunk/ttk-gsoc/samples/ttkcalendar.py
+
 
 """
-Simple calendar using ttk Treeview together 
+Simple calendar using tk Treeview together
 with calendar and datetime classes.
 
-
+Borrowed from https://github.com/moshekaplan/tkinter_components
+which is a downstream copy of # Source: http://svn.python.org/projects/sandbox/trunk/ttk-gsoc/samples/ttkcalendar.py
 """
 import calendar as pycalendar
 import datetime
@@ -22,6 +23,21 @@ def _get_calendar(locale, fwday):
 
 
 class Calendar(tk.Frame):
+    """
+    TK Calendar that allows the user to select
+    a date graphically, with callbacks on selection.
+
+    Example:
+        cal = tk_tools.Calendar() # create calander object
+        cal.pack()
+
+        # create a function that reads the user selection
+        def custom_callback():
+            print(cal.selection)
+
+        # add the callback to the calendar
+        cal.add_callback(custom_callback)
+    """
     timedelta = datetime.timedelta
     datetime = datetime.datetime
 
@@ -192,6 +208,11 @@ class Calendar(tk.Frame):
             self.callback()
 
     def add_callback(self, callback: callable):
+        """
+        Adds a callback to call when the user clicks on a date
+        :param callback: a callable function
+        :return: None
+        """
         self.callback = callback
 
     def _prev_month(self):

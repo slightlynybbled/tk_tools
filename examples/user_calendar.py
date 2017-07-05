@@ -1,15 +1,14 @@
 import tkinter
-from tk_tools import Calendar
+import tk_tools
 
 root = tkinter.Tk()
 root.title('TK Tools Calendar')
-cal = Calendar()
-cal.pack(expand=1, fill='both')
+cal = tk_tools.Calendar()
+cal.pack()
 
 
 def custom_callback():
     print(cal.selection)
-
 
 cal.add_callback(custom_callback)
 
