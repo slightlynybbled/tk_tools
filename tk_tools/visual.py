@@ -259,29 +259,37 @@ class Led(tk.Frame):
 
         self.canvas = tk.Canvas(self, width=self.size, height=self.size)
         self.canvas.grid(row=0)
+        self.image = None
 
         self.to_grey()
 
+    def _load_new(self, img_path):
+        this_path = os.path.abspath(os.path.dirname(__file__))
+        img_path = os.path.join(this_path, img_path)
+        self.image = tk.PhotoImage(file=img_path)
+        self.image = self.image.subsample(int(200 / self.size), int(200 / self.size))
+        self.canvas.create_image(0, 0, image=self.image, anchor='nw')
+
     def to_grey(self):
-        this_path = os.path.abspath(os.path.dirname(__file__))
-        img_path = os.path.join(this_path, 'img/led-grey.png')
-        self.image = tk.PhotoImage(file=img_path)
-        self.image = self.image.subsample(int(200 / self.size), int(200 / self.size))
-        self.canvas.create_image(0, 0, image=self.image, anchor='nw')
+        self._load_new('img/led-grey.png')
 
-    def to_green(self):
-        this_path = os.path.abspath(os.path.dirname(__file__))
-        img_path = os.path.join(this_path, 'img/led-green.png')
-        self.image = tk.PhotoImage(file=img_path)
-        self.image = self.image.subsample(int(200 / self.size), int(200 / self.size))
-        self.canvas.create_image(0, 0, image=self.image, anchor='nw')
+    def to_green(self, on=False):
+        if on:
+            self._load_new('img/led-green-on.png')
+        else:
+            self._load_new('img/led-green.png')
 
-    def to_red(self):
-        this_path = os.path.abspath(os.path.dirname(__file__))
-        img_path = os.path.join(this_path, 'img/led-red.png')
-        self.image = tk.PhotoImage(file=img_path)
-        self.image = self.image.subsample(int(200 / self.size), int(200 / self.size))
-        self.canvas.create_image(0, 0, image=self.image, anchor='nw')
+    def to_red(self, on=False):
+        if on:
+            self._load_new('img/led-red-on.png')
+        else:
+            self._load_new('img/led-red.png')
+
+    def to_yellow(self, on=False):
+        if on:
+            self._load_new('img/led-yellow-on.png')
+        else:
+            self._load_new('img/led-yellow.png')
 
 if __name__ == '__main__':
     root = tk.Tk()
