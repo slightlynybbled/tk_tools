@@ -15,6 +15,9 @@ For more details, check out the [documentation](http://pythonhosted.org/tk-tools
 ![Graph](./examples/img/graph.png)
 ![Rotary Scale](./examples/img/rotary-scale.png)
 ![Calendar](./examples/img/calendar.png)
+![Led (red)](./examples/img/led-red.png)
+![Led (green)](./examples/img/led-green.png)
+![Led (grey)](./examples/img/led-grey.png)
 
 # Installation
 
