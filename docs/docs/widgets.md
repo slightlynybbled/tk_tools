@@ -260,6 +260,37 @@ p.grid(row=0, column=0)
 p.set_value(65.0)
 ```
 
+## LED
+
+The `Led` is an indicator that is used to quickly display binary values.
+The colors available are red, yellow, green, and grey.  Except for grey, 
+each color has an `on` or `off` state that can be utilized to flash an LED.
+
+This is a class that you might use for a traffic light program.
+
+![Green LED (off)](img/led-green.png)
+![Green LED (on)](img/led-green-on.png)
+![Yellow LED (off)](img/led-yellow.png)
+![Yellow LED (on)](img/led-yellow-on.png)
+![Red LED (off)](img/led-red.png)
+![Red LED (on)](img/led-red-on.png)
+![Grey LED](img/led-grey.png)
+
+Methods: 
+
+ - `def to_grey()` - grey LED (default)
+ - `def to_green(on=False)` - green LED, on or off
+ - `def to_red(on=False)` - red LED, on or off
+ - `def to_yellow(on=False)` - yellow LED, on or off
+
+```python
+led = tk_tools.Led(root, size=50)
+led.grid(row=0, column=0)
+
+led.to_red(False)  # initialize to off
+led.to_red(True)   # turn LED on
+```
+
 ## SmartOptionMenu
 
 The `SmartOptionMenu` is an exact copy of the `tkinter.OptionMenu` widget
