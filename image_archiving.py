@@ -1,6 +1,5 @@
 import base64
 import os
-from io import FileIO
 import tkinter as tk
 
 
