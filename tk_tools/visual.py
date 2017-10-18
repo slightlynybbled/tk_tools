@@ -5,6 +5,8 @@ import sys
 import logging
 from decimal import Decimal
 
+from tk_tools.images import *
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
@@ -74,9 +76,7 @@ class RotaryScale(Dial):
         self.readout = tk.Label(self, text='-{}'.format(self.unit))
         self.readout.grid(row=1)
 
-        this_path = os.path.abspath(os.path.dirname(__file__))
-        img_path = os.path.join(this_path, 'img/rotary-scale.png')
-        self.image = tk.PhotoImage(file=img_path)
+        self.image = tk.PhotoImage(data=rotary_scale)
         self.image = self.image.subsample(int(200/self.size), int(200/self.size))
 
         initial_value = 0.0
@@ -287,32 +287,30 @@ class Led(tk.Frame):
         self.to_grey()
 
     def _load_new(self, img_path):
-        this_path = os.path.abspath(os.path.dirname(__file__))
-        img_path = os.path.join(this_path, img_path)
-        self.image = tk.PhotoImage(file=img_path)
+        self.image = tk.PhotoImage(data=img_path)
         self.image = self.image.subsample(int(200 / self.size), int(200 / self.size))
         self.canvas.create_image(0, 0, image=self.image, anchor='nw')
 
     def to_grey(self):
-        self._load_new('img/led-grey.png')
+        self._load_new(led_grey)
 
     def to_green(self, on=False):
         if on:
-            self._load_new('img/led-green-on.png')
+            self._load_new(led_green_on)
         else:
-            self._load_new('img/led-green.png')
+            self._load_new(led_green)
 
     def to_red(self, on=False):
         if on:
-            self._load_new('img/led-red-on.png')
+            self._load_new(led_red_on)
         else:
-            self._load_new('img/led-red.png')
+            self._load_new(led_red)
 
     def to_yellow(self, on=False):
         if on:
-            self._load_new('img/led-yellow-on.png')
+            self._load_new(led_yellow_on)
         else:
-            self._load_new('img/led-yellow.png')
+            self._load_new(led_yellow)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
