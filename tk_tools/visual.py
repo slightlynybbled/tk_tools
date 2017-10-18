@@ -56,7 +56,7 @@ class RotaryScale(Dial):
     """
     Shows a rotary scale, much like a speedometer.
     """
-    def __init__(self, parent, max_value=100.0, size=100, unit='', **options):
+    def __init__(self, parent, max_value=100.0, size=100, unit='', img_data="", needle_color='blue', needle_thickness=0, **options):
         """
         Initializes the RotaryScale object
         
@@ -70,14 +70,20 @@ class RotaryScale(Dial):
         self.max_value = float(max_value)
         self.size = size
         self.unit = unit
+        self.needle_color = needle_color
+        self.needle_thickness = needle_thickness
 
         self.canvas = tk.Canvas(self, width=self.size, height=self.size)
         self.canvas.grid(row=0)
         self.readout = tk.Label(self, text='-{}'.format(self.unit))
         self.readout.grid(row=1)
 
-        self.image = tk.PhotoImage(data=rotary_scale)
-        self.image = self.image.subsample(int(200/self.size), int(200/self.size))
+        if img_data:
+            self.image = tk.PhotoImage(data=img_data)
+        else:
+            self.image = tk.PhotoImage(data=rotary_scale)
+
+        self.image = self.image.subsample(int(200 / self.size), int(200 / self.size))
 
         initial_value = 0.0
         self.set_value(initial_value)
@@ -100,14 +106,17 @@ class RotaryScale(Dial):
 
         center = cmath.rect(0, 0)
         outer = cmath.rect(radius, angle_in_radians)
+        if self.needle_thickness == 0:
+            line_width = int(5 * self.size / 200)
+            line_width = 1 if line_width < 1 else line_width
+        else:
+            line_width = self.needle_thickness
 
-        line_width = int(5 * self.size/200)
-        line_width = 1 if line_width < 1 else line_width
         self.canvas.create_line(
             *self.to_absolute(center.real, center.imag),
             *self.to_absolute(outer.real, outer.imag),
             width=line_width,
-            fill='blue'
+            fill=self.needle_color
         )
 
         self.readout['text'] = '{}{}'.format(number, self.unit)
