@@ -40,7 +40,7 @@ class RotaryScale(Dial):
     """
     Shows a rotary scale, much like a speedometer.
     """
-    def __init__(self, parent, max_value=100.0, size=100, unit=' u', img_data="", needle_color='blue', needle_thickness=0, **options):
+    def __init__(self, parent, max_value=100.0, size=100, unit='', img_data="", needle_color='blue', needle_thickness=0, **options):
         """
         Initializes the RotaryScale object
         
