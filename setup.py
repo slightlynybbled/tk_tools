@@ -2,9 +2,15 @@
 
 from setuptools import setup, find_packages
 import os
+from image_archiving import archive_image_files
 
+
+# provide correct path for version
 here = os.path.dirname(os.path.dirname(__file__))
 exec(open(os.path.join(here, 'tk_tools/version.py')).read())
+
+# archive the image files into 'tk_tools/images.py'
+archive_image_files()
 
 requirements = [
     'xlrd >= 1.0.0',

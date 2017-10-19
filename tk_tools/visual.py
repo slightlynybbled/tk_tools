@@ -1,6 +1,22 @@
 import tkinter as tk
 import cmath
 import os
+import sys
+import logging
+from decimal import Decimal
+
+from tk_tools.images import *
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+
+if getattr(sys, 'frozen', False):
+    frozen = True
+else:
+    frozen = False
+
+logger.info('frozen: {}'.format(frozen))
 
 
 class Dial(tk.Frame):
@@ -40,7 +56,7 @@ class RotaryScale(Dial):
     """
     Shows a rotary scale, much like a speedometer.
     """
-    def __init__(self, parent, max_value=100.0, size=100, unit=' u', img_data="", needle_color='blue', needle_thickness=0, **options):
+    def __init__(self, parent, max_value=100.0, size=100, unit='', img_data="", needle_color='blue', needle_thickness=0, **options):
         """
         Initializes the RotaryScale object
         
@@ -65,8 +81,9 @@ class RotaryScale(Dial):
         if img_data:
             self.image = tk.PhotoImage(data=img_data)
         else:
-            self.image = tk.PhotoImage(file=os.path.join(os.path.abspath(os.path.dirname(__file__)), 'img/rotary-scale.png'))
-            self.image = self.image.subsample(int(200 / self.size), int(200 / self.size))
+            self.image = tk.PhotoImage(data=rotary_scale)
+
+        self.image = self.image.subsample(int(200 / self.size), int(200 / self.size))
 
         initial_value = 0.0
         self.set_value(initial_value)
@@ -138,7 +155,7 @@ class Graph(tk.Frame):
     Notes: the core of this object was creating using the 
     basic structure found at: https://gist.github.com/ajbennieston/3072649
     """
-    def __init__(self, parent, x_min, x_max, y_min, y_max, x_scale, y_scale, **options):
+    def __init__(self, parent, x_min, x_max, y_min, y_max, x_tick, y_tick, **options):
         """
         Initializes the graph object.
         
@@ -147,8 +164,8 @@ class Graph(tk.Frame):
         :param x_max: the x maximum
         :param y_min: the y minimum
         :param y_max: the y maximum
-        :param x_scale: the 'tick' on the x-axis
-        :param y_scale: the 'tick' on the y-axis
+        :param x_tick: the 'tick' on the x-axis
+        :param y_tick: the 'tick' on the y-axis
         :param options: additional valid tkinter.canvas options
         """
         tk.Frame.__init__(self, parent, **options)
@@ -160,12 +177,12 @@ class Graph(tk.Frame):
         self.h = float(self.canvas.config('height')[4])
         self.x_min = x_min
         self.x_max = x_max
-        self.x_scale = x_scale
+        self.x_tick = x_tick
         self.y_min = y_min
         self.y_max = y_max
-        self.y_scale = y_scale
-        self.px_x = (self.w - 100) / ((x_max - x_min) / x_scale)
-        self.px_y = (self.h - 100) / ((y_max - y_min) / y_scale)
+        self.y_tick = y_tick
+        self.px_x = (self.w - 100) / ((x_max - x_min) / x_tick)
+        self.px_y = (self.h - 100) / ((y_max - y_min) / y_tick)
 
         self.draw_axes()
 
@@ -180,19 +197,28 @@ class Graph(tk.Frame):
 
         self.canvas.create_rectangle(rect, outline="black")
 
-        for x in self.frange(0, self.x_max - self.x_min + 1, self.x_scale):
-            x_step = (self.px_x * x) / self.x_scale
-            coord = 50 + x_step, self.h - 50, 50 + x_step, self.h - 45
-            self.canvas.create_line(coord, fill="black")
-            coord = 50 + x_step, self.h - 40
-            self.canvas.create_text(coord, fill="black", text=str(self.x_min + x))
+        for x in self.frange(0, self.x_max - self.x_min + 1, self.x_tick):
+            value = Decimal(self.x_min + x)
+            if self.x_min <= value <= self.x_max:
+                x_step = (self.px_x * x) / self.x_tick
+                coord = 50 + x_step, self.h - 50, 50 + x_step, self.h - 45
+                self.canvas.create_line(coord, fill="black")
+                coord = 50 + x_step, self.h - 40
 
-        for y in self.frange(0, self.y_max - self.y_min + 1, self.y_scale):
-            y_step = (self.px_y * y) / self.y_scale
-            coord = 45, 50 + y_step, 50, 50 + y_step
-            self.canvas.create_line(coord, fill="black")
-            coord = 35, 50 + y_step
-            self.canvas.create_text(coord, fill="black", text=str(self.y_max - y))
+                label = round(Decimal(self.x_min + x), 1)
+                self.canvas.create_text(coord, fill="black", text=label)
+
+        for y in self.frange(0, self.y_max - self.y_min + 1, self.y_tick):
+            value = Decimal(self.y_max - y)
+
+            if self.y_min <= value <= self.y_max:
+                y_step = (self.px_y * y) / self.y_tick
+                coord = 45, 50 + y_step, 50, 50 + y_step
+                self.canvas.create_line(coord, fill="black")
+                coord = 35, 50 + y_step
+
+                label = round(value, 1)
+                self.canvas.create_text(coord, fill="black", text=label)
 
     def plot_point(self, x, y, visible=True, color='black', size=5):
         """
@@ -204,8 +230,8 @@ class Graph(tk.Frame):
         :param size: the point size in pixels
         :return: The absolute coordinates as a tuple
         """
-        xp = (self.px_x * (x - self.x_min)) / self.x_scale
-        yp = (self.px_y * (self.y_max - y)) / self.y_scale
+        xp = (self.px_x * (x - self.x_min)) / self.x_tick
+        yp = (self.px_y * (self.y_max - y)) / self.y_tick
         coord = 50 + xp, 50 + yp
 
         if visible:
@@ -270,52 +296,32 @@ class Led(tk.Frame):
         self.to_grey()
 
     def _load_new(self, img_path):
-        this_path = os.path.abspath(os.path.dirname(__file__))
-        img_path = os.path.join(this_path, img_path)
-        self.image = tk.PhotoImage(file=img_path)
+        self.image = tk.PhotoImage(data=img_path)
         self.image = self.image.subsample(int(200 / self.size), int(200 / self.size))
         self.canvas.create_image(0, 0, image=self.image, anchor='nw')
 
     def to_grey(self):
-        self._load_new('img/led-grey.png')
+        self._load_new(led_grey)
 
     def to_green(self, on=False):
         if on:
-            self._load_new('img/led-green-on.png')
+            self._load_new(led_green_on)
         else:
-            self._load_new('img/led-green.png')
+            self._load_new(led_green)
 
     def to_red(self, on=False):
         if on:
-            self._load_new('img/led-red-on.png')
+            self._load_new(led_red_on)
         else:
-            self._load_new('img/led-red.png')
+            self._load_new(led_red)
 
     def to_yellow(self, on=False):
         if on:
-            self._load_new('img/led-yellow-on.png')
+            self._load_new(led_yellow_on)
         else:
-            self._load_new('img/led-yellow.png')
+            self._load_new(led_yellow)
 
 if __name__ == '__main__':
-    root = tk.Tk()
+    logging.basicConfig(level=logging.DEBUG)
 
-    p = RotaryScale(root, max_value=20.0)
-    p.grid(row=0, column=0)
-
-    increment = 1.0
-    value = 0.0
-
-    def inc():
-        global value
-        value += increment
-        p.set_value(value)
-        print(value)
-
-    zero_btn = tk.Button(root, text='increment by {}'.format(increment), command=inc)
-    zero_btn.grid(row=1, column=0)
-
-
-
-    root.mainloop()
-
+    logging.info('frozen: {}'.format(frozen))

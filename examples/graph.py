@@ -11,8 +11,8 @@ graph = tk_tools.Graph(
     x_max=1.0,
     y_min=0.0,
     y_max=2.0,
-    x_scale=0.5,
-    y_scale=0.5,
+    x_tick=0.2,
+    y_tick=0.2,
     width=500,
     height=400
 )
