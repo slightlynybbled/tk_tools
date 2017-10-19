@@ -1,5 +1,5 @@
 import tkinter as tk
-
+from tkinter import ttk
 
 class SmartWidget:
     def __init__(self):
@@ -154,6 +154,71 @@ class SmartCheckbutton(tk.Checkbutton, SmartWidget):
             def internal_callback(*args):
                 callback()
             self.var.trace('w', internal_callback)
+
+
+class ByteLabel(ttk.Label):
+    def __init__(self, parent, value, prefix="", font="Consolas", font_size=12, **options):
+        super().__init__(parent, **options)
+        assert -1 < value < 256
+        self._value = value
+        self._prefix = prefix
+        ttk.Style().configure("{}.TLabel".format(font), font=str(font_size))
+        self.configure(style=font+".TLabel")
+        self.update()
+
+    def get_value(self):
+        return self._value
+
+    def set_value(self, value):
+        assert -1 < value < 256
+        self._value = value
+        self.update()
+
+    def update(self):
+        self["text"] = self._prefix + str(bin(self._value))[2:].zfill(8)
+
+    def toggle_bit(self, position):
+        assert -1 < position < 8
+        self._value ^= (1 << position)
+        self.update()
+
+    def set_bit(self, position):
+        assert -1 < position < 8
+        self._value |= (1 << position)
+        self.update()
+
+    def get_bit(self, position):
+        assert -1 < position < 8
+        return self._value & (1 << position)
+
+    def clear_bit(self, position):
+        assert -1 < position < 8
+        self._value &= ~(1 << position)
+        self.update()
+
+    def toggle_msb(self):
+        self.toggle_bit(7)
+
+    def set_msb(self):
+        self.set_bit(7)
+
+    def get_msb(self):
+        self.get_bit(7)
+
+    def clear_msb(self):
+        self.clear_bit(7)
+
+    def toggle_lsb(self):
+        self.toggle_bit(0)
+
+    def set_lsb(self):
+        self.set_bit(0)
+
+    def get_lsb(self):
+        self.get_bit(0)
+
+    def clear_lsb(self):
+        self.clear_bit(0)
 
 
 if __name__ == '__main__':
