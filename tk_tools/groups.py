@@ -233,6 +233,25 @@ class EntryGrid(Grid):
             return self._read_as_table()
 
 
+class ButtonGrid(Grid):
+    """
+    A grid of buttons.
+    """
+
+    def __init__(self, parent, num_of_columns: int, headers: list=None, **options):
+        """
+        Initialization of the entry grid object
+
+        :param parent: the tk parent element of this frame
+        :param num_of_columns: the number of columns contained of the grid
+        :param headers: a list containing the names of the column headers
+        """
+        super().__init__(parent, num_of_columns, headers, **options)
+
+    def add_row(self, data: list = None):
+        pass
+
+
 class KeyValueEntry(tk.Frame):
     """
     Creates a key-value frame so common in modern GUI
