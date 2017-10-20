@@ -37,8 +37,6 @@ def archive_image_files():
                     line = '    {} \\\n'.format(file_string[i*columns: i*columns+columns])
                 py_file += line
 
-            #py_file += '{} = {}\n'.format(file_name, file_string)
-
     with open(os.path.join(destination_path, 'images.py'), 'w') as f:
         f.write(py_file)
 
