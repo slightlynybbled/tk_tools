@@ -1,5 +1,6 @@
 import tkinter as tk
 
+
 class SmartWidget:
     def __init__(self):
         self.var = None
@@ -160,10 +161,11 @@ class SmartCheckbutton(tk.Checkbutton, SmartWidget):
                 callback()
             self.var.trace('w', internal_callback)
 
-            
+
 class ByteLabel(tk.Label):
     """
-       Displays a byte value binary. Provides methods for easy manipulation of bit values.
+    Displays a byte value binary. Provides methods for
+    easy manipulation of bit values.
 
        Example use:
            # create the label and grid
@@ -245,7 +247,8 @@ class ByteLabel(tk.Label):
 if __name__ == '__main__':
     root = tk.Tk()
     '''
-    ssb = SmartSpinBox(root, 'float', from_=0, to=5, increment=0.1, callback=lambda: print('it works'))
+    ssb = SmartSpinBox(root, 'float', from_=0, to=5,
+                       increment=0.1, callback=lambda: print('it works'))
     ssb.grid()
 
     print(ssb)

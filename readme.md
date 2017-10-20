@@ -2,9 +2,9 @@
 
 # Purpose
 
-This repository is intended for testing and saving [Aoki](https://github.com/AokiAhishatsu)'s changes to the library.
-
-For all other instances you should get [slightlynybbled](https://github.com/slightlynybbled)'s [original version of tk_tools](https://github.com/slightlynybbled/tk_tools).
+This repository is intended to hold some of the most useful, higher-level widgets
+that are native to tkinter.  This library is currently compatible with Python 3.5+ (uses
+type hints), but could easily be back-ported to earlier versions if desired.
 
 For more details, check out the [documentation](https://tk-tools.readthedocs.io).
 
@@ -243,10 +243,3 @@ def callback():
 
 ssb.add_callback(callback)
 ```
-
-# Log
-
-## v0.2.0
-
- * Added SmartSpinBox
- * Changed `DropDown` to `SmartOptionMenu`
