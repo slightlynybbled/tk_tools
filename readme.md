@@ -39,7 +39,9 @@ You can also `pip install tk_tools`.
 # Contributions
 
 Please request additional widgets in the
-[issues](https://github.com/slightlynybbled/tk_tools/issues).
+[issues](https://github.com/slightlynybbled/tk_tools/issues).  Contributions
+should conform to PEP8 and will be checked against 
+[flake8](http://flake8.pycqa.org/en/latest/index.html).
 
 # Using the Widgets
 
