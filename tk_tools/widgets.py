@@ -1,5 +1,4 @@
 import tkinter as tk
-from tkinter import ttk
 
 class SmartWidget:
     def __init__(self):
@@ -156,15 +155,31 @@ class SmartCheckbutton(tk.Checkbutton, SmartWidget):
             self.var.trace('w', internal_callback)
 
 
-class ByteLabel(ttk.Label):
-    def __init__(self, parent, value, prefix="", font="Consolas", font_size=12, **options):
+class ByteLabel(tk.Label):
+    """
+       Displays a byte value binary. Provides methods for easy manipulation of bit values.
+
+       Example use:
+           # create the label and grid
+           bl = ByteLabel(root, 255)
+           bl.grid()
+
+           # toggle highest bit
+           bl.toggle_msb()
+    """
+    def __init__(self, parent, value=0, prefix="", **options):
+        """
+        Constructor for ByteLabel
+
+        :param parent: the tk parent frame
+        :param value: the initial value, default is 0
+        :param options: prefix string for identifiers
+        """
         super().__init__(parent, **options)
         assert -1 < value < 256
         self._value = value
         self._prefix = prefix
-        ttk.Style().configure("{}.TLabel".format(font), font=str(font_size))
-        self.configure(style=font+".TLabel")
-        self.update()
+        self.text_update()
 
     def get_value(self):
         return self._value
@@ -172,20 +187,20 @@ class ByteLabel(ttk.Label):
     def set_value(self, value):
         assert -1 < value < 256
         self._value = value
-        self.update()
+        self.text_update()
 
-    def update(self):
+    def text_update(self):
         self["text"] = self._prefix + str(bin(self._value))[2:].zfill(8)
 
     def toggle_bit(self, position):
         assert -1 < position < 8
         self._value ^= (1 << position)
-        self.update()
+        self.text_update()
 
     def set_bit(self, position):
         assert -1 < position < 8
         self._value |= (1 << position)
-        self.update()
+        self.text_update()
 
     def get_bit(self, position):
         assert -1 < position < 8
@@ -194,7 +209,7 @@ class ByteLabel(ttk.Label):
     def clear_bit(self, position):
         assert -1 < position < 8
         self._value &= ~(1 << position)
-        self.update()
+        self.text_update()
 
     def toggle_msb(self):
         self.toggle_bit(7)

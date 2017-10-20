@@ -3,7 +3,7 @@ import tk_tools
 
 root = tk.Tk()
 
-blabel1 = tk_tools.widgets.ByteLabel(root, 153, "d1:")
+blabel1 = tk_tools.widgets.ByteLabel(root, 153, "d1:", font="Consolas 12")
 blabel1.grid(row=0, column=0)
 
 e = tk.Entry(root, width=10)
