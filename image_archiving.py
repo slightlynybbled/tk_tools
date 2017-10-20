@@ -22,7 +22,22 @@ def archive_image_files():
             img_path = os.path.join(root, name)
             file_name, file_string = create_image_string(img_path)
 
-            py_file += '{} = {}\n'.format(file_name, file_string)
+            py_file += '{} = '.format(file_name)
+
+            columns = 50
+            rows = int(len(file_string)/columns) + 1
+            for i in range(rows):
+                first = i == 0
+                last = i == (rows - 1)
+                if first:
+                    line = '{} \\\n'.format(file_string[i*columns: i*columns+columns])
+                elif last:
+                    line = '    {}\n'.format(file_string[i*columns: i*columns+columns])
+                else:
+                    line = '    {} \\\n'.format(file_string[i*columns: i*columns+columns])
+                py_file += line
+
+            #py_file += '{} = {}\n'.format(file_name, file_string)
 
     with open(os.path.join(destination_path, 'images.py'), 'w') as f:
         f.write(py_file)
