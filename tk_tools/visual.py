@@ -321,6 +321,7 @@ class Led(tk.Frame):
         else:
             self._load_new(led_yellow)
 
+
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
 
