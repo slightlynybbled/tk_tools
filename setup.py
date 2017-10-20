@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
 from setuptools import setup, find_packages
-import os
 from image_archiving import archive_image_files
-
+import os
 
 # provide correct path for version
+__version__ = None
 here = os.path.dirname(os.path.dirname(__file__))
 exec(open(os.path.join(here, 'tk_tools/version.py')).read())
 
@@ -27,6 +27,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=requirements,
+    setup_requires=['flake8'],
     zip_safe=False,
     license='MIT',
     classifiers=[
@@ -38,4 +39,3 @@ setup(
     ],
     keywords='tkinter gui widgets'
 )
-

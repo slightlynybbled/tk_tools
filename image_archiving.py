@@ -1,6 +1,5 @@
 import base64
 import os
-import tkinter as tk
 
 
 def create_image_string(img_path):
@@ -22,26 +21,27 @@ def archive_image_files():
             img_path = os.path.join(root, name)
             file_name, file_string = create_image_string(img_path)
 
-            py_file += '{} = {}\n'.format(file_name, file_string)
+            py_file += '{} = '.format(file_name)
 
-    py_file += '\n'
+            columns = 50
+            rows = int(len(file_string)/columns) + 1
+            for i in range(rows):
+                first = i == 0
+                last = i == (rows - 1)
+                if first:
+                    line = '{} \\\n'.format(
+                        file_string[i*columns: i*columns+columns])
+                elif last:
+                    line = '    {}\n'.format(
+                        file_string[i*columns: i*columns+columns])
+                else:
+                    line = '    {} \\\n'.format(
+                        file_string[i*columns: i*columns+columns])
+                py_file += line
 
     with open(os.path.join(destination_path, 'images.py'), 'w') as f:
         f.write(py_file)
 
+
 if __name__ == '__main__':
-    #archive_image_files()
-
-    root = tk.Tk()
-    c = tk.Canvas(root)
-    c.grid()
-
-    # read and execute the image file from within
-    exec(open('tk_tools/images.py').read())
-    print(led_green)
-
-    img = tk.PhotoImage(data=led_green)
-    c.create_image(0, 0, image=img, anchor='nw')
-
-    root.mainloop()
-
+    archive_image_files()
