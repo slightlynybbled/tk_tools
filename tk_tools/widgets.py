@@ -247,7 +247,7 @@ class ByteLabel(tk.Label):
 if __name__ == '__main__':
     root = tk.Tk()
     '''
-    ssb = SmartSpinBox(root, 'float', from_=0, to=5, 
+    ssb = SmartSpinBox(root, 'float', from_=0, to=5,
                        increment=0.1, callback=lambda: print('it works'))
     ssb.grid()
 
