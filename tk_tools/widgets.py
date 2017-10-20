@@ -38,23 +38,25 @@ class SmartWidget:
 class SmartOptionMenu(tk.OptionMenu, SmartWidget):
     """
     Classic drop down entry
-    
+
     Example use:
         # create the dropdown and grid
         som = SmartOptionMenu(root, ['one', 'two', 'three'])
         som.grid()
-    
-        # define a callback function that retrieves the currently selected option
+
+        # define a callback function that retrieves
+        # the currently selected option
         def callback():
             print(som.get())
-            
+
         # add the callback function to the dropdown
         som.add_callback(callback)
     """
-    def __init__(self, parent, options: list, initial_value: str=None, callback: callable=None):
+    def __init__(self, parent, options: list, initial_value: str=None,
+                 callback: callable=None):
         """
         Constructor for SmartOptionMenu entry
-        
+
         :param parent: the tk parent frame
         :param options: a list containing the drop down options
         :param initial_value: the initial value of the dropdown
@@ -63,7 +65,8 @@ class SmartOptionMenu(tk.OptionMenu, SmartWidget):
         self.var = tk.StringVar(parent)
         self.var.set(initial_value if initial_value else options[0])
 
-        self.option_menu = tk.OptionMenu.__init__(self, parent, self.var, *options)
+        self.option_menu = tk.OptionMenu.__init__(self, parent, self.var,
+                                                  *options)
 
         if callback is not None:
             def internal_callback(*args):
@@ -82,14 +85,16 @@ class SmartSpinBox(tk.Spinbox, SmartWidget):
         ssb = SmartSpinBox(root)
         ssb.grid()
 
-        # define a callback function that retrieves the currently selected option
+        # define a callback function that retrieves
+        # the currently selected option
         def callback():
             print(ssb.get())
 
         # add the callback function to the spinbox
         ssb.add_callback(callback)
     """
-    def __init__(self, parent, entry_type: str='float', callback: callable=None, **options):
+    def __init__(self, parent, entry_type: str='float',
+                 callback: callable=None, **options):
         """
         Constructor for SmartSpinBox
 
@@ -132,7 +137,8 @@ class SmartCheckbutton(tk.Checkbutton, SmartWidget):
         scb = SmartCheckbutton(root)
         scb.grid()
 
-        # define a callback function that retrieves the currently selected option
+        # define a callback function that retrieves
+        # the currently selected option
         def callback():
             print(scb.get())
 
@@ -154,27 +160,3 @@ class SmartCheckbutton(tk.Checkbutton, SmartWidget):
             def internal_callback(*args):
                 callback()
             self.var.trace('w', internal_callback)
-
-
-if __name__ == '__main__':
-    root = tk.Tk()
-    '''
-    ssb = SmartSpinBox(root, 'float', from_=0, to=5, increment=0.1, callback=lambda: print('it works'))
-    ssb.grid()
-
-    print(ssb)
-
-    def callback():
-        print(ssb.get())
-
-    ssb.add_callback(callback)
-    '''
-    scb = SmartCheckbutton(root, text='Enable')
-    scb.grid()
-
-    def callback():
-        print(scb.get())
-
-    scb.add_callback(callback)
-
-    root.mainloop()
