@@ -10,6 +10,7 @@ cal.pack()
 def custom_callback():
     print(cal.selection)
 
+
 cal.add_callback(custom_callback)
 
 root.mainloop()
