@@ -3,8 +3,7 @@ Simple calendar using ttk Treeview together
 with calendar and datetime classes.
 
 Borrowed from https://github.com/moshekaplan/tkinter_components
-which is a downstream copy of
-http://svn.python.org/projects/sandbox/trunk/ttk-gsoc/samples/ttkcalendar.py
+which is a downstream copy of http://svn.python.org/projects/sandbox/trunk/ttk-gsoc/samples/ttkcalendar.py
 """
 import calendar
 import datetime
