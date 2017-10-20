@@ -104,9 +104,14 @@ class Calendar(tkinter.ttk.Frame):
     def __setup_styles(self):
         # custom ttk styles
         style = tkinter.ttk.Style(self.master)
-        arrow_layout = lambda dir: (
-            [('Button.focus', {'children': [('Button.%sarrow' % dir, None)]})]
-        )
+
+        def arrow_layout(dir):
+            return [
+                ('Button.focus', {
+                    'children': [('Button.%sarrow' % dir, None)]
+                })
+            ]
+
         style.layout('L.TButton', arrow_layout('left'))
         style.layout('R.TButton', arrow_layout('right'))
 
