@@ -1,6 +1,5 @@
 import base64
 import os
-import tkinter as tk
 
 
 def create_image_string(img_path):
@@ -30,11 +29,14 @@ def archive_image_files():
                 first = i == 0
                 last = i == (rows - 1)
                 if first:
-                    line = '{} \\\n'.format(file_string[i*columns: i*columns+columns])
+                    line = '{} \\\n'.format(
+                        file_string[i*columns: i*columns+columns])
                 elif last:
-                    line = '    {}\n'.format(file_string[i*columns: i*columns+columns])
+                    line = '    {}\n'.format(
+                        file_string[i*columns: i*columns+columns])
                 else:
-                    line = '    {} \\\n'.format(file_string[i*columns: i*columns+columns])
+                    line = '    {} \\\n'.format(
+                        file_string[i*columns: i*columns+columns])
                 py_file += line
 
     with open(os.path.join(destination_path, 'images.py'), 'w') as f:
