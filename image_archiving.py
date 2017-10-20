@@ -24,24 +24,9 @@ def archive_image_files():
 
             py_file += '{} = {}\n'.format(file_name, file_string)
 
-    py_file += '\n'
-
     with open(os.path.join(destination_path, 'images.py'), 'w') as f:
         f.write(py_file)
 
+
 if __name__ == '__main__':
-    #archive_image_files()
-
-    root = tk.Tk()
-    c = tk.Canvas(root)
-    c.grid()
-
-    # read and execute the image file from within
-    exec(open('tk_tools/images.py').read())
-    print(led_green)
-
-    img = tk.PhotoImage(data=led_green)
-    c.create_image(0, 0, image=img, anchor='nw')
-
-    root.mainloop()
-
+    archive_image_files()
