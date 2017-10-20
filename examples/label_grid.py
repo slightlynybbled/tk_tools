@@ -15,6 +15,7 @@ def add_row():
 def remove_row():
     label_grid.remove_row(0)
 
+
 add_row_btn = tk.Button(text='Add Row', command=add_row)
 add_row_btn.grid(row=1, column=0, sticky='EW')
 

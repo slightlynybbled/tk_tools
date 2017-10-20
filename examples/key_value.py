@@ -37,6 +37,7 @@ def get_values():
     print('kve1: {}'.format(kve1.get()))
     print('kve2: {}'.format(kve2.get()))
 
+
 get_values_btn = tk.Button(root, text='Retrieve Values', command=get_values)
 get_values_btn.grid(row=3)
 

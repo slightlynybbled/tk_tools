@@ -37,6 +37,7 @@ def add_point():
 def clear():
     graph.draw_axes()
 
+
 add_series_btn = tk.Button(root, text='add series', command=add_series)
 add_series_btn.grid(row=1, column=0, sticky='EW')
 
