@@ -1,6 +1,5 @@
 import tkinter as tk
 import cmath
-import os
 import sys
 import logging
 from decimal import Decimal
@@ -24,15 +23,16 @@ class Dial(tk.Frame):
     Base class for all dials and dial-like widgets
     """
     def __init__(self, parent, size=100, **options):
-        tk.Frame.__init__(self, parent, padx=3, pady=3, borderwidth=2, **options)
+        tk.Frame.__init__(self, parent, padx=3, pady=3, borderwidth=2,
+                          **options)
 
         self.size = size
 
     def to_absolute(self, x, y):
         """
-        Converts coordinates provided with reference to the center of the canvas (0, 0)
-        to absolute coordinates which are used by the canvas object in which (0, 0) is
-        located in the top left of the object.
+        Converts coordinates provided with reference to the center of the
+        canvas (0, 0) to absolute coordinates which are used by the canvas
+        object in which (0, 0) is located in the top left of the object.
         
         :param x: x value in pixels
         :param y: x value in pixels
@@ -49,19 +49,22 @@ class Compass(Dial):
         super().__init__(parent, size=size, **options)
         raise NotImplementedError()
 
-        # todo: import an image, place the image on the canvas, then place an arrow on top of the image
+        # todo: import an image, place the image on the canvas, then place
+        # an arrow on top of the image
 
 
 class RotaryScale(Dial):
     """
     Shows a rotary scale, much like a speedometer.
     """
-    def __init__(self, parent, max_value=100.0, size=100, unit='', img_data="", needle_color='blue', needle_thickness=0, **options):
+    def __init__(self, parent, max_value=100.0, size=100, unit='', img_data='',
+                 needle_color='blue', needle_thickness=0, **options):
         """
         Initializes the RotaryScale object
         
         :param parent: tkinter parent frame
-        :param max_value: the value corresponding to the maximum value on the scale
+        :param max_value: the value corresponding to the maximum
+        value on the scale
         :param size: the size in pixels
         :param options: the frame options
         """
@@ -83,7 +86,8 @@ class RotaryScale(Dial):
         else:
             self.image = tk.PhotoImage(data=rotary_scale)
 
-        self.image = self.image.subsample(int(200 / self.size), int(200 / self.size))
+        self.image = self.image.subsample(int(200 / self.size),
+                                          int(200 / self.size))
 
         initial_value = 0.0
         self.set_value(initial_value)
@@ -92,7 +96,8 @@ class RotaryScale(Dial):
         """
         Sets the value of the graphic
         
-        :param number: the number (must be between 0 and 'max_range' or the scale will peg the limits
+        :param number: the number (must be between 0 and 'max_range'
+        or the scale will peg the limits
         :return: None
         """
         self.canvas.delete('all')
@@ -102,7 +107,8 @@ class RotaryScale(Dial):
         number = 0.0 if number < 0.0 else number
 
         radius = 0.9 * self.size/2.0
-        angle_in_radians = (2.0 * cmath.pi / 3.0) + number / self.max_value * (5.0 * cmath.pi / 3.0)
+        angle_in_radians = (2.0 * cmath.pi / 3.0) \
+                           + number / self.max_value * (5.0 * cmath.pi / 3.0)
 
         center = cmath.rect(0, 0)
         outer = cmath.rect(radius, angle_in_radians)
@@ -125,19 +131,27 @@ class RotaryScale(Dial):
         """
         Draws the background of the dial
         
-        :param divisions: the number of divisions between 'ticks' shown on the dial
+        :param divisions: the number of divisions
+        between 'ticks' shown on the dial
         :return: 
         """
-        self.canvas.create_arc(2, 2, self.size-2, self.size-2, style=tk.PIESLICE, start=-60, extent=30, fill='red')
-        self.canvas.create_arc(2, 2, self.size-2, self.size-2, style=tk.PIESLICE, start=-30, extent=60, fill='yellow')
-        self.canvas.create_arc(2, 2, self.size-2, self.size-2, style=tk.PIESLICE, start=30, extent=210, fill='green')
+        self.canvas.create_arc(2, 2, self.size-2, self.size-2,
+                               style=tk.PIESLICE, start=-60, extent=30,
+                               fill='red')
+        self.canvas.create_arc(2, 2, self.size-2, self.size-2,
+                               style=tk.PIESLICE, start=-30, extent=60,
+                               fill='yellow')
+        self.canvas.create_arc(2, 2, self.size-2, self.size-2,
+                               style=tk.PIESLICE, start=30, extent=210,
+                               fill='green')
 
         # find the distance between the center and the inner tick radius
         inner_tick_radius = int(self.size * 0.4)
         outer_tick_radius = int(self.size * 0.5)
 
         for tick in range(divisions):
-            angle_in_radians = (2.0 * cmath.pi / 3.0) + tick/divisions * (5.0 * cmath.pi / 3.0)
+            angle_in_radians = (2.0 * cmath.pi / 3.0) \
+                               + tick/divisions * (5.0 * cmath.pi / 3.0)
             inner_point = cmath.rect(inner_tick_radius, angle_in_radians)
             outer_point = cmath.rect(outer_tick_radius, angle_in_radians)
 
