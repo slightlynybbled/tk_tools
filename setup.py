@@ -2,7 +2,12 @@
 
 from setuptools import setup, find_packages
 from image_archiving import archive_image_files
-from tk_tools.version import __version__
+import os
+
+# provide correct path for version
+__version__ = None
+here = os.path.dirname(os.path.dirname(__file__))
+exec(open(os.path.join(here, 'tk_tools/version.py')).read())
 
 # archive the image files into 'tk_tools/images.py'
 archive_image_files()
