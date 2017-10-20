@@ -3,7 +3,6 @@ from collections import OrderedDict
 
 import tk_tools
 import xlrd
-import xlwt
 
 
 class Grid(tk.Frame):
@@ -12,15 +11,17 @@ class Grid(tk.Frame):
     """
     Creates a grid of widgets (intended to be subclassed)
     """
-    def __init__(self, parent, num_of_columns: int, headers: list=None, **options):
+    def __init__(self, parent, num_of_columns: int, headers: list=None,
+                 **options):
         """
         Initialization of the grid object
-        
+
         :param parent: the tk parent element of this frame
         :param num_of_columns: the number of columns contained of the grid
         :param headers: a list containing the names of the column headers
         """
-        tk.Frame.__init__(self, parent, padx=3, pady=3, borderwidth=2, **options)
+        tk.Frame.__init__(self, parent, padx=3, pady=3, borderwidth=2,
+                          **options)
         self.grid()
 
         self.headers = list()
@@ -33,14 +34,15 @@ class Grid(tk.Frame):
                 raise ValueError
 
             for i, element in enumerate(headers):
-                label = tk.Label(self, text=str(element), relief=tk.GROOVE, padx=self.padding, pady=self.padding)
+                label = tk.Label(self, text=str(element), relief=tk.GROOVE,
+                                 padx=self.padding, pady=self.padding)
                 label.grid(row=0, column=i, sticky='E,W')
                 self.headers.append(label)
 
     def add_row(self, data: list):
         """
         Adds a row of data based on the entered data
-        
+
         :param data: row of data as a list
         :return: None
         """
@@ -49,8 +51,8 @@ class Grid(tk.Frame):
     def _redraw(self):
         """
         Forgets the current layout and redraws with the most recent information
-        
-        :return: 
+
+        :return: None
         """
         for row in self.rows:
             for widget in row:
@@ -64,7 +66,7 @@ class Grid(tk.Frame):
     def remove_row(self, row_number: int=-1):
         """
         Removes a specified row of data
-        
+
         :param row_number: the row to remove (defaults to the last row)
         :return: None
         """
@@ -78,8 +80,8 @@ class Grid(tk.Frame):
     def clear(self):
         """
         Removes all elements of the grid
-        
-        :return: None 
+
+        :return: None
         """
         for i in range(len(self.rows)):
             self.remove_row(0)
@@ -89,7 +91,8 @@ class LabelGrid(Grid):
     """
     A table-like display widget
     """
-    def __init__(self, parent, num_of_columns: int, headers: list=None, **options):
+    def __init__(self, parent, num_of_columns: int, headers: list=None,
+                 **options):
         """
         Initialization of the label grid object
 
@@ -102,7 +105,7 @@ class LabelGrid(Grid):
     def add_row(self, data: list):
         """
         Add a row of data to the current widget
-        
+
         :param data: a row of data
         :return: None
         """
@@ -114,7 +117,8 @@ class LabelGrid(Grid):
         offset = 0 if not self.headers else 1
         row = list()
         for i, element in enumerate(data):
-            label = tk.Label(self, text=str(element), relief=tk.GROOVE, padx=self.padding, pady=self.padding)
+            label = tk.Label(self, text=str(element), relief=tk.GROOVE,
+                             padx=self.padding, pady=self.padding)
             label.grid(row=len(self.rows) + offset, column=i, sticky='E,W')
             row.append(label)
 
@@ -125,7 +129,8 @@ class EntryGrid(Grid):
     """
     Add a spreadsheet-like grid of entry widgets
     """
-    def __init__(self, parent, num_of_columns: int, headers: list=None, **options):
+    def __init__(self, parent, num_of_columns: int, headers: list=None,
+                 **options):
         """
         Initialization of the entry grid object
 
@@ -137,8 +142,9 @@ class EntryGrid(Grid):
 
     def add_row(self, data: list=None):
         """
-        Add a row of data to the current widget, add a <Tab> binding to the 
-        last element of the last row, and set the focus at the beginning of the next row
+        Add a row of data to the current widget, add a <Tab> binding to the
+        last element of the last row, and set the focus at the beginning of
+        the next row
 
         :param data: a row of data
         :return: None
@@ -184,10 +190,10 @@ class EntryGrid(Grid):
 
     def _read_as_dict(self):
         """
-        Read the data contained in all entries as a list of 
+        Read the data contained in all entries as a list of
         dictionaries with the headers as the dictionary keys
-        
-        :return: list of dicts containing all tabular data 
+
+        :return: list of dicts containing all tabular data
         """
         data = list()
         for row in self.rows:
@@ -201,10 +207,10 @@ class EntryGrid(Grid):
 
     def _read_as_table(self):
         """
-        Read the data contained in all entries as a list of 
+        Read the data contained in all entries as a list of
         lists containing all of the data
 
-        :return: list of dicts containing all tabular data 
+        :return: list of dicts containing all tabular data
         """
         rows = list()
 
@@ -216,9 +222,10 @@ class EntryGrid(Grid):
     def read(self, as_dicts=True):
         """
         Read the data from the entry fields
-        
-        :param as_dicts: True if the data is desired as a list of dicts, else False
-        :return: 
+
+        :param as_dicts: True if the data is desired as a list of dicts,
+        else False
+        :return: entries as a dict or table
         """
         if as_dicts:
             return self._read_as_dict()
@@ -235,14 +242,16 @@ class KeyValueEntry(tk.Frame):
                  title=None, on_change_callback=None, **options):
         """
         Key/Value constructor
-        
+
         :param parent: the parent frame
         :param keys: the keys represented
         :param defaults: default values for each key
-        :param unit_labels: unit labels for each key (to the right of the value)
+        :param unit_labels: unit labels for each key
+        (to the right of the value)
         :param enables: True/False for each key
         :param title: The title of the block
-        :param on_change_callback: a function callback when any element is changed
+        :param on_change_callback: a function callback when any element
+        is changed
         :param options: frame tk options
         """
         tk.Frame.__init__(self, parent,
@@ -253,13 +262,16 @@ class KeyValueEntry(tk.Frame):
         # some checks before proceeding
         if defaults:
             if len(keys) != len(defaults):
-                raise ValueError('unit_labels length does not match keys length')
+                raise ValueError('unit_labels length does not '
+                                 'match keys length')
         if unit_labels:
             if len(keys) != len(unit_labels):
-                raise ValueError('unit_labels length does not match keys length')
+                raise ValueError('unit_labels length does not '
+                                 'match keys length')
         if enables:
             if len(keys) != len(enables):
-                raise ValueError('enables length does not match keys length')
+                raise ValueError('enables length does not '
+                                 'match keys length')
 
         self.keys = []
         self.values = []
@@ -288,14 +300,17 @@ class KeyValueEntry(tk.Frame):
 
         :param key: the name and dict accessor
         :param default: the default value
-        :param unit_label: the label that should be applied at the right of the entry
+        :param unit_label: the label that should be
+        applied at the right of the entry
         :param enable: the 'enabled' state (defaults to true)
         :return:
         """
         self.keys.append(tk.Label(self, text=key))
 
         self.defaults.append(default)
-        self.unit_labels.append(tk.Label(self, text=unit_label if unit_label else ''))
+        self.unit_labels.append(
+            tk.Label(self, text=unit_label if unit_label else '')
+        )
         self.enables.append(enable)
         self.values.append(tk.Entry(self))
 
@@ -336,7 +351,7 @@ class KeyValueEntry(tk.Frame):
     def reset(self):
         """
         Clears all entries
-        
+
         :return: None
         """
         for i in range(len(self.values)):
@@ -348,9 +363,8 @@ class KeyValueEntry(tk.Frame):
     def change_enables(self, enables_list: list):
         """
         Enable/disable inputs
-        
+
         :param enables_list: list containing enables for each key
-        
         :return: None
         """
         for i, entry in enumerate(self.values):
@@ -362,14 +376,14 @@ class KeyValueEntry(tk.Frame):
     def load(self, data: dict):
         """
         Load values into the key/values via dict
-        
         :param data: dict containing the key/values that should be inserted
-        :return: 
+        :return: None
         """
         for i, label in enumerate(self.keys):
             key = label.cget('text')
             if key in data.keys():
-                entry_was_enabled = True if self.values[i].cget('state') == 'normal' else False
+                entry_was_enabled = True if \
+                    self.values[i].cget('state') == 'normal' else False
                 if not entry_was_enabled:
                     self.values[i].config(state='normal')
 
@@ -382,8 +396,8 @@ class KeyValueEntry(tk.Frame):
     def get(self):
         """
         Retrieve the GUI elements for program use
-        
-        :return: a dictionary containing all of the data from the key/value entries 
+        :return: a dictionary containing all of the
+        data from the key/value entries
         """
         data = dict()
         for label, entry in zip(self.keys, self.values):
@@ -393,33 +407,52 @@ class KeyValueEntry(tk.Frame):
 
 
 class SpreadSheetReader(tk.Frame):
-    def __init__(self, parent, path, rows_to_display=20, cols_do_display=8, sheetname=None, **options):
+    def __init__(self, parent, path, rows_to_display=20, cols_do_display=8,
+                 sheetname=None, **options):
         tk.Frame.__init__(self, parent, **options)
 
-        self.header = tk.Label(self, text='Select the column you wish to import')
+        self.header = tk.Label(self,
+                               text='Select the column you wish to import')
         self.header.grid(row=0, column=0, columnspan=4)
 
         self.entry_grid = tk_tools.EntryGrid(self, num_of_columns=8)
         self.entry_grid.grid(row=1, column=0, columnspan=4, rowspan=4)
 
-        self.move_page_up_btn = tk.Button(self, text='^\n^', command=lambda: self.move_up(page=True))
+        self.move_page_up_btn = tk.Button(self, text='^\n^',
+                                          command=lambda: self.move_up(
+                                              page=True)
+                                          )
         self.move_page_up_btn.grid(row=1, column=4, sticky='NS')
-        self.move_page_up_btn = tk.Button(self, text='^', command=self.move_up)
+        self.move_page_up_btn = tk.Button(self, text='^',
+                                          command=self.move_up)
         self.move_page_up_btn.grid(row=2, column=4, sticky='NS')
 
-        self.move_page_down_btn = tk.Button(self, text='v', command=self.move_down)
+        self.move_page_down_btn = tk.Button(self, text='v',
+                                            command=self.move_down)
         self.move_page_down_btn.grid(row=3, column=4, sticky='NS')
-        self.move_page_down_btn = tk.Button(self, text='v\nv', command=lambda: self.move_down(page=True))
+        self.move_page_down_btn = tk.Button(self, text='v\nv',
+                                            command=lambda: self.move_down(
+                                                page=True)
+                                            )
         self.move_page_down_btn.grid(row=4, column=4, sticky='NS')
 
         # add buttons to navigate the spreadsheet
-        self.move_page_left_btn = tk.Button(self, text='<<', command=lambda: self.move_left(page=True))
+        self.move_page_left_btn = tk.Button(self, text='<<',
+                                            command=lambda: self.move_left(
+                                                page=True)
+                                            )
         self.move_page_left_btn.grid(row=5, column=0, sticky='EW')
         self.move_left_btn = tk.Button(self, text='<', command=self.move_left)
         self.move_left_btn.grid(row=5, column=1, sticky='EW')
-        self.move_right_btn = tk.Button(self, text='>', command=self.move_right)
+        self.move_right_btn = tk.Button(self,
+                                        text='>',
+                                        command=self.move_right)
         self.move_right_btn.grid(row=5, column=2, sticky='EW')
-        self.move_page_right_btn = tk.Button(self, text='>>', command=lambda: self.move_right(page=True))
+        self.move_page_right_btn = tk.Button(self,
+                                             text='>>',
+                                             command=lambda: self.move_right(
+                                                 page=True)
+                                             )
         self.move_page_right_btn.grid(row=5, column=3, sticky='EW')
 
         self.path = path
@@ -430,7 +463,8 @@ class SpreadSheetReader(tk.Frame):
 
         self.read_xl(sheetname=self.sheetname)
 
-    def read_xl(self, row_number=0, column_number=0, sheetname=None, sheetnum=0):
+    def read_xl(self, row_number=0, column_number=0,
+                sheetname=None, sheetnum=0):
         workbook = xlrd.open_workbook(self.path)
 
         if sheetname:
@@ -501,6 +535,7 @@ class SpreadSheetReader(tk.Frame):
             self.current_position = (row_pos - 1, col_pos)
         self.read_xl(*self.current_position, sheetname=self.sheetname)
 
+
 if __name__ == '__main__':
     root = tk.Tk()
 
@@ -525,6 +560,5 @@ if __name__ == '__main__':
 
     read_btn = tk.Button(text='Read', command=read)
     read_btn.grid(row=3, column=0)
-
 
     root.mainloop()

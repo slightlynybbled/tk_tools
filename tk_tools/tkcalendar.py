@@ -3,7 +3,8 @@ Simple calendar using ttk Treeview together
 with calendar and datetime classes.
 
 Borrowed from https://github.com/moshekaplan/tkinter_components
-which is a downstream copy of # Source: http://svn.python.org/projects/sandbox/trunk/ttk-gsoc/samples/ttkcalendar.py
+which is a downstream copy of
+http://svn.python.org/projects/sandbox/trunk/ttk-gsoc/samples/ttkcalendar.py
 """
 import calendar
 import datetime
@@ -56,7 +57,7 @@ class Calendar(tkinter.ttk.Frame):
         sel_fg = kw.pop('selectforeground', '#05640e')
 
         self._date = self.datetime(year, month, 1)
-        self._selection = None # no date selected
+        self._selection = None  # no date selected
         self.callback = callback
 
         super().__init__(master, **kw)
@@ -70,8 +71,10 @@ class Calendar(tkinter.ttk.Frame):
         self.__setup_selection(sel_bg, sel_fg)
 
         # store items ids, used for insertion later
-        self._items = [self._calendar.insert('', 'end', values='')
-                            for _ in range(6)]
+        self._items = [
+            self._calendar.insert('', 'end', values='') for _ in range(6)
+        ]
+
         # insert dates in the currently empty calendar
         self._build_calendar()
 
@@ -93,26 +96,38 @@ class Calendar(tkinter.ttk.Frame):
         elif item == 'selectforeground':
             return self._canvas.itemcget(self._canvas.text, 'fill')
         else:
-            r = tkinter.ttk.tclobjs_to_py({item: ttk.Frame.__getitem__(self, item)})
+            r = tkinter.ttk.tclobjs_to_py(
+                {item: tkinter.ttk.Frame.__getitem__(self, item)}
+            )
             return r[item]
 
     def __setup_styles(self):
         # custom ttk styles
         style = tkinter.ttk.Style(self.master)
-        arrow_layout = lambda dir: (
-            [('Button.focus', {'children': [('Button.%sarrow' % dir, None)]})]
-        )
+
+        def arrow_layout(dir):
+            return [
+                ('Button.focus', {
+                    'children': [('Button.%sarrow' % dir, None)]
+                })
+            ]
+
         style.layout('L.TButton', arrow_layout('left'))
         style.layout('R.TButton', arrow_layout('right'))
 
     def __place_widgets(self):
         # header frame and its widgets
         hframe = tkinter.ttk.Frame(self)
-        lbtn = tkinter.ttk.Button(hframe, style='L.TButton', command=self._prev_month)
-        rbtn = tkinter.ttk.Button(hframe, style='R.TButton', command=self._next_month)
+        lbtn = tkinter.ttk.Button(hframe,
+                                  style='L.TButton',
+                                  command=self._prev_month)
+        rbtn = tkinter.ttk.Button(hframe,
+                                  style='R.TButton',
+                                  command=self._next_month)
         self._header = tkinter.ttk.Label(hframe, width=15, anchor='center')
         # the calendar
-        self._calendar = tkinter.ttk.Treeview(self, show='', selectmode='none', height=7)
+        self._calendar = tkinter.ttk.Treeview(self, show='',
+                                              selectmode='none', height=7)
 
         # pack the widgets
         hframe.pack(in_=self, side='top', pady=4, anchor='center')
@@ -139,7 +154,8 @@ class Calendar(tkinter.ttk.Frame):
     def __setup_selection(self, sel_bg, sel_fg):
         self._font = tkinter.font.Font()
         self._canvas = canvas = tk.Canvas(
-            self._calendar, background=sel_bg, borderwidth=0, highlightthickness=0
+            self._calendar, background=sel_bg,
+            borderwidth=0, highlightthickness=0
         )
         canvas.text = canvas.create_text(0, 0, fill=sel_fg, anchor='w')
 
@@ -186,7 +202,7 @@ class Calendar(tkinter.ttk.Frame):
         item = widget.identify_row(y)
         column = widget.identify_column(x)
 
-        if not column or not item in self._items:
+        if not column or not (item in self._items):
             # clicked in the weekdays row or just outside the columns
             return
 
@@ -244,5 +260,3 @@ class Calendar(tkinter.ttk.Frame):
 
         year, month = self._date.year, self._date.month
         return self.datetime(year, month, int(self._selection[0]))
-
-

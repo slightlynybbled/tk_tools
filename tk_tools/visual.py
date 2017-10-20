@@ -1,11 +1,12 @@
 import tkinter as tk
 import cmath
-import os
 import sys
 import logging
 from decimal import Decimal
 
-from tk_tools.images import *
+from tk_tools.images import rotary_scale, \
+    led_green, led_green_on, led_yellow, led_yellow_on, \
+    led_red, led_red_on, led_grey
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -24,19 +25,20 @@ class Dial(tk.Frame):
     Base class for all dials and dial-like widgets
     """
     def __init__(self, parent, size=100, **options):
-        tk.Frame.__init__(self, parent, padx=3, pady=3, borderwidth=2, **options)
+        tk.Frame.__init__(self, parent, padx=3, pady=3, borderwidth=2,
+                          **options)
 
         self.size = size
 
     def to_absolute(self, x, y):
         """
-        Converts coordinates provided with reference to the center of the canvas (0, 0)
-        to absolute coordinates which are used by the canvas object in which (0, 0) is
-        located in the top left of the object.
-        
+        Converts coordinates provided with reference to the center of the
+        canvas (0, 0) to absolute coordinates which are used by the canvas
+        object in which (0, 0) is located in the top left of the object.
+
         :param x: x value in pixels
         :param y: x value in pixels
-        :return: 
+        :return: None
         """
         return x + self.size/2, y + self.size/2
 
@@ -49,19 +51,22 @@ class Compass(Dial):
         super().__init__(parent, size=size, **options)
         raise NotImplementedError()
 
-        # todo: import an image, place the image on the canvas, then place an arrow on top of the image
+        # todo: import an image, place the image on the canvas, then place
+        # an arrow on top of the image
 
 
 class RotaryScale(Dial):
     """
     Shows a rotary scale, much like a speedometer.
     """
-    def __init__(self, parent, max_value=100.0, size=100, unit='', img_data="", needle_color='blue', needle_thickness=0, **options):
+    def __init__(self, parent, max_value=100.0, size=100, unit='', img_data='',
+                 needle_color='blue', needle_thickness=0, **options):
         """
         Initializes the RotaryScale object
-        
+
         :param parent: tkinter parent frame
-        :param max_value: the value corresponding to the maximum value on the scale
+        :param max_value: the value corresponding to the maximum
+        value on the scale
         :param size: the size in pixels
         :param options: the frame options
         """
@@ -83,7 +88,8 @@ class RotaryScale(Dial):
         else:
             self.image = tk.PhotoImage(data=rotary_scale)
 
-        self.image = self.image.subsample(int(200 / self.size), int(200 / self.size))
+        self.image = self.image.subsample(int(200 / self.size),
+                                          int(200 / self.size))
 
         initial_value = 0.0
         self.set_value(initial_value)
@@ -91,8 +97,9 @@ class RotaryScale(Dial):
     def set_value(self, number: float):
         """
         Sets the value of the graphic
-        
-        :param number: the number (must be between 0 and 'max_range' or the scale will peg the limits
+
+        :param number: the number (must be between 0 and 'max_range'
+        or the scale will peg the limits
         :return: None
         """
         self.canvas.delete('all')
@@ -102,7 +109,8 @@ class RotaryScale(Dial):
         number = 0.0 if number < 0.0 else number
 
         radius = 0.9 * self.size/2.0
-        angle_in_radians = (2.0 * cmath.pi / 3.0) + number / self.max_value * (5.0 * cmath.pi / 3.0)
+        angle_in_radians = (2.0 * cmath.pi / 3.0) \
+            + number / self.max_value * (5.0 * cmath.pi / 3.0)
 
         center = cmath.rect(0, 0)
         outer = cmath.rect(radius, angle_in_radians)
@@ -124,20 +132,28 @@ class RotaryScale(Dial):
     def draw_background(self, divisions=10):
         """
         Draws the background of the dial
-        
-        :param divisions: the number of divisions between 'ticks' shown on the dial
-        :return: 
+
+        :param divisions: the number of divisions
+        between 'ticks' shown on the dial
+        :return: None
         """
-        self.canvas.create_arc(2, 2, self.size-2, self.size-2, style=tk.PIESLICE, start=-60, extent=30, fill='red')
-        self.canvas.create_arc(2, 2, self.size-2, self.size-2, style=tk.PIESLICE, start=-30, extent=60, fill='yellow')
-        self.canvas.create_arc(2, 2, self.size-2, self.size-2, style=tk.PIESLICE, start=30, extent=210, fill='green')
+        self.canvas.create_arc(2, 2, self.size-2, self.size-2,
+                               style=tk.PIESLICE, start=-60, extent=30,
+                               fill='red')
+        self.canvas.create_arc(2, 2, self.size-2, self.size-2,
+                               style=tk.PIESLICE, start=-30, extent=60,
+                               fill='yellow')
+        self.canvas.create_arc(2, 2, self.size-2, self.size-2,
+                               style=tk.PIESLICE, start=30, extent=210,
+                               fill='green')
 
         # find the distance between the center and the inner tick radius
         inner_tick_radius = int(self.size * 0.4)
         outer_tick_radius = int(self.size * 0.5)
 
         for tick in range(divisions):
-            angle_in_radians = (2.0 * cmath.pi / 3.0) + tick/divisions * (5.0 * cmath.pi / 3.0)
+            angle_in_radians = (2.0 * cmath.pi / 3.0) \
+                               + tick/divisions * (5.0 * cmath.pi / 3.0)
             inner_point = cmath.rect(inner_tick_radius, angle_in_radians)
             outer_point = cmath.rect(outer_tick_radius, angle_in_radians)
 
@@ -151,14 +167,15 @@ class RotaryScale(Dial):
 class Graph(tk.Frame):
     """
     Tkinter native graph (pretty basic, but doesn't require heavy install)
-    
-    Notes: the core of this object was creating using the 
+
+    Notes: the core of this object was creating using the
     basic structure found at: https://gist.github.com/ajbennieston/3072649
     """
-    def __init__(self, parent, x_min, x_max, y_min, y_max, x_tick, y_tick, **options):
+    def __init__(self, parent, x_min, x_max, y_min, y_max, x_tick, y_tick,
+                 **options):
         """
         Initializes the graph object.
-        
+
         :param parent: the parent frame
         :param x_min: the x minimum
         :param x_max: the x maximum
@@ -189,8 +206,8 @@ class Graph(tk.Frame):
     def draw_axes(self):
         """
         Removes all existing series and re-draws the axes
-        
-        :return: None 
+
+        :return: None
         """
         self.canvas.delete('all')
         rect = 50, 50, self.w - 50, self.h - 50
@@ -222,9 +239,10 @@ class Graph(tk.Frame):
 
     def plot_point(self, x, y, visible=True, color='black', size=5):
         """
-        Places a single point on the 
-        :param x: 
-        :param y: 
+        Places a single point on the grid
+
+        :param x: the x coordinate
+        :param y: the y coordinate
         :param visible: True if the individual point should be visible
         :param color: the color of the point
         :param size: the point size in pixels
@@ -250,15 +268,17 @@ class Graph(tk.Frame):
     def plot_line(self, points: list, color='black', point_visibility=False):
         """
         Plot a line of points
-        
+
         :param points: a list of tuples, each tuple containing an (x, y) point
         :param color: the color of the line
-        :param point_visibility: True if the points should be individually visible
+        :param point_visibility: True if the points
+        should be individually visible
         :return: None
         """
         last_point = ()
         for point in points:
-            this_point = self.plot_point(point[0], point[1], color=color, visible=point_visibility)
+            this_point = self.plot_point(point[0], point[1],
+                                         color=color, visible=point_visibility)
 
             if last_point:
                 self.canvas.create_line(last_point + this_point, fill=color)
@@ -269,12 +289,12 @@ class Graph(tk.Frame):
     def frange(start, stop, step, digits_to_round=3):
         """
         Works like range for doubles
-        
+
         :param start: starting value
         :param stop: ending value
         :param step: the increment
-        :param digits_to_round: the digits to which to 
-        round (makes floating-point numbers much easier 
+        :param digits_to_round: the digits to which to
+        round (makes floating-point numbers much easier
         to work with)
         :return: generator
         """
@@ -284,8 +304,19 @@ class Graph(tk.Frame):
 
 
 class Led(tk.Frame):
+    """
+    Create an LED-like interface for the user
+    """
     def __init__(self, parent, size=100, **options):
-        tk.Frame.__init__(self, parent, padx=3, pady=3, borderwidth=2, **options)
+        """
+        Initialize the LED class
+
+        :param parent: the parent frame
+        :param size: the size in pixels
+        :param options: the frame options
+        """
+        tk.Frame.__init__(self, parent, padx=3, pady=3, borderwidth=2,
+                          **options)
 
         self.size = size
 
@@ -295,31 +326,58 @@ class Led(tk.Frame):
 
         self.to_grey()
 
-    def _load_new(self, img_path):
-        self.image = tk.PhotoImage(data=img_path)
-        self.image = self.image.subsample(int(200 / self.size), int(200 / self.size))
+    def _load_new(self, img_data):
+        """
+        Load a new image
+
+        :param img_data: the image data as a base64 string
+        :return: None
+        """
+        self.image = tk.PhotoImage(data=img_data)
+        self.image = self.image.subsample(int(200 / self.size),
+                                          int(200 / self.size))
         self.canvas.create_image(0, 0, image=self.image, anchor='nw')
 
     def to_grey(self):
+        """
+        Change the LED to grey
+        :return: None
+        """
         self._load_new(led_grey)
 
     def to_green(self, on=False):
+        """
+        Change the LED to green (on or off)
+        :param on: True or False
+        :return: None
+        """
         if on:
             self._load_new(led_green_on)
         else:
             self._load_new(led_green)
 
     def to_red(self, on=False):
+        """
+        Change the LED to red (on or off)
+        :param on: True or False
+        :return: None
+        """
         if on:
             self._load_new(led_red_on)
         else:
             self._load_new(led_red)
 
     def to_yellow(self, on=False):
+        """
+        Change the LED to yellow (on or off)
+        :param on: True or False
+        :return: None
+        """
         if on:
             self._load_new(led_yellow_on)
         else:
             self._load_new(led_yellow)
+
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)
