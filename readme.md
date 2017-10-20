@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/slightlynybbled/tk_tools.svg?branch=master)](https://travis-ci.org/slightlynybbled/tk_tools)
+
 # Purpose
 
 This repository is intended to hold some of the most useful, higher-level widgets
