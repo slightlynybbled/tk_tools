@@ -115,6 +115,13 @@ ButtonGrid(
 )
 ```
 
+Methods:
+
+ - `.add_row(data: list=None)` - add a row of buttons
+ - `.remove_row(row_number: int=-1)` - remove the specified row of buttons
+ - `.clear()` - removes all rows of button
+
+
 The above widget was creating with the following code snippet:
 
 ```python
