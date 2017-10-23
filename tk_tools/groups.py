@@ -237,7 +237,8 @@ class ButtonGrid(Grid):
     """
     A grid of buttons.
     """
-    def __init__(self, parent, num_of_columns: int, headers: list=None, **options):
+    def __init__(self, parent, num_of_columns: int, headers: list=None,
+                 **options):
         """
         Initialization of the entry grid object
 
