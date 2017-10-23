@@ -160,3 +160,110 @@ class SmartCheckbutton(tk.Checkbutton, SmartWidget):
             def internal_callback(*args):
                 callback()
             self.var.trace('w', internal_callback)
+
+
+class ByteLabel(tk.Label):
+    """
+    Displays a byte value binary. Provides methods for
+    easy manipulation of bit values.
+
+       Example use:
+           # create the label and grid
+           bl = ByteLabel(root, 255)
+           bl.grid()
+
+           # toggle highest bit
+           bl.toggle_msb()
+    """
+    def __init__(self, parent, value=0, prefix="", **options):
+        """
+        Constructor for ByteLabel
+
+        :param parent: the tk parent frame
+        :param value: the initial value, default is 0
+        :param options: prefix string for identifiers
+        """
+        super().__init__(parent, **options)
+        assert -1 < value < 256
+        self._value = value
+        self._prefix = prefix
+        self.text_update()
+
+    def get(self):
+        return self._value
+
+    def set(self, value):
+        assert -1 < value < 256
+        self._value = value
+        self.text_update()
+
+    def text_update(self):
+        self["text"] = self._prefix + str(bin(self._value))[2:].zfill(8)
+
+    def get_bit(self, position):
+        assert -1 < position < 8
+        return self._value & (1 << position)
+
+    def toggle_bit(self, position):
+        assert -1 < position < 8
+        self._value ^= (1 << position)
+        self.text_update()
+
+    def set_bit(self, position):
+        assert -1 < position < 8
+        self._value |= (1 << position)
+        self.text_update()
+
+    def clear_bit(self, position):
+        assert -1 < position < 8
+        self._value &= ~(1 << position)
+        self.text_update()
+
+    def get_msb(self):
+        self.get_bit(7)
+
+    def toggle_msb(self):
+        self.toggle_bit(7)
+
+    def get_lsb(self):
+        self.get_bit(0)
+
+    def set_msb(self):
+        self.set_bit(7)
+
+    def clear_msb(self):
+        self.clear_bit(7)
+
+    def toggle_lsb(self):
+        self.toggle_bit(0)
+
+    def set_lsb(self):
+        self.set_bit(0)
+
+    def clear_lsb(self):
+        self.clear_bit(0)
+
+
+if __name__ == '__main__':
+    root = tk.Tk()
+    '''
+    ssb = SmartSpinBox(root, 'float', from_=0, to=5,
+                       increment=0.1, callback=lambda: print('it works'))
+    ssb.grid()
+
+    print(ssb)
+
+    def callback():
+        print(ssb.get())
+
+    ssb.add_callback(callback)
+    '''
+    scb = SmartCheckbutton(root, text='Enable')
+    scb.grid()
+
+    def callback():
+        print(scb.get())
+
+    scb.add_callback(callback)
+
+    root.mainloop()

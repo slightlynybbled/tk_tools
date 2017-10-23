@@ -100,6 +100,43 @@ for _ in range(5):
     entry_grid.add_row()
 ```
 
+## ButtonGrid
+The `ButtonGrid` is intended for easy creation of multiple `tkinter.Button`
+elements at once.
+
+![ButtonGrid](img/button-grid.png)
+
+```python
+ButtonGrid(
+    parent,                 # parent widget (root or frame)
+    num_of_columns: int,    # number of columns
+    headers: list=None,     # list of headers, each element should be a string
+    **options               # frame options for tkinter.Frame element
+)
+```
+
+Methods:
+
+ - `.add_row(data: list=None)` - add a row of buttons
+ - `.remove_row(row_number: int=-1)` - remove the specified row of buttons
+ - `.clear()` - removes all rows of button
+
+
+The above widget was creating with the following code snippet:
+
+```python
+button_grid = tk_tools.ButtonGrid(root, 3, None)
+button_grid.grid()
+
+func1  = lambda: print('Row 1')
+func2  = lambda: print('Row 2')
+func3  = lambda: print('Row 3')
+
+button_grid.add_row([("A1", func1), ("B1", func1), ("C1", func1)])
+button_grid.add_row([("A2", func2), ("B2", func2)])
+button_grid.add_row([("A3", func3)])
+```
+
 ## Key/Value Entry
 
 The `KeyValueEntry` widget is a really useful way to get data from the
@@ -351,7 +388,7 @@ Methods:
 Example:
 
 ```python
-ssb = SmartSpinBox(root, 'float', from_=0, to=5, increment=0.1, callback=lambda: print('it works'))
+ssb = tk_tools.SmartSpinBox(root, 'float', from_=0, to=5, increment=0.1, callback=lambda: print('it works'))
 ssb.grid()
 
 print(ssb)
@@ -387,7 +424,7 @@ Example:
 
 ```python 
 # create the smart spinbox and grid
-scb = SmartCheckbutton(root)
+scb = tk_tools.SmartCheckbutton(root)
 scb.grid()
 
 # define a callback function that retrieves the currently selected option
@@ -396,4 +433,50 @@ def callback():
 
 # add the callback function to the checkbutton
 scb.add_callback(callback)
+```
+
+## ByteLabel
+The `ByteLabel` is a subclass of `tkinter.Label` that holds one byte and
+automatically updates the representing text. It provies a variety of methods
+for easy bit manipulation.
+
+![ByteLabel](img/byte-label.png)
+
+```python
+ByteLabel(
+    parent,             # parent widget (root or frame)
+    value=0,            # the inital value
+    prefix="",          # a prefix string to identify when using mutiple labels
+    **options           # label options for tkinter.Label element
+)
+```
+
+Methods:
+
+ - `.get()` - returns the int value
+ - `.set(value)` - sets the int value (only 0 to 255 allowed)
+ - `text_update` - updates the text, no need to call externally
+ - `.get_bit(position)` - returns bit at position (only 0 to 7 allowed)
+ - `.toggle_bit(position)` - toggles bit at position (only 0 to 7 allowed)
+ - `.set_bit(position)` - sets bit to 1 at position (only 0 to 7 allowed)
+ - `.clear_bit(position)` - sets bit to 0 at position (only 0 to 7 allowed)
+ - `.get_msb()` - returns most significant bit
+ - `.toggle_msb()` - toggles most significant bit
+ - `.set_msb()` - sets most significant bit to 1
+ - `.clear_msb()` - sets most significant bit to 0
+ - `.get_lsb()` - returns least significant bit
+ - `.toggle_lsb()` - toggles least significant bit
+ - `.set_lsb()` - sets least significant bit to 1
+ - `.clear_lsb()` - sets least significant bit to 0
+ 
+ The above widget was creating with the following code snippet:
+
+```python 
+# create the byte label wit all bits set to 1
+b1 = tk_tools.ByteLabel(root, 0xFF, "d1:", font="Consolas 12")
+b1.grid()
+
+# Clear all odd bits
+for i in range(1, 8, 2):
+    blabel1.clear_bit(i)
 ```

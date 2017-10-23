@@ -12,12 +12,14 @@ For more details, check out the [documentation](https://tk-tools.readthedocs.io)
 
 ![Label Grid](./examples/img/label-grid.png)
 ![Entry Grid](./examples/img/entry-grid.png)
+![Button Grid](./examples/img/button-grid.png)
 ![Key/Value](./examples/img/key-value.png)
 ![Drop Down](./examples/img/dropdown.png)
 ![Graph](./examples/img/graph.png)
 ![Rotary Scale](./examples/img/rotary-scale.png)
 ![Calendar](./examples/img/calendar.png)
 ![Led animation](./examples/img/led.png)
+![Byte Label](./examples/img/byte-label.png)
 
 # Installation
 
@@ -109,6 +111,22 @@ for _ in range(5):
     entry_grid.add_row()
 ```
 
+## ButtonGrid
+
+The `ButtonGrid` is an grid of buttons like used in a calculator.
+
+![Button Grid](./examples/img/button-grid.png)
+
+```python 
+button_grid = tk_tools.ButtonGrid(root, 3, ['Column0', 'Column1', 'Column2'])
+button_grid.grid()
+
+func = lambda: print("pressed")
+button_grid.add_row([("A1", func), ("A1", func), ("C1", func)])
+button_grid.add_row([("A2", func), ("B2", func), ("C2", func)])
+button_grid.add_row([("A3", func), ("B3", func), ("C3", func)])
+```
+
 ## Key/Value
 
 So often, it is necessary to simply extract a key/value from the user.  This widget allows
@@ -197,7 +215,7 @@ will do the job.
 ![Rotary Scale](./examples/img/rotary-scale.png)
 
 ```python 
-p = tk_tools.RotaryScale(root, max_value=100.0, size=100, unit='km/h')
+p = tk_tools.RotaryScale(root, max_value=100.0, size=100, unit='km/h', needle_thickness=2, needle_color='blue')
 p.grid(row=0, column=0)
 
 p.set_value(65.0)
@@ -242,9 +260,20 @@ def callback():
 ssb.add_callback(callback)
 ```
 
-# Log
+## ByteLabel
 
-## v0.2.0
+The `ByteLabel` is an label specifically designed to display byte values in single bits.
+It provides methods for easy bit manipulation and can only hold values from 0 to 255.
 
- * Added SmartSpinBox
- * Changed `DropDown` to `SmartOptionMenu`
+![Byte Label](./examples/img/byte-label.png)
+
+```python 
+blabel1 = tk_tools.widgets.ByteLabel(root, 153, "d1:", font="Consolas 12")
+
+blabel1.toggle_bit(1)
+blabel1.clear_bit(2)
+blabel1.set_bit(4)
+blabel1.toggle_msb()
+
+blabel1.grid()
+```
