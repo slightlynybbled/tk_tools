@@ -12,6 +12,7 @@ For more details, check out the [documentation](https://tk-tools.readthedocs.io)
 
 ![Label Grid](./examples/img/label-grid.png)
 ![Entry Grid](./examples/img/entry-grid.png)
+![Button Grid](./examples/img/button-grid.png)
 ![Key/Value](./examples/img/key-value.png)
 ![Drop Down](./examples/img/dropdown.png)
 ![Graph](./examples/img/graph.png)
