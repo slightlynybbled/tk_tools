@@ -8,8 +8,13 @@ root = tk.Tk()
 p1 = tk_tools.RotaryScale(root, max_value=100.0, size=100, unit='km/h')
 p1.grid(row=0, column=0)
 
-p2 = tk_tools.RotaryScale(root, max_value=100.0, size=100,
+p2 = tk_tools.RotaryScale(root,
+                          max_value=100.0,
+                          size=100,
+                          needle_thickness=3,
+                          needle_color='black',
                           img_data=rotary_gauge_volt)
+
 p2.grid(row=0, column=1)
 
 increment = 1.0

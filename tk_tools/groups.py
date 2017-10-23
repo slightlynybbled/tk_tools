@@ -3,6 +3,7 @@ from collections import OrderedDict
 
 import tk_tools
 import xlrd
+import random, string
 
 
 class Grid(tk.Frame):
@@ -237,7 +238,6 @@ class ButtonGrid(Grid):
     """
     A grid of buttons.
     """
-
     def __init__(self, parent, num_of_columns: int, headers: list=None, **options):
         """
         Initialization of the entry grid object
@@ -249,7 +249,34 @@ class ButtonGrid(Grid):
         super().__init__(parent, num_of_columns, headers, **options)
 
     def add_row(self, data: list = None):
-        pass
+        """
+                Add a row of data to the current widget
+
+                :param data: a row of data
+                :return: None
+                """
+        # validation
+        if self.headers and data:
+            if len(self.headers) != len(data):
+                raise ValueError
+
+        offset = 0 if not self.headers else 1
+        row = list()
+        if data:
+            for i, element in enumerate(data):
+                button = tk.Button(self, text=str(element), relief=tk.RAISED, padx=self.padding, pady=self.padding)
+                button.grid(row=len(self.rows) + offset, column=i, sticky='E,W')
+                row.append(button)
+        else:
+            def random_letters():
+                sal = string.ascii_letters
+                return random.choice(sal)+random.choice(sal)+random.choice(sal)
+            for i in range(self.num_of_columns):
+                button = tk.Button(self, text=random_letters())
+                button.grid(row=len(self.rows) + offset, column=i, sticky='E,W')
+                row.append(button)
+
+        self.rows.append(row)
 
 
 class KeyValueEntry(tk.Frame):
