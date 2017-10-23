@@ -100,6 +100,10 @@ for _ in range(5):
     entry_grid.add_row()
 ```
 
+## ButtonGrid
+The `ButtonGrid` is intended for easy creation of multiple `tkinter.Button`
+elements at once. 
+
 ## Key/Value Entry
 
 The `KeyValueEntry` widget is a really useful way to get data from the
