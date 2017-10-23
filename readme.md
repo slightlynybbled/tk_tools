@@ -263,3 +263,8 @@ blabel1.toggle_msb()
 
 blabel1.grid()
 ```
+## ButtonGrid
+
+The `ButtonGrid` is an grid of buttons as in a calculator.
+
+![Button Grid](./examples/img/button-grid.png)
