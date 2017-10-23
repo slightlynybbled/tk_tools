@@ -20,6 +20,7 @@ For more details, check out the [documentation](https://tk-tools.readthedocs.io)
 ![Led (red)](./examples/img/led-red.png)
 ![Led (green)](./examples/img/led-green.png)
 ![Led (grey)](./examples/img/led-grey.png)
+![Byte Label](./examples/img/byte-label.png)
 
 # Installation
 
@@ -199,7 +200,7 @@ will do the job.
 ![Rotary Scale](./examples/img/rotary-scale.png)
 
 ```python 
-p = tk_tools.RotaryScale(root, max_value=100.0, size=100, unit='km/h')
+p = tk_tools.RotaryScale(root, max_value=100.0, size=100, unit='km/h', needle_thickness=2, needle_color='blue')
 p.grid(row=0, column=0)
 
 p.set_value(65.0)
@@ -242,4 +243,22 @@ def callback():
     print(ssb.get())
 
 ssb.add_callback(callback)
+```
+
+## ByteLabel
+
+The `ByteLabel` is an label specifically designed to display byte values in single bits.
+It provides methods for easy bit manipulation and can only hold values from 0 to 255.
+
+![Byte Label](./examples/img/byte-label.png)
+
+```python 
+blabel1 = tk_tools.widgets.ByteLabel(root, 153, "d1:", font="Consolas 12")
+
+blabel1.toggle_bit(1)
+blabel1.clear_bit(2)
+blabel1.set_bit(4)
+blabel1.toggle_msb()
+
+blabel1.grid()
 ```
