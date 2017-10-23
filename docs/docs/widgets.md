@@ -102,7 +102,17 @@ for _ in range(5):
 
 ## ButtonGrid
 The `ButtonGrid` is intended for easy creation of multiple `tkinter.Button`
-elements at once. 
+elements at once.
+
+```python
+ButtonGrid(
+    parent,                 # parent widget (root or frame)
+    num_of_columns: int,    # number of columns
+    headers: list=None,     # list of headers, each element should be a string
+    **options               # frame options for tkinter.Frame element
+)
+```
+
 
 ## Key/Value Entry
 
