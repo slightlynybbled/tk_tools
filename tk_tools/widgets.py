@@ -189,16 +189,20 @@ class ByteLabel(tk.Label):
         self._prefix = prefix
         self.text_update()
 
-    def get_value(self):
+    def get(self):
         return self._value
 
-    def set_value(self, value):
+    def set(self, value):
         assert -1 < value < 256
         self._value = value
         self.text_update()
 
     def text_update(self):
         self["text"] = self._prefix + str(bin(self._value))[2:].zfill(8)
+
+    def get_bit(self, position):
+        assert -1 < position < 8
+        return self._value & (1 << position)
 
     def toggle_bit(self, position):
         assert -1 < position < 8
@@ -210,23 +214,22 @@ class ByteLabel(tk.Label):
         self._value |= (1 << position)
         self.text_update()
 
-    def get_bit(self, position):
-        assert -1 < position < 8
-        return self._value & (1 << position)
-
     def clear_bit(self, position):
         assert -1 < position < 8
         self._value &= ~(1 << position)
         self.text_update()
 
+    def get_msb(self):
+        self.get_bit(7)
+
     def toggle_msb(self):
         self.toggle_bit(7)
 
+    def get_lsb(self):
+        self.get_bit(0)
+
     def set_msb(self):
         self.set_bit(7)
-
-    def get_msb(self):
-        self.get_bit(7)
 
     def clear_msb(self):
         self.clear_bit(7)
@@ -236,9 +239,6 @@ class ByteLabel(tk.Label):
 
     def set_lsb(self):
         self.set_bit(0)
-
-    def get_lsb(self):
-        self.get_bit(0)
 
     def clear_lsb(self):
         self.clear_bit(0)
