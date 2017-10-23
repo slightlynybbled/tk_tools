@@ -20,6 +20,7 @@ For more details, check out the [documentation](https://tk-tools.readthedocs.io)
 ![Led (red)](./examples/img/led-red.png)
 ![Led (green)](./examples/img/led-green.png)
 ![Led (grey)](./examples/img/led-grey.png)
+![Byte Label](./examples/img/byte-label.png)
 
 # Installation
 
