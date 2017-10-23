@@ -262,9 +262,9 @@ class ButtonGrid(Grid):
         offset = 0 if not self.headers else 1
         row = list()
 
-        for i, text, command in data:
-            button = tk.Button(self, text=str(text), relief=tk.RAISED,
-                               command=command, padx=self.padding,
+        for i, e in enumerate(data):
+            button = tk.Button(self, text=str(e[0]), relief=tk.RAISED,
+                               command=e[1], padx=self.padding,
                                pady=self.padding)
 
             button.grid(row=len(self.rows) + offset, column=i, sticky='E,W')
