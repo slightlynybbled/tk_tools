@@ -9,13 +9,13 @@ blabel1.grid(row=0, column=0)
 e = tk.Entry(root, width=10)
 e.grid(row=1, column=0)
 
-btn_set = tk.Button(root, text="Set", command=lambda: blabel1.set_value(int(e.get())))
+btn_set = tk.Button(root, text="Set", command=lambda: blabel1.set(int(e.get())))
 btn_set.grid(row=1, column=1)
 
-btn_set = tk.Button(root, text="Toggle MSB", command=blabel1.toggle_msb)
-btn_set.grid(row=1, column=2)
+btn_tmsb = tk.Button(root, text="Toggle MSB", command=blabel1.toggle_msb)
+btn_tmsb.grid(row=1, column=2)
 
-btn_set = tk.Button(root, text="Toggle LSB", command=blabel1.toggle_lsb)
-btn_set.grid(row=1, column=3)
+btn_tlsb = tk.Button(root, text="Toggle LSB", command=blabel1.toggle_lsb)
+btn_tlsb.grid(row=1, column=3)
 
 root.mainloop()

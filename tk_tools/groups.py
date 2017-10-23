@@ -233,6 +233,46 @@ class EntryGrid(Grid):
             return self._read_as_table()
 
 
+class ButtonGrid(Grid):
+    """
+    A grid of buttons.
+    """
+    def __init__(self, parent, num_of_columns: int, headers: list=None, **options):
+        """
+        Initialization of the entry grid object
+
+        :param parent: the tk parent element of this frame
+        :param num_of_columns: the number of columns contained of the grid
+        :param headers: a list containing the names of the column headers
+        """
+        super().__init__(parent, num_of_columns, headers, **options)
+
+    def add_row(self, data: list = None):
+        """
+        Add a row of data to the current widget
+        :param data: a row of data
+        :return: None
+        """
+
+        # validation
+        if self.headers and data:
+            if len(self.headers) != len(data):
+                raise ValueError
+
+        offset = 0 if not self.headers else 1
+        row = list()
+
+        for i, e in enumerate(data):
+            button = tk.Button(self, text=str(e[0]), relief=tk.RAISED,
+                               command=e[1], padx=self.padding,
+                               pady=self.padding)
+
+            button.grid(row=len(self.rows) + offset, column=i, sticky='E,W')
+            row.append(button)
+
+        self.rows.append(row)
+
+
 class KeyValueEntry(tk.Frame):
     """
     Creates a key-value frame so common in modern GUI
