@@ -113,6 +113,22 @@ for _ in range(5):
     entry_grid.add_row()
 ```
 
+## ButtonGrid
+
+The `ButtonGrid` is an grid of buttons like used in a calculator.
+
+![Button Grid](./examples/img/button-grid.png)
+
+```python 
+button_grid = tk_tools.ButtonGrid(root, 3, ['Column0', 'Column1', 'Column2'])
+button_grid.grid()
+
+func = lambda: print("pressed")
+button_grid.add_row([(0, "A1", func), (1, "A1", func), (2, "C1", func)])
+button_grid.add_row([(0, "A2", func), (1, "B2", func), (2, "C2", func)])
+button_grid.add_row([(0, "A3", func), (1, "B3", func), (2, "C3", func)])
+```
+
 ## Key/Value
 
 So often, it is necessary to simply extract a key/value from the user.  This widget allows
@@ -262,19 +278,4 @@ blabel1.set_bit(4)
 blabel1.toggle_msb()
 
 blabel1.grid()
-```
-## ButtonGrid
-
-The `ButtonGrid` is an grid of buttons like used in a calculator.
-
-![Button Grid](./examples/img/button-grid.png)
-
-```python 
-button_grid = tk_tools.ButtonGrid(root, 3, ['Column0', 'Column1', 'Column2'])
-button_grid.grid()
-
-func = lambda: print("pressed")
-button_grid.add_row([(0, "A1", func), (1, "A1", func), (2, "C1", func)])
-button_grid.add_row([(0, "A2", func), (1, "B2", func), (2, "C2", func)])
-button_grid.add_row([(0, "A3", func), (1, "B3", func), (2, "C3", func)])
 ```
