@@ -124,9 +124,9 @@ button_grid = tk_tools.ButtonGrid(root, 3, ['Column0', 'Column1', 'Column2'])
 button_grid.grid()
 
 func = lambda: print("pressed")
-button_grid.add_row([(0, "A1", func), (1, "A1", func), (2, "C1", func)])
-button_grid.add_row([(0, "A2", func), (1, "B2", func), (2, "C2", func)])
-button_grid.add_row([(0, "A3", func), (1, "B3", func), (2, "C3", func)])
+button_grid.add_row([("A1", func), ("A1", func), ("C1", func)])
+button_grid.add_row([("A2", func), ("B2", func), ("C2", func)])
+button_grid.add_row([("A3", func), ("B3", func), ("C3", func)])
 ```
 
 ## Key/Value
