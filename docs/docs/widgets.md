@@ -104,6 +104,8 @@ for _ in range(5):
 The `ButtonGrid` is intended for easy creation of multiple `tkinter.Button`
 elements at once.
 
+![ButtonGrid](img/button-grid.png)
+
 ```python
 ButtonGrid(
     parent,                 # parent widget (root or frame)
@@ -113,6 +115,20 @@ ButtonGrid(
 )
 ```
 
+The above widget was creating with the following code snippet:
+
+```python
+button_grid = tk_tools.ButtonGrid(root, 3, None)
+button_grid.grid()
+
+func1  = lambda: print('Row 1')
+func2  = lambda: print('Row 2')
+func3  = lambda: print('Row 3')
+
+button_grid.add_row([("A1", func1), ("B1", func1), ("C1", func1)])
+button_grid.add_row([("A2", func2), ("B2", func2)])
+button_grid.add_row([("A3", func3)])
+```
 
 ## Key/Value Entry
 
@@ -365,7 +381,7 @@ Methods:
 Example:
 
 ```python
-ssb = SmartSpinBox(root, 'float', from_=0, to=5, increment=0.1, callback=lambda: print('it works'))
+ssb = tk_tools.SmartSpinBox(root, 'float', from_=0, to=5, increment=0.1, callback=lambda: print('it works'))
 ssb.grid()
 
 print(ssb)
@@ -401,7 +417,7 @@ Example:
 
 ```python 
 # create the smart spinbox and grid
-scb = SmartCheckbutton(root)
+scb = tk_tools.SmartCheckbutton(root)
 scb.grid()
 
 # define a callback function that retrieves the currently selected option
@@ -450,7 +466,7 @@ Methods:
 
 ```python 
 # create the byte label wit all bits set to 1
-b1 = ByteLabel(root, 0xFF, "d1:", font="Consolas 12")
+b1 = tk_tools.ByteLabel(root, 0xFF, "d1:", font="Consolas 12")
 b1.grid()
 
 # Clear all odd bits
