@@ -397,3 +397,6 @@ def callback():
 # add the callback function to the checkbutton
 scb.add_callback(callback)
 ```
+
+## ByteLabel
+The `ByteLabel` is a subclass of `tkinter.Label`
