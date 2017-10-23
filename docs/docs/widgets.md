@@ -417,6 +417,8 @@ The `ByteLabel` is a subclass of `tkinter.Label` that holds one byte and
 automatically updates the representing text. It provies a variety of methods
 for easy bit manipulation.
 
+![ByteLabel](img/byte-label.png)
+
 ```python
 ByteLabel(
     parent,             # parent widget (root or frame)
@@ -444,7 +446,7 @@ Methods:
  - `.set_lsb()` - sets least significant bit to 1
  - `.clear_lsb()` - sets least significant bit to 0
  
- Example:
+ The above widget was creating with the following code snippet:
 
 ```python 
 # create the byte label wit all bits set to 1
