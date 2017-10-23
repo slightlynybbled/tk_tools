@@ -429,3 +429,15 @@ Methods:
  - `.toggle_lsb()` - toggles least significant bit
  - `.set_lsb()` - sets least significant bit to 1
  - `.clear_lsb()` - sets least significant bit to 0
+ 
+ Example:
+
+```python 
+# create the byte label wit all bits set to 1
+b1 = ByteLabel(root, 0xFF, "d1:", font="Consolas 12")
+b1.grid()
+
+# Clear all odd bits
+for i in range(1, 8, 2):
+    blabel1.clear_bit(i)
+```
