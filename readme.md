@@ -247,7 +247,7 @@ ssb.add_callback(callback)
 
 ## ByteLabel
 
-The 'ByteLabel' is an label specifically designed to display byte values in single bits.
+The `ByteLabel` is an label specifically designed to display byte values in single bits.
 It provides methods for easy bit manipulation and can only hold values from 0 to 255.
 
 ![Byte Label](./examples/img/byte-label.png)
