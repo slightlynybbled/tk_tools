@@ -43,7 +43,10 @@ You can also `pip install tk_tools`.
 Please request additional widgets in the
 [issues](https://github.com/slightlynybbled/tk_tools/issues).  Contributions
 should conform to PEP8 and will be checked against 
-[flake8](http://flake8.pycqa.org/en/latest/index.html).
+[flake8](http://flake8.pycqa.org/en/latest/index.html).  To run `flake8`, 
+you should install flake8 using pip.  As you develop, you can run `flake8 ./`
+from the root directory.  If your pull request does not conform to flake8
+guidelines, then it may not be accepted until the violations have been fixed!
 
 # Using the Widgets
 
