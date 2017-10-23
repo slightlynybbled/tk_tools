@@ -399,4 +399,15 @@ scb.add_callback(callback)
 ```
 
 ## ByteLabel
-The `ByteLabel` is a subclass of `tkinter.Label`
+The `ByteLabel` is a subclass of `tkinter.Label` that holds one byte and
+automatically updates the representing text. It provies a variety of methods
+for easy bit manipulation.
+
+```python
+ByteLabel(
+    parent,             # parent widget (root or frame)
+    value=0,            # the inital value
+    prefix="",          # a prefix string to identify when using mutiple labels
+    **options           # label options for tkinter.Label element
+)
+```
