@@ -244,3 +244,21 @@ def callback():
 
 ssb.add_callback(callback)
 ```
+
+## ByteLabel
+
+The 'ByteLabel' is an label specifically designed to display byte values in single bits.
+It provides methods for easy bit manipulation and can only hold values from 0 to 255.
+
+![Byte Label](./examples/img/byte-label.png)
+
+```python 
+blabel1 = tk_tools.widgets.ByteLabel(root, 153, "d1:", font="Consolas 12")
+
+blabel1.toggle_bit(1)
+blabel1.clear_bit(2)
+blabel1.set_bit(4)
+blabel1.toggle_msb()
+
+blabel1.grid()
+```
