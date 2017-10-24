@@ -18,7 +18,7 @@ For more details, check out the [documentation](https://tk-tools.readthedocs.io)
 ![Graph](./examples/img/graph.png)
 ![Rotary Scale](./examples/img/rotary-scale.png)
 ![Calendar](./examples/img/calendar.png)
-![Led animation](./examples/img/led.png)
+![Led animation](./examples/img/led.gif)
 ![Byte Label](./examples/img/byte-label.png)
 
 # Installation
