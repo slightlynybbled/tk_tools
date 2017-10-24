@@ -11,6 +11,7 @@ e.grid(row=1, column=0)
 
 btn_set = tk.Button(root, text="Set",
                     command=lambda: blabel1.set(int(e.get())))
+
 btn_set.grid(row=1, column=1)
 
 btn_tmsb = tk.Button(root, text="Toggle MSB", command=blabel1.toggle_msb)
