@@ -1,7 +1,7 @@
 site_name: tk_tools
 
 pages:
-    - Home: readme.md
-    - Widgets: widgets.md
+    - Home: 'index.md'
+    - Widgets: 'widgets.md'
 
 theme: readthedocs
