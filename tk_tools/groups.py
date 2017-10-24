@@ -237,7 +237,9 @@ class ButtonGrid(Grid):
     """
     A grid of buttons.
     """
-    def __init__(self, parent, num_of_columns: int, headers: list=None, **options):
+
+    def __init__(self, parent, num_of_columns: int, headers: list=None,
+                 **options):
         """
         Initialization of the entry grid object
 
@@ -337,7 +339,6 @@ class KeyValueEntry(tk.Frame):
     def add_row(self, key, default=None, unit_label=None, enable=None):
         """
         Add a single row and re-draw as necessary
-
         :param key: the name and dict accessor
         :param default: the default value
         :param unit_label: the label that should be
