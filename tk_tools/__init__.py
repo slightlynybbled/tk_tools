@@ -8,8 +8,11 @@ from tk_tools.tkcalendar import Calendar
 
 from tk_tools.version import __version__
 
-__all__ = ['Dial', 'RotaryScale', 'Graph', 'Led',
-           'EntryGrid', 'LabelGrid', 'ButtonGrid', 'KeyValueEntry',
-           'SpreadSheetReader', 'SmartOptionMenu', 'SmartSpinBox',
-           'SmartCheckbutton', 'Calendar', 'ByteLabel',
-           '__version__']
+
+__all__ = [
+    'Dial', 'RotaryScale', 'Graph', 'Led',
+    'EntryGrid', 'LabelGrid', 'ButtonGrid', 'KeyValueEntry',
+    'SpreadSheetReader', 'SmartOptionMenu', 'SmartSpinBox',
+    'SmartCheckbutton', 'Calendar', 'ByteLabel',
+    '__version__'
+]

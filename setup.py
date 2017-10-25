@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from setuptools import setup, find_packages
-from image_archiving import archive_image_files
+from stringify import stringify_py
 import os
 
 # provide correct path for version
@@ -10,11 +10,16 @@ here = os.path.dirname(os.path.dirname(__file__))
 exec(open(os.path.join(here, 'tk_tools/version.py')).read())
 
 # archive the image files into 'tk_tools/images.py'
-archive_image_files()
+stringify_py('images', 'tk_tools/images.py')
 
 requirements = [
     'xlrd >= 1.0.0',
     'xlwt >= 1.0.0'
+]
+
+setup_requirements = [
+    'flake8 == 3.5.0',
+    'stringify == 0.1.1'
 ]
 
 setup(
@@ -27,8 +32,8 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=requirements,
-    setup_requires=['flake8'],
-    zip_safe=False,
+    setup_requires=setup_requirements,
+    zip_safe=True,
     license='MIT',
     classifiers=[
         'Development Status :: 3 - Alpha',
