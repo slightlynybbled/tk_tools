@@ -5,3 +5,4 @@
 /tk_tools.egg-info
 .vscode/
 __pycache__/
+venv/
