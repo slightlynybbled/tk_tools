@@ -18,8 +18,9 @@ requirements = [
 ]
 
 setup_requirements = [
-    'flake8 == 3.5.0',
-    'stringify == 0.1.1'
+    'flake8 >= 3.5.0',
+    'stringify >= 0.1.1',
+    'sphinx >= 1.6'
 ]
 
 setup(
