@@ -4,9 +4,12 @@ import sys
 import logging
 from decimal import Decimal
 
-from tk_tools.images import rotary_scale, \
-    led_green, led_green_on, led_yellow, led_yellow_on, \
-    led_red, led_red_on, led_grey
+try:
+    from tk_tools.images import rotary_scale, \
+        led_green, led_green_on, led_yellow, led_yellow_on, \
+        led_red, led_red_on, led_grey
+except ImportError:
+    pass
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -57,24 +60,27 @@ class Compass(Dial):
 
 class RotaryScale(Dial):
     """
-    Shows a rotary scale, much like a speedometer.
-    """
-    def __init__(self, parent, max_value=100.0, size=100, unit='', img_data='',
-                 needle_color='blue', needle_thickness=0, **options):
-        """
-        Initializes the RotaryScale object
+    Shows a rotary scale, much like a speedometer.::
 
-        :param parent: tkinter parent frame
-        :param max_value: the value corresponding to the maximum
-        value on the scale
-        :param size: the size in pixels
-        :param options: the frame options
-        """
+        rs = tk_tools.RotaryScale(root, max_value=100.0, size=100, unit='km/h')
+        rs.grid(row=0, column=0)
+
+        rs.set_value(10)
+
+    :param parent: tkinter parent frame
+    :param max_value: the value corresponding to the maximum value on the scale
+    :param size: the size in pixels
+    :param options: the frame options
+    """
+    def __init__(self, parent, max_value: (float, int)=100.0, size: (float, int)=100,
+                 unit: str=None, img_data: str=None,
+                 needle_color='blue', needle_thickness=0,
+                 **options):
         super().__init__(parent, size=size, **options)
 
         self.max_value = float(max_value)
         self.size = size
-        self.unit = unit
+        self.unit = '' if not unit else unit
         self.needle_color = needle_color
         self.needle_thickness = needle_thickness
 
@@ -94,12 +100,11 @@ class RotaryScale(Dial):
         initial_value = 0.0
         self.set_value(initial_value)
 
-    def set_value(self, number: float):
+    def set_value(self, number: (float, int)):
         """
         Sets the value of the graphic
 
-        :param number: the number (must be between 0 and 'max_range'
-        or the scale will peg the limits
+        :param number: the number (must be between 0 and 'max_range' or the scale will peg the limits
         :return: None
         """
         self.canvas.delete('all')
@@ -129,7 +134,7 @@ class RotaryScale(Dial):
 
         self.readout['text'] = '{}{}'.format(number, self.unit)
 
-    def draw_background(self, divisions=10):
+    def _draw_background(self, divisions=10):
         """
         Draws the background of the dial
 
@@ -166,25 +171,39 @@ class RotaryScale(Dial):
 
 class Graph(tk.Frame):
     """
-    Tkinter native graph (pretty basic, but doesn't require heavy install)
+    Tkinter native graph (pretty basic, but doesn't require heavy install).::
 
-    Notes: the core of this object was creating using the
-    basic structure found at: https://gist.github.com/ajbennieston/3072649
+        graph = tk_tools.Graph(
+            parent=root,
+            x_min=-1.0,
+            x_max=1.0,
+            y_min=0.0,
+            y_max=2.0,
+            x_tick=0.2,
+            y_tick=0.2,
+            width=500,
+            height=400
+        )
+
+        graph.grid(row=0, column=0)
+
+        # create an initial line
+        line_0 = [(x/10, x/10) for x in range(10)]
+        graph.plot_line(line_0)
+
+    :param parent: the parent frame
+    :param x_min: the x minimum
+    :param x_max: the x maximum
+    :param y_min: the y minimum
+    :param y_max: the y maximum
+    :param x_tick: the 'tick' on the x-axis
+    :param y_tick: the 'tick' on the y-axis
+    :param options: additional valid tkinter.canvas options
     """
-    def __init__(self, parent, x_min, x_max, y_min, y_max, x_tick, y_tick,
+    def __init__(self, parent, x_min: float, x_max: float,
+                 y_min: float, y_max: float,
+                 x_tick: float, y_tick: float,
                  **options):
-        """
-        Initializes the graph object.
-
-        :param parent: the parent frame
-        :param x_min: the x minimum
-        :param x_max: the x maximum
-        :param y_min: the y minimum
-        :param y_max: the y maximum
-        :param x_tick: the 'tick' on the x-axis
-        :param y_tick: the 'tick' on the y-axis
-        :param options: additional valid tkinter.canvas options
-        """
         tk.Frame.__init__(self, parent, **options)
 
         self.canvas = tk.Canvas(self)
@@ -205,7 +224,7 @@ class Graph(tk.Frame):
 
     def draw_axes(self):
         """
-        Removes all existing series and re-draws the axes
+        Removes all existing series and re-draws the axes.
 
         :return: None
         """
@@ -271,8 +290,7 @@ class Graph(tk.Frame):
 
         :param points: a list of tuples, each tuple containing an (x, y) point
         :param color: the color of the line
-        :param point_visibility: True if the points
-        should be individually visible
+        :param point_visibility: True if the points should be individually visible
         :return: None
         """
         last_point = ()
@@ -293,9 +311,7 @@ class Graph(tk.Frame):
         :param start: starting value
         :param stop: ending value
         :param step: the increment
-        :param digits_to_round: the digits to which to
-        round (makes floating-point numbers much easier
-        to work with)
+        :param digits_to_round: the digits to which to round (makes floating-point numbers much easier to work with)
         :return: generator
         """
         while start < stop:

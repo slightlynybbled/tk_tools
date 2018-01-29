@@ -22,7 +22,7 @@ Smart widgets consist of existing widgets with improved API.  In most cases, the
     :members:
 
 ``ByteLabel``
---------------------
+-------------
 
 .. autoclass:: widgets.ByteLabel
     :members:
