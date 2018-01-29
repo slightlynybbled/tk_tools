@@ -1,7 +1,0 @@
-site_name: tk_tools
-
-pages:
-    - Home: 'index.md'
-    - Widgets: 'widgets.md'
-
-theme: readthedocs
