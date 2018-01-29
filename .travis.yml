@@ -9,4 +9,4 @@ install:
   - "pip install stringify==0.1.1"
 
 script:
-  - "python setup.py flake8"
+  - "flake8 tk_tools"
