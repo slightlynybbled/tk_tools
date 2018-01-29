@@ -2,6 +2,9 @@ import tkinter as tk
 
 
 class SmartWidget:
+    r"""
+    Superclass which contains basic elements of the 'smart' widgets.
+    """
     def __init__(self):
         self.var = None
 
@@ -10,7 +13,7 @@ class SmartWidget:
         Add a callback on change
 
         :param callback: callable function
-        :return:
+        :return: None
         """
         def internal_callback(*args):
             callback()
@@ -21,7 +24,7 @@ class SmartWidget:
         r"""
         Retrieve the value of the dropdown
 
-        :return:
+        :return: the value of the current variable
         """
         return self.var.get()
 
@@ -30,38 +33,22 @@ class SmartWidget:
         Set the value of the dropdown
 
         :param value: a string representing the
-        :return:
+        :return: None
         """
         self.var.set(value)
 
 
 class SmartOptionMenu(tk.OptionMenu, SmartWidget):
     r"""
-    Classic drop down entry
+    Classic drop down entry with built-in tracing variable.
 
-    Example use:
-        # create the dropdown and grid
-        som = SmartOptionMenu(root, ['one', 'two', 'three'])
-        som.grid()
-
-        # define a callback function that retrieves
-        # the currently selected option
-        def callback():
-            print(som.get())
-
-        # add the callback function to the dropdown
-        som.add_callback(callback)
+    :param data: the tk parent frame
+    :param options: a list containing the drop down options
+    :param initial_value: the initial value of the dropdown
+    :param callback: a function
     """
     def __init__(self, parent, options: list, initial_value: str=None,
                  callback: callable=None):
-        r"""
-        Constructor for SmartOptionMenu entry
-
-        :param parent: the tk parent frame
-        :param options: a list containing the drop down options
-        :param initial_value: the initial value of the dropdown
-        :param callback: a function
-        """
         self.var = tk.StringVar(parent)
         self.var.set(initial_value if initial_value else options[0])
 

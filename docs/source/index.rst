@@ -14,12 +14,13 @@ Welcome to tk_tools's documentation!
     Canvas Widgets <canvas_widgets.rst>
     Smart Widgets <smart_widgets.rst>
 
+Introduction
+------------
 
+The ``tk_tools`` package exists in a space like other packages.  In many cases, the ``tkinter`` interface leaves some API to be desired while, in other cases, it leaves out some room for fairly standard visualizations.  This is a collection of tools that have been developed over the course of creating GUI elements as a means to simplify and enhance the process and results.
 
 
 Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
