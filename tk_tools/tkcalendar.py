@@ -25,9 +25,8 @@ def _get_calendar(locale, fwday):
 class Calendar(tkinter.ttk.Frame):
     """
     TK Calendar that allows the user to select
-    a date graphically, with callbacks on selection.
+    a date graphically, with callbacks on selection.::
 
-    Example:
         cal = tk_tools.Calendar() # create calander object
         cal.pack()
 

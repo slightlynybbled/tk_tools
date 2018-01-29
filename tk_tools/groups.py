@@ -1,25 +1,27 @@
 import tkinter as tk
 from collections import OrderedDict
 
-import tk_tools
 import xlrd
+
+# add this for sphinx autodoc to function properly
+try:
+    from tk_tools.tkcalendar import Calendar
+except ImportError:
+    from tkcalendar import Calendar
 
 
 class Grid(tk.Frame):
     padding = 3
 
-    """
-    Creates a grid of widgets (intended to be subclassed)
+    r"""
+    Creates a grid of widgets (intended to be subclassed).
+    
+    :param parent: the tk parent element of this frame
+    :param num_of_columns: the number of columns contained of the grid
+    :param headers: a list containing the names of the column headers
     """
     def __init__(self, parent, num_of_columns: int, headers: list=None,
                  **options):
-        """
-        Initialization of the grid object
-
-        :param parent: the tk parent element of this frame
-        :param num_of_columns: the number of columns contained of the grid
-        :param headers: a list containing the names of the column headers
-        """
         tk.Frame.__init__(self, parent, padx=3, pady=3, borderwidth=2,
                           **options)
         self.grid()
@@ -40,7 +42,7 @@ class Grid(tk.Frame):
                 self.headers.append(label)
 
     def add_row(self, data: list):
-        """
+        r"""
         Adds a row of data based on the entered data
 
         :param data: row of data as a list
@@ -49,7 +51,7 @@ class Grid(tk.Frame):
         raise NotImplementedError
 
     def _redraw(self):
-        """
+        r"""
         Forgets the current layout and redraws with the most recent information
 
         :return: None
@@ -64,7 +66,7 @@ class Grid(tk.Frame):
                 widget.grid(row=i+offset, column=j)
 
     def remove_row(self, row_number: int=-1):
-        """
+        r"""
         Removes a specified row of data
 
         :param row_number: the row to remove (defaults to the last row)
@@ -78,7 +80,7 @@ class Grid(tk.Frame):
             widget.destroy()
 
     def clear(self):
-        """
+        r"""
         Removes all elements of the grid
 
         :return: None
@@ -88,22 +90,20 @@ class Grid(tk.Frame):
 
 
 class LabelGrid(Grid):
-    """
-    A table-like display widget
-    """
-    def __init__(self, parent, num_of_columns: int, headers: list=None,
-                 **options):
-        """
-        Initialization of the label grid object
+    r"""
+    A table-like display widget.
 
-        :param parent: the tk parent element of this frame
-        :param num_of_columns: the number of columns contained of the grid
-        :param headers: a list containing the names of the column headers
-        """
+    :param parent: the tk parent element of this frame
+    :param num_of_columns: the number of columns contained of the grid
+    :param headers: a list containing the names of the column headers
+    """
+    def __init__(self, parent,
+                 num_of_columns: int, headers: list=None,
+                 **options):
         super().__init__(parent, num_of_columns, headers, **options)
 
     def add_row(self, data: list):
-        """
+        r"""
         Add a row of data to the current widget
 
         :param data: a row of data
@@ -126,25 +126,21 @@ class LabelGrid(Grid):
 
 
 class EntryGrid(Grid):
-    """
-    Add a spreadsheet-like grid of entry widgets
-    """
-    def __init__(self, parent, num_of_columns: int, headers: list=None,
-                 **options):
-        """
-        Initialization of the entry grid object
+    r"""
+    Add a spreadsheet-like grid of entry widgets.
 
-        :param parent: the tk parent element of this frame
-        :param num_of_columns: the number of columns contained of the grid
-        :param headers: a list containing the names of the column headers
-        """
+    :param parent: the tk parent element of this frame
+    :param num_of_columns: the number of columns contained of the grid
+    :param headers: a list containing the names of the column headers
+    """
+    def __init__(self, parent,
+                 num_of_columns: int, headers: list=None,
+                 **options):
         super().__init__(parent, num_of_columns, headers, **options)
 
     def add_row(self, data: list=None):
-        """
-        Add a row of data to the current widget, add a <Tab> binding to the
-        last element of the last row, and set the focus at the beginning of
-        the next row
+        r"""
+        Add a row of data to the current widget, add a <Tab> binding to the last element of the last row, and set the focus at the beginning of the next row.
 
         :param data: a row of data
         :return: None
@@ -189,7 +185,7 @@ class EntryGrid(Grid):
         self._redraw()
 
     def _read_as_dict(self):
-        """
+        r"""
         Read the data contained in all entries as a list of
         dictionaries with the headers as the dictionary keys
 
@@ -206,7 +202,7 @@ class EntryGrid(Grid):
         return data
 
     def _read_as_table(self):
-        """
+        r"""
         Read the data contained in all entries as a list of
         lists containing all of the data
 
@@ -220,11 +216,10 @@ class EntryGrid(Grid):
         return rows
 
     def read(self, as_dicts=True):
-        """
+        r"""
         Read the data from the entry fields
 
-        :param as_dicts: True if the data is desired as a list of dicts,
-        else False
+        :param as_dicts: True if the data is desired as a list of dicts, else False
         :return: entries as a dict or table
         """
         if as_dicts:
@@ -234,22 +229,19 @@ class EntryGrid(Grid):
 
 
 class ButtonGrid(Grid):
-    """
+    r"""
     A grid of buttons.
+
+    :param parent: the tk parent element of this frame
+    :param num_of_columns: the number of columns contained of the grid
+    :param headers: a list containing the names of the column headers
     """
     def __init__(self, parent, num_of_columns: int, headers: list=None,
                  **options):
-        """
-        Initialization of the entry grid object
-
-        :param parent: the tk parent element of this frame
-        :param num_of_columns: the number of columns contained of the grid
-        :param headers: a list containing the names of the column headers
-        """
         super().__init__(parent, num_of_columns, headers, **options)
 
     def add_row(self, data: list = None):
-        """
+        r"""
         Add a row of data to the current widget
         :param data: a row of data
         :return: None
@@ -276,25 +268,21 @@ class ButtonGrid(Grid):
 
 class KeyValueEntry(tk.Frame):
     """
-    Creates a key-value frame so common in modern GUI
+    Creates a key-value input/output frame.
+
+    :param parent: the parent frame
+    :param keys: the keys represented
+    :param defaults: default values for each key
+    :param unit_labels: unit labels for each key (to the right of the value)
+    :param enables: True/False for each key
+    :param title: The title of the block
+    :param on_change_callback: a function callback when any element is changed
+    :param options: frame tk options
     """
     def __init__(self, parent, keys: list, defaults: list=None,
                  unit_labels: list=None, enables: list=None,
-                 title=None, on_change_callback=None, **options):
-        """
-        Key/Value constructor
-
-        :param parent: the parent frame
-        :param keys: the keys represented
-        :param defaults: default values for each key
-        :param unit_labels: unit labels for each key
-        (to the right of the value)
-        :param enables: True/False for each key
-        :param title: The title of the block
-        :param on_change_callback: a function callback when any element
-        is changed
-        :param options: frame tk options
-        """
+                 title: str=None, on_change_callback: callable=None,
+                 **options):
         tk.Frame.__init__(self, parent,
                           borderwidth=2,
                           padx=5, pady=5,
@@ -335,15 +323,14 @@ class KeyValueEntry(tk.Frame):
                 enable=enables[i] if enables else None
             )
 
-    def add_row(self, key, default=None, unit_label=None, enable=None):
+    def add_row(self, key: str, default: str=None, unit_label: str=None, enable: bool=None):
         """
         Add a single row and re-draw as necessary
 
         :param key: the name and dict accessor
         :param default: the default value
-        :param unit_label: the label that should be
-        applied at the right of the entry
-        :param enable: the 'enabled' state (defaults to true)
+        :param unit_label: the label that should be applied at the right of the entry
+        :param enable: the 'enabled' state (defaults to True)
         :return:
         """
         self.keys.append(tk.Label(self, text=key))
@@ -391,7 +378,7 @@ class KeyValueEntry(tk.Frame):
 
     def reset(self):
         """
-        Clears all entries
+        Clears all entries.
 
         :return: None
         """
@@ -403,7 +390,7 @@ class KeyValueEntry(tk.Frame):
 
     def change_enables(self, enables_list: list):
         """
-        Enable/disable inputs
+        Enable/disable inputs.
 
         :param enables_list: list containing enables for each key
         :return: None
@@ -416,7 +403,8 @@ class KeyValueEntry(tk.Frame):
 
     def load(self, data: dict):
         """
-        Load values into the key/values via dict
+        Load values into the key/values via dict.
+
         :param data: dict containing the key/values that should be inserted
         :return: None
         """
@@ -436,9 +424,9 @@ class KeyValueEntry(tk.Frame):
 
     def get(self):
         """
-        Retrieve the GUI elements for program use
-        :return: a dictionary containing all of the
-        data from the key/value entries
+        Retrieve the GUI elements for program use.
+
+        :return: a dictionary containing all of the data from the key/value entries
         """
         data = dict()
         for label, entry in zip(self.keys, self.values):
