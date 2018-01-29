@@ -5,9 +5,13 @@ import xlrd
 
 # add this for sphinx autodoc to function properly
 try:
-    from tk_tools.tkcalendar import Calendar
+    from tk_tools.tkcalendar import Calendar as DatePicker
 except ImportError:
-    from tkcalendar import Calendar
+    from tkcalendar import Calendar as DatePicker
+
+
+class Calendar(DatePicker):
+    pass
 
 
 class Grid(tk.Frame):
@@ -15,7 +19,7 @@ class Grid(tk.Frame):
 
     r"""
     Creates a grid of widgets (intended to be subclassed).
-    
+
     :param parent: the tk parent element of this frame
     :param num_of_columns: the number of columns contained of the grid
     :param headers: a list containing the names of the column headers
@@ -140,7 +144,9 @@ class EntryGrid(Grid):
 
     def add_row(self, data: list=None):
         r"""
-        Add a row of data to the current widget, add a <Tab> binding to the last element of the last row, and set the focus at the beginning of the next row.
+        Add a row of data to the current widget, add a <Tab> \
+        binding to the last element of the last row, and set \
+        the focus at the beginning of the next row.
 
         :param data: a row of data
         :return: None
@@ -219,7 +225,7 @@ class EntryGrid(Grid):
         r"""
         Read the data from the entry fields
 
-        :param as_dicts: True if the data is desired as a list of dicts, else False
+        :param as_dicts: True if list of dicts required, else False
         :return: entries as a dict or table
         """
         if as_dicts:
@@ -323,13 +329,15 @@ class KeyValueEntry(tk.Frame):
                 enable=enables[i] if enables else None
             )
 
-    def add_row(self, key: str, default: str=None, unit_label: str=None, enable: bool=None):
+    def add_row(self, key: str, default: str=None,
+                unit_label: str=None, enable: bool=None):
         """
         Add a single row and re-draw as necessary
 
         :param key: the name and dict accessor
         :param default: the default value
-        :param unit_label: the label that should be applied at the right of the entry
+        :param unit_label: the label that should be \
+        applied at the right of the entry
         :param enable: the 'enabled' state (defaults to True)
         :return:
         """
@@ -426,7 +434,8 @@ class KeyValueEntry(tk.Frame):
         """
         Retrieve the GUI elements for program use.
 
-        :return: a dictionary containing all of the data from the key/value entries
+        :return: a dictionary containing all \
+        of the data from the key/value entries
         """
         data = dict()
         for label, entry in zip(self.keys, self.values):
@@ -444,7 +453,7 @@ class SpreadSheetReader(tk.Frame):
                                text='Select the column you wish to import')
         self.header.grid(row=0, column=0, columnspan=4)
 
-        self.entry_grid = tk_tools.EntryGrid(self, num_of_columns=8)
+        self.entry_grid = EntryGrid(self, num_of_columns=8)
         self.entry_grid.grid(row=1, column=0, columnspan=4, rowspan=4)
 
         self.move_page_up_btn = tk.Button(self, text='^\n^',
@@ -563,31 +572,3 @@ class SpreadSheetReader(tk.Frame):
         else:
             self.current_position = (row_pos - 1, col_pos)
         self.read_xl(*self.current_position, sheetname=self.sheetname)
-
-
-if __name__ == '__main__':
-    root = tk.Tk()
-
-    entry_grid = EntryGrid(root, 3, ['L0', 'L1', 'L2'])
-    entry_grid.grid(row=0, column=0)
-
-    def add_row():
-        row = [1, 2, 3]
-        entry_grid.add_row(row)
-
-    add_row_btn = tk.Button(text='Add Row', command=add_row)
-    add_row_btn.grid(row=1, column=0)
-
-    def remove_row():
-        entry_grid.remove_row(0)
-
-    remove_row_btn = tk.Button(text='Remove Row', command=remove_row)
-    remove_row_btn.grid(row=2, column=0)
-
-    def read():
-        print(entry_grid.read(as_dicts=False))
-
-    read_btn = tk.Button(text='Read', command=read)
-    read_btn.grid(row=3, column=0)
-
-    root.mainloop()

@@ -35,9 +35,10 @@ class Dial(tk.Frame):
 
     def to_absolute(self, x, y):
         """
-        Converts coordinates provided with reference to the center of the
-        canvas (0, 0) to absolute coordinates which are used by the canvas
-        object in which (0, 0) is located in the top left of the object.
+        Converts coordinates provided with reference to the center \
+        of the canvas (0, 0) to absolute coordinates which are used \
+        by the canvas object in which (0, 0) is located in the top \
+        left of the object.
 
         :param x: x value in pixels
         :param y: x value in pixels
@@ -72,7 +73,8 @@ class RotaryScale(Dial):
     :param size: the size in pixels
     :param options: the frame options
     """
-    def __init__(self, parent, max_value: (float, int)=100.0, size: (float, int)=100,
+    def __init__(self, parent,
+                 max_value: (float, int)=100.0, size: (float, int)=100,
                  unit: str=None, img_data: str=None,
                  needle_color='blue', needle_thickness=0,
                  **options):
@@ -104,7 +106,8 @@ class RotaryScale(Dial):
         """
         Sets the value of the graphic
 
-        :param number: the number (must be between 0 and 'max_range' or the scale will peg the limits
+        :param number: the number (must be between 0 and \
+        'max_range' or the scale will peg the limits
         :return: None
         """
         self.canvas.delete('all')
@@ -290,7 +293,8 @@ class Graph(tk.Frame):
 
         :param points: a list of tuples, each tuple containing an (x, y) point
         :param color: the color of the line
-        :param point_visibility: True if the points should be individually visible
+        :param point_visibility: True if the points \
+        should be individually visible
         :return: None
         """
         last_point = ()
@@ -311,7 +315,8 @@ class Graph(tk.Frame):
         :param start: starting value
         :param stop: ending value
         :param step: the increment
-        :param digits_to_round: the digits to which to round (makes floating-point numbers much easier to work with)
+        :param digits_to_round: the digits to which to round \
+        (makes floating-point numbers much easier to work with)
         :return: generator
         """
         while start < stop:
