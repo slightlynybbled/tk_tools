@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from setuptools import setup, find_packages
+from setuptools import setup
 from stringify import stringify_py
 import os
 
@@ -30,7 +30,7 @@ setup(
     author='Jason R. Jones',
     author_email='slightlynybbled@gmail.com',
     url='https://github.com/slightlynybbled/tk_tools',
-    packages=find_packages(),
+    packages=['tk_tools'],
     include_package_data=True,
     install_requires=requirements,
     setup_requires=setup_requirements,
