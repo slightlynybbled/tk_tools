@@ -1,4 +1,4 @@
-from tk_tools.visual import Dial, RotaryScale, Graph, Led
+from tk_tools.canvas import Dial, RotaryScale, Graph, Led
 from tk_tools.groups import EntryGrid, LabelGrid, \
     KeyValueEntry, SpreadSheetReader, ButtonGrid
 from tk_tools.widgets import SmartOptionMenu, SmartSpinBox, \
