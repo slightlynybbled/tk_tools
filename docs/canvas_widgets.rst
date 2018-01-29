@@ -1,7 +1,7 @@
 Canvas Widgets
 ==============
 
-These widgets provide some sort of visual feedback to the user using the canvas.
+These widgets provide visual feedback to the user using the canvas.
 
 ``RotaryScale``
 ---------------
@@ -13,4 +13,10 @@ These widgets provide some sort of visual feedback to the user using the canvas.
 ---------
 
 .. autoclass:: canvas.Graph
+    :members:
+
+``LED``
+---------
+
+.. autoclass:: canvas.Led
     :members:

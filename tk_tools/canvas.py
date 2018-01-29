@@ -321,16 +321,19 @@ class Graph(tk.Frame):
 
 class Led(tk.Frame):
     """
-    Create an LED-like interface for the user
+    Create an LED-like interface for the user.::
+
+        led = tk_tools.Led(root, size=50)
+        led.pack()
+
+        led.to_red()
+        led.to_green(on=True)
+
+    :param parent: the parent frame
+    :param size: the size in pixels
+    :param options: the frame options
     """
     def __init__(self, parent, size=100, **options):
-        """
-        Initialize the LED class
-
-        :param parent: the parent frame
-        :param size: the size in pixels
-        :param options: the frame options
-        """
         tk.Frame.__init__(self, parent, padx=3, pady=3, borderwidth=2,
                           **options)
 
@@ -342,9 +345,9 @@ class Led(tk.Frame):
 
         self.to_grey()
 
-    def _load_new(self, img_data):
+    def _load_new(self, img_data: str):
         """
-        Load a new image
+        Load a new image.
 
         :param img_data: the image data as a base64 string
         :return: None
@@ -356,14 +359,16 @@ class Led(tk.Frame):
 
     def to_grey(self):
         """
-        Change the LED to grey
+        Change the LED to grey.
+
         :return: None
         """
         self._load_new(led_grey)
 
-    def to_green(self, on=False):
+    def to_green(self, on: bool=False):
         """
-        Change the LED to green (on or off)
+        Change the LED to green (on or off).
+
         :param on: True or False
         :return: None
         """
@@ -372,7 +377,7 @@ class Led(tk.Frame):
         else:
             self._load_new(led_green)
 
-    def to_red(self, on=False):
+    def to_red(self, on: bool=False):
         """
         Change the LED to red (on or off)
         :param on: True or False
@@ -383,7 +388,7 @@ class Led(tk.Frame):
         else:
             self._load_new(led_red)
 
-    def to_yellow(self, on=False):
+    def to_yellow(self, on: bool=False):
         """
         Change the LED to yellow (on or off)
         :param on: True or False
@@ -393,9 +398,3 @@ class Led(tk.Frame):
             self._load_new(led_yellow_on)
         else:
             self._load_new(led_yellow)
-
-
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG)
-
-    logging.info('frozen: {}'.format(frozen))
