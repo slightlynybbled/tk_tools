@@ -40,7 +40,19 @@ class SmartWidget:
 
 class SmartOptionMenu(tk.OptionMenu, SmartWidget):
     r"""
-    Classic drop down entry with built-in tracing variable.
+    Classic drop down entry with built-in tracing variable.::
+
+        # create the dropdown and grid
+        som = SmartOptionMenu(root, ['one', 'two', 'three'])
+        som.grid()
+
+        # define a callback function that retrieves
+        # the currently selected option
+        def callback():
+        print(som.get())
+
+        # add the callback function to the dropdown
+        som.add_callback(callback)
 
     :param data: the tk parent frame
     :param options: a list containing the drop down options
@@ -65,9 +77,8 @@ class SmartSpinBox(tk.Spinbox, SmartWidget):
     r"""
     Easy-to-use spinbox.  Takes most options that work with a normal SpinBox.
     Attempts to call your callback function - if assigned - whenever there
-    is a change to the spinbox.
+    is a change to the spinbox.::
 
-    Example use:
         # create the smart spinbox and grid
         ssb = SmartSpinBox(root)
         ssb.grid()
@@ -79,16 +90,18 @@ class SmartSpinBox(tk.Spinbox, SmartWidget):
 
         # add the callback function to the spinbox
         ssb.add_callback(callback)
+
+    :param parent: the tk parent frame
+    :param entry_type: 'str', 'int', 'float'
+    :param callback: python callable
+    :param options: any options that are valid for tkinter.SpinBox
     """
     def __init__(self, parent, entry_type: str='float',
                  callback: callable=None, **options):
         r"""
         Constructor for SmartSpinBox
 
-        :param parent: the tk parent frame
-        :param entry_type: 'str', 'int', 'float'
-        :param callback: python callable
-        :param options: any options that are valid for tkinter.SpinBox
+
         """
         sb_options = options.copy()
 
@@ -117,9 +130,8 @@ class SmartCheckbutton(tk.Checkbutton, SmartWidget):
     r"""
     Easy-to-use spinbox.  Takes most options that work with a normal SpinBox.
     Attempts to call your callback function - if assigned - whenever there
-    is a change to the spinbox.
+    is a change to the spinbox.::
 
-    Example use:
         # create the smart spinbox and grid
         scb = SmartCheckbutton(root)
         scb.grid()
@@ -131,15 +143,12 @@ class SmartCheckbutton(tk.Checkbutton, SmartWidget):
 
         # add the callback function to the checkbutton
         scb.add_callback(callback)
+
+    :param parent: the tk parent frame
+    :param callback: python callable
+    :param options: any options that are valid for tkinter.Checkbutton
     """
     def __init__(self, parent, callback: callable=None, **options):
-        r"""
-        Constructor for SmartCheckbutton
-
-        :param parent: the tk parent frame
-        :param callback: python callable
-        :param options: any options that are valid for tkinter.Checkbutton
-        """
         self.var = tk.BooleanVar()
         tk.Checkbutton.__init__(parent, variable=self.var, **options)
 
@@ -153,24 +162,20 @@ class ByteLabel(tk.Label):
     # todo: refactor into a BinaryLabel with arbitrary bit width
     r"""
     Displays a byte value binary. Provides methods for
-    easy manipulation of bit values.
+    easy manipulation of bit values.::
 
-    Example use:
         # create the label and grid
         bl = ByteLabel(root, 255)
         bl.grid()
 
         # toggle highest bit
         bl.toggle_msb()
+
+    :param parent: the tk parent frame
+    :param value: the initial value, default is 0
+    :param options: prefix string for identifiers
     """
     def __init__(self, parent, value: int=0, prefix: str="", **options):
-        r"""
-        Constructor for ByteLabel
-
-        :param parent: the tk parent frame
-        :param value: the initial value, default is 0
-        :param options: prefix string for identifiers
-        """
         super().__init__(parent, **options)
 
         assert -1 < value < 256

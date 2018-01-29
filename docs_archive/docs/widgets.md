@@ -455,7 +455,7 @@ Methods:
 
  - `.get()` - returns the int value
  - `.set(value)` - sets the int value (only 0 to 255 allowed)
- - `text_update` - updates the text, no need to call externally
+ - `_text_update` - updates the text, no need to call externally
  - `.get_bit(position)` - returns bit at position (only 0 to 7 allowed)
  - `.toggle_bit(position)` - toggles bit at position (only 0 to 7 allowed)
  - `.set_bit(position)` - sets bit to 1 at position (only 0 to 7 allowed)
