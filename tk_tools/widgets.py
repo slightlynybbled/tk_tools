@@ -6,7 +6,7 @@ class SmartWidget:
         self.var = None
 
     def add_callback(self, callback: callable):
-        """
+        r"""
         Add a callback on change
 
         :param callback: callable function
@@ -18,7 +18,7 @@ class SmartWidget:
         self.var.trace('w', internal_callback)
 
     def get(self):
-        """
+        r"""
         Retrieve the value of the dropdown
 
         :return:
@@ -26,7 +26,7 @@ class SmartWidget:
         return self.var.get()
 
     def set(self, value):
-        """
+        r"""
         Set the value of the dropdown
 
         :param value: a string representing the
@@ -36,7 +36,7 @@ class SmartWidget:
 
 
 class SmartOptionMenu(tk.OptionMenu, SmartWidget):
-    """
+    r"""
     Classic drop down entry
 
     Example use:
@@ -54,7 +54,7 @@ class SmartOptionMenu(tk.OptionMenu, SmartWidget):
     """
     def __init__(self, parent, options: list, initial_value: str=None,
                  callback: callable=None):
-        """
+        r"""
         Constructor for SmartOptionMenu entry
 
         :param parent: the tk parent frame
@@ -75,7 +75,7 @@ class SmartOptionMenu(tk.OptionMenu, SmartWidget):
 
 
 class SmartSpinBox(tk.Spinbox, SmartWidget):
-    """
+    r"""
     Easy-to-use spinbox.  Takes most options that work with a normal SpinBox.
     Attempts to call your callback function - if assigned - whenever there
     is a change to the spinbox.
@@ -95,7 +95,7 @@ class SmartSpinBox(tk.Spinbox, SmartWidget):
     """
     def __init__(self, parent, entry_type: str='float',
                  callback: callable=None, **options):
-        """
+        r"""
         Constructor for SmartSpinBox
 
         :param parent: the tk parent frame
@@ -118,7 +118,7 @@ class SmartSpinBox(tk.Spinbox, SmartWidget):
             raise ValueError('Entry type must be "str", "int", or "float"')
 
         sb_options['textvariable'] = self.var
-        super().__init__(parent, **sb_options)
+        tk.Spinbox.__init__(parent, **sb_options)
 
         if callback is not None:
             def internal_callback(*args):
@@ -127,7 +127,7 @@ class SmartSpinBox(tk.Spinbox, SmartWidget):
 
 
 class SmartCheckbutton(tk.Checkbutton, SmartWidget):
-    """
+    r"""
     Easy-to-use spinbox.  Takes most options that work with a normal SpinBox.
     Attempts to call your callback function - if assigned - whenever there
     is a change to the spinbox.
@@ -146,7 +146,7 @@ class SmartCheckbutton(tk.Checkbutton, SmartWidget):
         scb.add_callback(callback)
     """
     def __init__(self, parent, callback: callable=None, **options):
-        """
+        r"""
         Constructor for SmartCheckbutton
 
         :param parent: the tk parent frame
@@ -154,7 +154,7 @@ class SmartCheckbutton(tk.Checkbutton, SmartWidget):
         :param options: any options that are valid for tkinter.Checkbutton
         """
         self.var = tk.BooleanVar()
-        super().__init__(parent, variable=self.var, **options)
+        tk.Checkbutton.__init__(parent, variable=self.var, **options)
 
         if callback is not None:
             def internal_callback(*args):
@@ -163,20 +163,21 @@ class SmartCheckbutton(tk.Checkbutton, SmartWidget):
 
 
 class ByteLabel(tk.Label):
-    """
+    # todo: refactor into a BinaryLabel with arbitrary bit width
+    r"""
     Displays a byte value binary. Provides methods for
     easy manipulation of bit values.
 
-       Example use:
-           # create the label and grid
-           bl = ByteLabel(root, 255)
-           bl.grid()
+    Example use:
+        # create the label and grid
+        bl = ByteLabel(root, 255)
+        bl.grid()
 
-           # toggle highest bit
-           bl.toggle_msb()
+        # toggle highest bit
+        bl.toggle_msb()
     """
-    def __init__(self, parent, value=0, prefix="", **options):
-        """
+    def __init__(self, parent, value: int=0, prefix: str="", **options):
+        r"""
         Constructor for ByteLabel
 
         :param parent: the tk parent frame
@@ -184,40 +185,82 @@ class ByteLabel(tk.Label):
         :param options: prefix string for identifiers
         """
         super().__init__(parent, **options)
+
         assert -1 < value < 256
+
         self._value = value
         self._prefix = prefix
-        self.text_update()
+        self._text_update()
 
     def get(self):
+        r"""
+        Return the current value
+
+        :return: the current integer value
+        """
         return self._value
 
-    def set(self, value):
-        assert -1 < value < 256
-        self._value = value
-        self.text_update()
+    def set(self, value: int):
+        r"""
+        Set the current value
 
-    def text_update(self):
+        :param value:
+        :return: None
+        """
+        assert -1 < value < 256
+
+        self._value = value
+        self._text_update()
+
+    def _text_update(self):
         self["text"] = self._prefix + str(bin(self._value))[2:].zfill(8)
 
-    def get_bit(self, position):
+    def get_bit(self, position: int):
+        r"""
+        Returns the bit value at position
+
+        :param position: integer between 0 and 7, inclusive
+        :return: the value at position as a integer
+        """
         assert -1 < position < 8
+
         return self._value & (1 << position)
 
-    def toggle_bit(self, position):
+    def toggle_bit(self, position: int):
+        r"""
+        Toggles the value at position
+
+        :param position: integer between 0 and 7, inclusive
+        :return: None
+        """
         assert -1 < position < 8
+
         self._value ^= (1 << position)
-        self.text_update()
+        self._text_update()
 
-    def set_bit(self, position):
+    def set_bit(self, position: int):
+        r"""
+        Sets the value at position
+
+        :param position: integer between 0 and 7, inclusive
+        :return: None
+        """
         assert -1 < position < 8
+
         self._value |= (1 << position)
-        self.text_update()
+        self._text_update()
 
-    def clear_bit(self, position):
+    def clear_bit(self, position: int):
+        r"""
+        Clears the value at position
+
+        :param position: integer between 0 and 7, inclusive
+        :return: None
+        """
         assert -1 < position < 8
+
         self._value &= ~(1 << position)
-        self.text_update()
+        self._text_update()
 
     def get_msb(self):
         self.get_bit(7)
@@ -242,28 +285,3 @@ class ByteLabel(tk.Label):
 
     def clear_lsb(self):
         self.clear_bit(0)
-
-
-if __name__ == '__main__':
-    root = tk.Tk()
-    '''
-    ssb = SmartSpinBox(root, 'float', from_=0, to=5,
-                       increment=0.1, callback=lambda: print('it works'))
-    ssb.grid()
-
-    print(ssb)
-
-    def callback():
-        print(ssb.get())
-
-    ssb.add_callback(callback)
-    '''
-    scb = SmartCheckbutton(root, text='Enable')
-    scb.grid()
-
-    def callback():
-        print(scb.get())
-
-    scb.add_callback(callback)
-
-    root.mainloop()
