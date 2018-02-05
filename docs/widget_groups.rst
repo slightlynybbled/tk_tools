@@ -42,5 +42,5 @@ The screenshot consists of three individual examples of ``KeyValueEntry`` widget
 
 .. image:: img/calendar.png
 
-.. autoclass:: tk_tools.Calendar
+.. autoclass:: groups.Calendar
     :members:
