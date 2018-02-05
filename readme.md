@@ -10,6 +10,12 @@ type hints), but could easily be back-ported to earlier versions if desired.
 
 For more details, check out the [documentation](https://tk-tools.readthedocs.io).
 
+# Testing
+
+Currently, only style-level testing is implemented.  To execute:
+
+    flake8 tk_tools
+
 # Contributions
 
 I am always looking for new widgets!

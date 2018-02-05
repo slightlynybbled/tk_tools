@@ -3,7 +3,7 @@ import tk_tools
 
 root = tkinter.Tk()
 root.title('TK Tools Calendar')
-cal = tk_tools.Calendar()
+cal = tk_tools.Calendar(root)
 cal.pack()
 
 
