@@ -1,8 +1,25 @@
 #!/usr/bin/env python
 
 from setuptools import setup
-from stringify import stringify_py
 import os
+
+try:
+    from stringify import stringify_py
+except ImportError:
+    pass
+
+requirements = []
+with open('requirements.txt', 'r') as f:
+    for line in f.readlines():
+        requirements.append(line.strip())
+
+print(f'requirements: {requirements}')
+
+setup_requirements = [
+    'flake8 >= 3.5.0',
+    'stringify >= 0.1.1',
+    'sphinx >= 1.6'
+]
 
 # provide correct path for version
 __version__ = None
@@ -10,18 +27,10 @@ here = os.path.dirname(os.path.dirname(__file__))
 exec(open(os.path.join(here, 'tk_tools/version.py')).read())
 
 # archive the image files into 'tk_tools/images.py'
-stringify_py('images', 'tk_tools/images.py')
-
-requirements = [
-    'xlrd >= 1.0.0',
-    'xlwt >= 1.0.0'
-]
-
-setup_requirements = [
-    'flake8 >= 3.5.0',
-    'stringify >= 0.1.1',
-    'sphinx >= 1.6'
-]
+try:
+    stringify_py('images', 'tk_tools/images.py')
+except NameError:
+    print('warning: stringify not present at time of install, you may wish to run this script again')
 
 setup(
     name='tk_tools',
