@@ -36,11 +36,3 @@ The screenshot consists of three individual examples of ``KeyValueEntry`` widget
 
 .. autoclass:: groups.KeyValueEntry
     :members:
-
-``Calendar``
-------------
-
-.. image:: img/calendar.png
-
-.. autoclass:: groups.Calendar
-    :members:
