@@ -13,8 +13,6 @@ with open('requirements.txt', 'r') as f:
     for line in f.readlines():
         requirements.append(line.strip())
 
-print(f'requirements: {requirements}')
-
 setup_requirements = [
     'flake8 >= 3.5.0',
     'stringify >= 0.1.1',
