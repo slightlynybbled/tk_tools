@@ -267,7 +267,7 @@ class ButtonGrid(Grid):
 
 
 class KeyValueEntry(tk.Frame):
-    """
+    r"""
     Creates a key-value input/output frame.
 
     :param parent: the parent frame
@@ -577,28 +577,30 @@ def _get_calendar(locale, fwday):
 
 
 class Calendar(ttk.Frame):
-    """
+    r"""
     Graphical date selection widget, with callbacks.
 
-
+    :param parent: the parent frame
+    :param callback: the callable to be executed on selection
+    :param kw: tkinter.frame keyword arguments
     """
     timedelta = datetime.timedelta
     datetime = datetime.datetime
 
-    def __init__(self, parent, callback=None, **kw):
+    def __init__(self, parent, callback=None, **kwargs):
         # remove custom options from kw before initializing ttk.Frame
         fwday = calendar.SUNDAY
-        year = kw.pop('year', self.datetime.now().year)
-        month = kw.pop('month', self.datetime.now().month)
-        locale = kw.pop('locale', None)
-        sel_bg = kw.pop('selectbackground', '#ecffc4')
-        sel_fg = kw.pop('selectforeground', '#05640e')
+        year = kwargs.pop('year', self.datetime.now().year)
+        month = kwargs.pop('month', self.datetime.now().month)
+        locale = kwargs.pop('locale', None)
+        sel_bg = kwargs.pop('selectbackground', '#ecffc4')
+        sel_fg = kwargs.pop('selectforeground', '#05640e')
 
         self._date = self.datetime(year, month, 1)
         self._selection = None  # no date selected
         self.callback = callback
 
-        super().__init__(parent, **kw)
+        super().__init__(parent, **kwargs)
 
         self._cal = _get_calendar(locale, fwday)
 
@@ -721,7 +723,9 @@ class Calendar(ttk.Frame):
             self._calendar.item(item, values=fmt_week)
 
     def _show_selection(self, text, bbox):
-        """Configure canvas for a new selection."""
+        r"""
+        Configure canvas for a new selection.
+        """
         x, y, width, height = bbox
 
         textw = self._font.measure(text)
@@ -735,7 +739,9 @@ class Calendar(ttk.Frame):
     # Callbacks
 
     def _pressed(self, evt):
-        """Clicked somewhere in the calendar."""
+        r"""
+        Clicked somewhere in the calendar.
+        """
         x, y, widget = evt.x, evt.y, evt.widget
         item = widget.identify_row(y)
         column = widget.identify_column(x)
@@ -765,15 +771,18 @@ class Calendar(ttk.Frame):
             self.callback()
 
     def add_callback(self, callback: callable):
-        """
+        r"""
         Adds a callback to call when the user clicks on a date
+
         :param callback: a callable function
         :return: None
         """
         self.callback = callback
 
     def _prev_month(self):
-        """Updated calendar to show the previous month."""
+        r"""
+        Updated calendar to show the previous month.
+        """
         self._canvas.place_forget()
 
         self._date = self._date - self.timedelta(days=1)
@@ -781,7 +790,9 @@ class Calendar(ttk.Frame):
         self._build_calendar()  # reconstruct calendar
 
     def _next_month(self):
-        """Update calendar to show the next month."""
+        r"""
+        Update calendar to show the next month.
+        """
         self._canvas.place_forget()
 
         year, month = self._date.year, self._date.month
@@ -792,7 +803,9 @@ class Calendar(ttk.Frame):
 
     @property
     def selection(self):
-        """Return a datetime representing the current selected date."""
+        r"""
+        Return a datetime representing the current selected date.
+        """
         if not self._selection:
             return None
 
