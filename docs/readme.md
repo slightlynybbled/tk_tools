@@ -1,4 +1,4 @@
 To build the documentation:
 
-    sphinx-build -b html . ../docs
+    sphinx-build -b html . ./html
 
