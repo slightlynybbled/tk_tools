@@ -3,6 +3,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 class SmartWidget:
     r"""
     Superclass which contains basic elements of the 'smart' widgets.
@@ -176,7 +177,8 @@ class BinaryLabel(tk.Label):
     :param value: the initial value, default is 0
     :param options: prefix string for identifiers
     """
-    def __init__(self, parent, value: int=0, prefix: str="", bit_width=8, truncation_warning=True, **options):
+    def __init__(self, parent, value: int=0, prefix: str="", bit_width=8,
+                 truncation_warning=True, **options):
         super().__init__(parent, **options)
 
         self._value = value
@@ -187,8 +189,11 @@ class BinaryLabel(tk.Label):
         self._text_update()
 
     def _check_width(self):
-        if self._truncation_warning and len(str(bin(self._value)[2:])) > self._bit_width:
-            logger.warning(type(self).__name__ + ": Displayed value is truncated on left side due to insufficient bit width.")
+        if self._truncation_warning and\
+                len(str(bin(self._value)[2:])) > self._bit_width:
+            logger.warning(
+                type(self).__name__+": Displayed value is truncated on left"
+                                    " side due to insufficient bit width.")
 
     def get(self):
         r"""
@@ -211,7 +216,9 @@ class BinaryLabel(tk.Label):
         self._text_update()
 
     def _text_update(self):
-        self["text"] = self._prefix + str(bin(self._value))[2:].zfill(self._bit_width)[-self._bit_width:]
+        self["text"] = \
+            self._prefix +\
+            str(bin(self._value))[2:].zfill(self._bit_width)[-self._bit_width:]
 
     def get_bit(self, position: int):
         r"""
