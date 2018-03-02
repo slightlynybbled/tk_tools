@@ -1,5 +1,7 @@
 import tkinter as tk
+import logging
 
+logger = logging.getLogger(__name__)
 
 class SmartWidget:
     r"""
@@ -158,14 +160,13 @@ class SmartCheckbutton(tk.Checkbutton, SmartWidget):
             self.var.trace('w', internal_callback)
 
 
-class ByteLabel(tk.Label):
-    # todo: refactor into a BinaryLabel with arbitrary bit width
+class BinaryLabel(tk.Label):
     r"""
-    Displays a byte value binary. Provides methods for
+    Displays a value binary. Provides methods for
     easy manipulation of bit values.::
 
         # create the label and grid
-        bl = ByteLabel(root, 255)
+        bl = BinaryLabel(root, 255)
         bl.grid()
 
         # toggle highest bit
@@ -175,14 +176,19 @@ class ByteLabel(tk.Label):
     :param value: the initial value, default is 0
     :param options: prefix string for identifiers
     """
-    def __init__(self, parent, value: int=0, prefix: str="", **options):
+    def __init__(self, parent, value: int=0, prefix: str="", bit_width=8, truncation_warning=True, **options):
         super().__init__(parent, **options)
-
-        assert -1 < value < 256
 
         self._value = value
         self._prefix = prefix
+        self._bit_width = bit_width
+        self._truncation_warning = truncation_warning
+        self._check_width()
         self._text_update()
+
+    def _check_width(self):
+        if self._truncation_warning and len(str(bin(self._value)[2:])) > self._bit_width:
+            logger.warning(type(self).__name__ + ": Displayed value is truncated on left side due to insufficient bit width.")
 
     def get(self):
         r"""
@@ -199,13 +205,13 @@ class ByteLabel(tk.Label):
         :param value:
         :return: None
         """
-        assert -1 < value < 256
 
         self._value = value
+        self._check_width()
         self._text_update()
 
     def _text_update(self):
-        self["text"] = self._prefix + str(bin(self._value))[2:].zfill(8)
+        self["text"] = self._prefix + str(bin(self._value))[2:].zfill(self._bit_width)[-self._bit_width:]
 
     def get_bit(self, position: int):
         r"""
@@ -214,7 +220,6 @@ class ByteLabel(tk.Label):
         :param position: integer between 0 and 7, inclusive
         :return: the value at position as a integer
         """
-        assert -1 < position < 8
 
         return self._value & (1 << position)
 
@@ -225,7 +230,6 @@ class ByteLabel(tk.Label):
         :param position: integer between 0 and 7, inclusive
         :return: None
         """
-        assert -1 < position < 8
 
         self._value ^= (1 << position)
         self._text_update()
@@ -237,7 +241,6 @@ class ByteLabel(tk.Label):
         :param position: integer between 0 and 7, inclusive
         :return: None
         """
-        assert -1 < position < 8
 
         self._value |= (1 << position)
         self._text_update()
@@ -249,25 +252,24 @@ class ByteLabel(tk.Label):
         :param position: integer between 0 and 7, inclusive
         :return: None
         """
-        assert -1 < position < 8
 
         self._value &= ~(1 << position)
         self._text_update()
 
     def get_msb(self):
-        self.get_bit(7)
+        self.get_bit(self._bit_width-1)
 
     def toggle_msb(self):
-        self.toggle_bit(7)
+        self.toggle_bit(self._bit_width-1)
 
     def get_lsb(self):
         self.get_bit(0)
 
     def set_msb(self):
-        self.set_bit(7)
+        self.set_bit(self._bit_width-1)
 
     def clear_msb(self):
-        self.clear_bit(7)
+        self.clear_bit(self._bit_width-1)
 
     def toggle_lsb(self):
         self.toggle_bit(0)
@@ -277,3 +279,11 @@ class ByteLabel(tk.Label):
 
     def clear_lsb(self):
         self.clear_bit(0)
+
+
+class ByteLabel(BinaryLabel):
+    r"""
+    Has been replaced with more general BinaryLabel.
+    Still here for backwards compatibility.
+    """
+    pass
