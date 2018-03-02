@@ -28,7 +28,8 @@ exec(open(os.path.join(here, 'tk_tools/version.py')).read())
 try:
     stringify_py('images', 'tk_tools/images.py')
 except NameError:
-    print('warning: stringify not present at time of install, you may wish to run this script again')
+    print('warning: stringify not present at time of install,'
+          ' you may wish to run this script again')
 
 setup(
     name='tk_tools',

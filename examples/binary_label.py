@@ -3,10 +3,12 @@ import tk_tools
 
 root = tk.Tk()
 
-blabel1 = tk_tools.widgets.ByteLabel(root, 153, "d1:", font="Consolas 12")
+value = 32766
+blabel1 = tk_tools.BinaryLabel(root, value, "d1:", 16, font="Consolas 12")
 blabel1.grid(row=0, column=0)
 
 e = tk.Entry(root, width=10)
+e.insert("end", str(value))
 e.grid(row=1, column=0)
 
 btn_set = tk.Button(root, text="Set",
