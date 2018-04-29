@@ -4,21 +4,43 @@
 
 # Purpose
 
-This repository is intended to hold some of the most useful, higher-level widgets
-that are native to tkinter.  This library is currently compatible with Python 3.5+ (uses
-type hints), but could easily be back-ported to earlier versions if desired.
+This repository holds useful high-level widgets written in pure python.  
+This library used type hints and requires Python 3.5+; it could, however, be back-ported to earlier Python versions without difficulty.
+
+Here are some examples screenshots of the widgets you can create:
+
+#### Button-Grid:  
+![Button-Grid](https://raw.githubusercontent.com/slightlynybbled/tk_tools/master/docs/img/button-grid.png)
+#### Byte-Label:  
+![Byte-Label](https://raw.githubusercontent.com/slightlynybbled/tk_tools/master/docs/img/byte-label.png)
+#### Calendar:  
+![Calendar](https://raw.githubusercontent.com/slightlynybbled/tk_tools/master/docs/img/calendar.png)
+#### Dropdown:  
+![Dropdown](https://raw.githubusercontent.com/slightlynybbled/tk_tools/master/docs/img/dropdown.png)
+#### Entry-Grid:  
+![Entry-Grid](https://raw.githubusercontent.com/slightlynybbled/tk_tools/master/docs/img/entry-grid.png)
+#### Graph:  
+![Graph](https://raw.githubusercontent.com/slightlynybbled/tk_tools/master/docs/img/graph.png)
+#### Key-Value:  
+![Key-Value](https://raw.githubusercontent.com/slightlynybbled/tk_tools/master/docs/img/key-value.png)
+#### Label-Grid:  
+![Label-Grid](https://raw.githubusercontent.com/slightlynybbled/tk_tools/master/docs/img/label-grid.png)
+#### LED: (size can be scaled)  
+![LED](https://raw.githubusercontent.com/slightlynybbled/tk_tools/master/docs/img/led.gif)
+#### Rotary-Scale: (Tachymeter)    
+![Rotary-Scale](https://raw.githubusercontent.com/slightlynybbled/tk_tools/master/docs/img/rotary-scale.png)
 
 For more details, check out the [documentation](https://tk-tools.readthedocs.io).
 
 # Testing
 
-Currently, only style-level testing is implemented.  To execute:
+Currently, style-level tests are implemented.  To execute:
 
     flake8 tk_tools
 
 # Contributions
 
-I am always looking for new widgets!
+Contributions for new widgets, documentation, tests, and resolving issues are welcomed.
 
 Contribution guidelines:
 
