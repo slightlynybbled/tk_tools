@@ -42,7 +42,7 @@ class Grid(ttk.Frame):
                 self.headers.append(label)
 
     def add_row(self, data: list):
-        r"""
+        """
         Adds a row of data based on the entered data
 
         :param data: row of data as a list
@@ -51,7 +51,7 @@ class Grid(ttk.Frame):
         raise NotImplementedError
 
     def _redraw(self):
-        r"""
+        """
         Forgets the current layout and redraws with the most recent information
 
         :return: None
@@ -66,7 +66,7 @@ class Grid(ttk.Frame):
                 widget.grid(row=i+offset, column=j)
 
     def remove_row(self, row_number: int=-1):
-        r"""
+        """
         Removes a specified row of data
 
         :param row_number: the row to remove (defaults to the last row)
@@ -80,7 +80,7 @@ class Grid(ttk.Frame):
             widget.destroy()
 
     def clear(self):
-        r"""
+        """
         Removes all elements of the grid
 
         :return: None
@@ -104,7 +104,7 @@ class LabelGrid(Grid):
         super().__init__(self._parent, num_of_columns, headers, **options)
 
     def add_row(self, data: list):
-        r"""
+        """
         Add a row of data to the current widget
 
         :param data: a row of data
@@ -127,7 +127,7 @@ class LabelGrid(Grid):
 
 
 class EntryGrid(Grid):
-    r"""
+    """
     Add a spreadsheet-like grid of entry widgets.
 
     :param parent: the tk parent element of this frame
@@ -140,7 +140,7 @@ class EntryGrid(Grid):
         super().__init__(parent, num_of_columns, headers, **options)
 
     def add_row(self, data: list=None):
-        r"""
+        """
         Add a row of data to the current widget, add a <Tab> \
         binding to the last element of the last row, and set \
         the focus at the beginning of the next row.
@@ -188,7 +188,7 @@ class EntryGrid(Grid):
         self._redraw()
 
     def _read_as_dict(self):
-        r"""
+        """
         Read the data contained in all entries as a list of
         dictionaries with the headers as the dictionary keys
 
@@ -205,7 +205,7 @@ class EntryGrid(Grid):
         return data
 
     def _read_as_table(self):
-        r"""
+        """
         Read the data contained in all entries as a list of
         lists containing all of the data
 
@@ -219,7 +219,7 @@ class EntryGrid(Grid):
         return rows
 
     def read(self, as_dicts=True):
-        r"""
+        """
         Read the data from the entry fields
 
         :param as_dicts: True if list of dicts required, else False
@@ -232,7 +232,7 @@ class EntryGrid(Grid):
 
 
 class ButtonGrid(Grid):
-    r"""
+    """
     A grid of buttons.
 
     :param parent: the tk parent element of this frame
@@ -244,7 +244,7 @@ class ButtonGrid(Grid):
         super().__init__(parent, num_of_columns, headers, **options)
 
     def add_row(self, data: list = None):
-        r"""
+        """
         Add a row of data to the current widget
         :param data: a row of data
         :return: None
@@ -270,7 +270,7 @@ class ButtonGrid(Grid):
 
 
 class KeyValueEntry(tk.Frame):
-    r"""
+    """
     Creates a key-value input/output frame.
 
     :param parent: the parent frame
@@ -580,7 +580,7 @@ def _get_calendar(locale, fwday):
 
 
 class Calendar(ttk.Frame):
-    r"""
+    """
     Graphical date selection widget, with callbacks.
 
     :param parent: the parent frame
@@ -726,7 +726,7 @@ class Calendar(ttk.Frame):
             self._calendar.item(item, values=fmt_week)
 
     def _show_selection(self, text, bbox):
-        r"""
+        """
         Configure canvas for a new selection.
         """
         x, y, width, height = bbox
@@ -742,7 +742,7 @@ class Calendar(ttk.Frame):
     # Callbacks
 
     def _pressed(self, evt):
-        r"""
+        """
         Clicked somewhere in the calendar.
         """
         x, y, widget = evt.x, evt.y, evt.widget
@@ -774,7 +774,7 @@ class Calendar(ttk.Frame):
             self.callback()
 
     def add_callback(self, callback: callable):
-        r"""
+        """
         Adds a callback to call when the user clicks on a date
 
         :param callback: a callable function
@@ -783,7 +783,7 @@ class Calendar(ttk.Frame):
         self.callback = callback
 
     def _prev_month(self):
-        r"""
+        """
         Updated calendar to show the previous month.
         """
         self._canvas.place_forget()
@@ -793,7 +793,7 @@ class Calendar(ttk.Frame):
         self._build_calendar()  # reconstruct calendar
 
     def _next_month(self):
-        r"""
+        """
         Update calendar to show the next month.
         """
         self._canvas.place_forget()
@@ -806,7 +806,7 @@ class Calendar(ttk.Frame):
 
     @property
     def selection(self):
-        r"""
+        """
         Return a datetime representing the current selected date.
         """
         if not self._selection:
@@ -891,7 +891,7 @@ class _SlotFrame(ttk.Frame):
 
 
 class MultiSlotFrame(ttk.Frame):
-    r"""
+    """
     Can hold several removable elements,
     such as a list of files, directories,
     or a checklist.::
