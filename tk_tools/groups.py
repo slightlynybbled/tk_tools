@@ -942,7 +942,8 @@ class MultiSlotFrame(ttk.Frame):
 
         max_per_col = 8
         for i, slot in enumerate(self._slots):
-            slot.grid(row=i % max_per_col, column=int(i / max_per_col), sticky='ew')
+            slot.grid(row=i % max_per_col,
+                      column=int(i / max_per_col), sticky='ew')
 
     def add(self, string: (str, list)):
         """
@@ -950,7 +951,9 @@ class MultiSlotFrame(ttk.Frame):
         :param string: a string to insert
         :return: None
         """
-        slot = _SlotFrame(self, remove_callback=self._redraw, entries=self._slot_columns)
+        slot = _SlotFrame(self,
+                          remove_callback=self._redraw,
+                          entries=self._slot_columns)
         slot.add(string)
 
         self._slots.append(slot)
