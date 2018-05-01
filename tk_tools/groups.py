@@ -12,7 +12,7 @@ from tk_tools.images import minus
 class Grid(ttk.Frame):
     padding = 3
 
-    r"""
+    """
     Creates a grid of widgets (intended to be subclassed).
 
     :param parent: the tk parent element of this frame
@@ -90,7 +90,7 @@ class Grid(ttk.Frame):
 
 
 class LabelGrid(Grid):
-    r"""
+    """
     A table-like display widget.
 
     :param parent: the tk parent element of this frame
