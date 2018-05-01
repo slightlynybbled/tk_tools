@@ -891,9 +891,24 @@ class _SlotFrame(ttk.Frame):
 
 
 class MultiSlotFrame(ttk.Frame):
-    """
+    r"""
     Can hold several removable elements,
-    such as a list of files or directories.
+    such as a list of files, directories,
+    or a checklist.::
+
+        # create and grid the frame
+        msf = tk_tools.MultiSlotFrame(root)
+        msf.grid()
+
+        # add some items
+        msf.add('item 1')
+        msf.add('item 2')
+
+        # get any user-entered or modified values
+        print(msf.get())
+
+    :param parent: the tk parent frame
+    :param columns: the number of user columns (defaults to 1)
     """
     def __init__(self, parent, columns=1):
         self._parent = parent

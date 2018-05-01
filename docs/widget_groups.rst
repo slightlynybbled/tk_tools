@@ -44,3 +44,11 @@ The screenshot consists of three individual examples of ``KeyValueEntry`` widget
 
 .. autoclass:: groups.Calendar
     :members:
+
+``MultiSlotFrame``
+------------------
+
+.. image:: img/multi-slot-frame.png
+
+.. autoclass:: groups.MultiSlotFrame
+    :members:
