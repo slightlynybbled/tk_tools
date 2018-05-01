@@ -1,14 +1,18 @@
 import tkinter as tk
+import tkinter.ttk as ttk
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-class SmartWidget:
+class SmartWidget(ttk.Frame):
     r"""
     Superclass which contains basic elements of the 'smart' widgets.
     """
-    def __init__(self):
+    def __init__(self, parent):
+        self._parent = parent
+        super().__init__(self._parent)
+
         self.var = None
 
     def add_callback(self, callback: callable):
@@ -41,7 +45,7 @@ class SmartWidget:
         self.var.set(value)
 
 
-class SmartOptionMenu(tk.OptionMenu, SmartWidget):
+class SmartOptionMenu(SmartWidget):
     r"""
     Classic drop down entry with built-in tracing variable.::
 
@@ -64,11 +68,14 @@ class SmartOptionMenu(tk.OptionMenu, SmartWidget):
     """
     def __init__(self, parent, options: list, initial_value: str=None,
                  callback: callable=None):
-        self.var = tk.StringVar(parent)
+        super().__init__(parent)
+
+        self.var = tk.StringVar()
         self.var.set(initial_value if initial_value else options[0])
 
-        self.option_menu = tk.OptionMenu.__init__(self, parent, self.var,
-                                                  *options)
+        self.option_menu = tk.OptionMenu(self._parent, self.var,
+                                         *options)
+        self.option_menu.grid()
 
         if callback is not None:
             def internal_callback(*args):
@@ -161,7 +168,7 @@ class SmartCheckbutton(tk.Checkbutton, SmartWidget):
             self.var.trace('w', internal_callback)
 
 
-class BinaryLabel(tk.Label):
+class BinaryLabel(ttk.Label):
     r"""
     Displays a value binary. Provides methods for
     easy manipulation of bit values.::
@@ -179,7 +186,8 @@ class BinaryLabel(tk.Label):
     """
     def __init__(self, parent, value: int=0, prefix: str="", bit_width=8,
                  truncation_warning=True, **options):
-        super().__init__(parent, **options)
+        self._parent = parent
+        super().__init__(self._parent, **options)
 
         self._value = value
         self._prefix = prefix

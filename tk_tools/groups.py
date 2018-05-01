@@ -8,7 +8,7 @@ from collections import OrderedDict
 import xlrd
 
 
-class Grid(tk.Frame):
+class Grid(ttk.Frame):
     padding = 3
 
     r"""
@@ -20,8 +20,9 @@ class Grid(tk.Frame):
     """
     def __init__(self, parent, num_of_columns: int, headers: list=None,
                  **options):
-        tk.Frame.__init__(self, parent, padx=3, pady=3, borderwidth=2,
-                          **options)
+        self._parent = parent
+        super().__init__(self._parent, padding=3, borderwidth=2,
+                        **options)
         self.grid()
 
         self.headers = list()
@@ -34,8 +35,8 @@ class Grid(tk.Frame):
                 raise ValueError
 
             for i, element in enumerate(headers):
-                label = tk.Label(self, text=str(element), relief=tk.GROOVE,
-                                 padx=self.padding, pady=self.padding)
+                label = ttk.Label(self, text=str(element), relief=tk.GROOVE,
+                                  padding=self.padding)
                 label.grid(row=0, column=i, sticky='E,W')
                 self.headers.append(label)
 
@@ -98,7 +99,8 @@ class LabelGrid(Grid):
     def __init__(self, parent,
                  num_of_columns: int, headers: list=None,
                  **options):
-        super().__init__(parent, num_of_columns, headers, **options)
+        self._parent = parent
+        super().__init__(self._parent, num_of_columns, headers, **options)
 
     def add_row(self, data: list):
         r"""
@@ -115,8 +117,8 @@ class LabelGrid(Grid):
         offset = 0 if not self.headers else 1
         row = list()
         for i, element in enumerate(data):
-            label = tk.Label(self, text=str(element), relief=tk.GROOVE,
-                             padx=self.padding, pady=self.padding)
+            label = ttk.Label(self, text=str(element), relief=tk.GROOVE,
+                              padding=self.padding)
             label.grid(row=len(self.rows) + offset, column=i, sticky='E,W')
             row.append(label)
 
@@ -156,13 +158,13 @@ class EntryGrid(Grid):
         if data:
             for i, element in enumerate(data):
                 contents = '' if element is None else str(element)
-                entry = tk.Entry(self)
+                entry = ttk.Entry(self)
                 entry.insert(0, contents)
                 entry.grid(row=len(self.rows) + offset, column=i, sticky='E,W')
                 row.append(entry)
         else:
             for i in range(self.num_of_columns):
-                entry = tk.Entry(self)
+                entry = ttk.Entry(self)
                 entry.grid(row=len(self.rows) + offset, column=i, sticky='E,W')
                 row.append(entry)
 
@@ -310,7 +312,7 @@ class KeyValueEntry(tk.Frame):
         self.callback = on_change_callback
 
         if title is not None:
-            self.title = tk.Label(self, text=title)
+            self.title = ttk.Label(self, text=title)
             self.title.grid(row=0, column=0, columnspan=3)
         else:
             self.title = None
@@ -335,14 +337,14 @@ class KeyValueEntry(tk.Frame):
         :param enable: the 'enabled' state (defaults to True)
         :return:
         """
-        self.keys.append(tk.Label(self, text=key))
+        self.keys.append(ttk.Label(self, text=key))
 
         self.defaults.append(default)
         self.unit_labels.append(
-            tk.Label(self, text=unit_label if unit_label else '')
+            ttk.Label(self, text=unit_label if unit_label else '')
         )
         self.enables.append(enable)
-        self.values.append(tk.Entry(self))
+        self.values.append(ttk.Entry(self))
 
         row_offset = 1 if self.title is not None else 0
 
@@ -443,7 +445,7 @@ class SpreadSheetReader(tk.Frame):
                  sheetname=None, **options):
         tk.Frame.__init__(self, parent, **options)
 
-        self.header = tk.Label(self,
+        self.header = ttk.Label(self,
                                text='Select the column you wish to import')
         self.header.grid(row=0, column=0, columnspan=4)
 

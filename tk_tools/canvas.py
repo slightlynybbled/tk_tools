@@ -1,4 +1,5 @@
 import tkinter as tk
+import tkinter.ttk as ttk
 import cmath
 import sys
 import logging
@@ -23,13 +24,13 @@ else:
 logger.info('frozen: {}'.format(frozen))
 
 
-class Dial(tk.Frame):
+class Dial(ttk.Frame):
     """
     Base class for all dials and dial-like widgets
     """
     def __init__(self, parent, size=100, **options):
-        tk.Frame.__init__(self, parent, padx=3, pady=3, borderwidth=2,
-                          **options)
+        self._parent = parent
+        super().__init__(self._parent, padding=3, borderwidth=2, **options)
 
         self.size = size
 
@@ -172,7 +173,7 @@ class RotaryScale(Dial):
             )
 
 
-class Graph(tk.Frame):
+class Graph(ttk.Frame):
     """
     Tkinter native graph (pretty basic, but doesn't require heavy install).::
 
@@ -207,7 +208,8 @@ class Graph(tk.Frame):
                  y_min: float, y_max: float,
                  x_tick: float, y_tick: float,
                  **options):
-        tk.Frame.__init__(self, parent, **options)
+        self._parent = parent
+        super().__init__(self._parent, **options)
 
         self.canvas = tk.Canvas(self)
         self.canvas.grid(row=0, column=0)
@@ -339,7 +341,8 @@ class Led(tk.Frame):
     :param options: the frame options
     """
     def __init__(self, parent, size=100, **options):
-        tk.Frame.__init__(self, parent, padx=3, pady=3, borderwidth=2,
+        self._parent = parent
+        super().__init__(self._parent, padx=3, pady=3, borderwidth=2,
                           **options)
 
         self.size = size
