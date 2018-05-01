@@ -29,7 +29,8 @@ try:
     stringify_py('images', 'tk_tools/images.py')
 except NameError:
     print('warning: stringify not present at time of install,'
-          ' you may wish to run this script again')
+          ' you may wish to run this script if tk_tools.images'
+          ' needs to be regenerated')
 
 setup(
     name='tk_tools',
