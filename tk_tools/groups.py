@@ -6,7 +6,11 @@ import calendar
 from collections import OrderedDict
 
 import xlrd
-from tk_tools.images import minus
+
+try:
+    from tk_tools.images import minus
+except ImportError:
+    minus = ''
 
 
 class Grid(ttk.Frame):
