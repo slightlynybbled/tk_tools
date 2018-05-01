@@ -6,6 +6,7 @@ import calendar
 from collections import OrderedDict
 
 import xlrd
+from tk_tools.images import minus
 
 
 class Grid(ttk.Frame):
@@ -813,3 +814,148 @@ class Calendar(ttk.Frame):
 
         year, month = self._date.year, self._date.month
         return self.datetime(year, month, int(self._selection[0]))
+
+
+class _SlotFrame(ttk.Frame):
+    """ A single slot """
+    def __init__(self, parent, remove_callback=None, entries=1):
+        self.parent = parent
+        super().__init__(self.parent)
+
+        self.columnconfigure(0, weight=1)
+        self._entries = []
+
+        if entries < 1:
+            raise ValueError('entries must be >= 1')
+
+        for i in range(entries):
+            entry = ttk.Entry(self)
+            entry.grid(row=0, column=i, sticky='ew')
+            self._entries.append(entry)
+
+        self._image = tk.PhotoImage(data=minus).subsample(2, 2)
+        self._remove_btn = ttk.Button(self,
+                                      image=self._image, command=self.remove)
+        self._remove_btn.grid(row=0, column=entries, sticky='ew')
+
+        self.deleted = False
+        self._remove_callback = remove_callback
+
+    def add(self, string: (str, list)):
+        """
+        Clear the contents of the entry field and
+        insert the contents of string.
+
+        :param string: an str containing the text to display
+        :return:
+        """
+        if len(self._entries) == 1:
+            self._entries[0].delete(0, 'end')
+            self._entries[0].insert(0, string)
+        else:
+            if len(string) != len(self._entries):
+                raise ValueError('the "string" list must be '
+                                 'equal to the number of entries')
+
+            for i, e in enumerate(self._entries):
+                self._entries[i].delete(0, 'end')
+                self._entries[i].insert(0, string[i])
+
+    def remove(self):
+        """
+        Deletes itself.
+        :return: None
+        """
+        for e in self._entries:
+            e.grid_forget()
+            e.destroy()
+
+        self._remove_btn.grid_forget()
+        self._remove_btn.destroy()
+
+        self.deleted = True
+
+        if self._remove_callback:
+            self._remove_callback()
+
+    def get(self):
+        """
+        Returns the value for the slot.
+        :return: the entry value
+        """
+        values = [e.get() for e in self._entries]
+        if len(self._entries) == 1:
+            return values[0]
+        else:
+            return values
+
+
+class MultiSlotFrame(ttk.Frame):
+    """
+    Can hold several removable elements,
+    such as a list of files or directories.
+    """
+    def __init__(self, parent, columns=1):
+        self._parent = parent
+        super().__init__(self._parent)
+
+        self.columnconfigure(0, weight=1)
+        self._slot_columns = columns
+
+        self._slots = []
+
+        self._blank_label = None
+        self._redraw()
+
+        self._blank_label = ttk.Label(self, text='<no data>')
+        self._blank_label.grid(row=0, column=0)
+
+    def _redraw(self):
+        """
+        Clears the current layout and re-draws all elements in self._slots
+        :return:
+        """
+        if self._blank_label:
+            self._blank_label.grid_forget()
+            self._blank_label.destroy()
+            self._blank_label = None
+
+        for slot in self._slots:
+            slot.grid_forget()
+
+        self._slots = [slot for slot in self._slots if not slot.deleted]
+
+        max_per_col = 8
+        for i, slot in enumerate(self._slots):
+            slot.grid(row=i % max_per_col, column=int(i / max_per_col), sticky='ew')
+
+    def add(self, string: (str, list)):
+        """
+        Add a new slot to the multi-frame containing the string.
+        :param string: a string to insert
+        :return: None
+        """
+        slot = _SlotFrame(self, remove_callback=self._redraw, entries=self._slot_columns)
+        slot.add(string)
+
+        self._slots.append(slot)
+
+        self._redraw()
+
+    def clear(self):
+        """
+        Clear out the multi-frame
+        :return:
+        """
+        for slot in self._slots:
+            slot.grid_forget()
+            slot.destroy()
+
+        self._slots = []
+
+    def get(self):
+        """
+        Retrieve and return the values in the multi-frame
+        :return: A list of values containing the contents of the GUI
+        """
+        return [slot.get() for slot in self._slots]

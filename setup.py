@@ -22,7 +22,7 @@ setup_requirements = [
 # provide correct path for version
 __version__ = None
 here = os.path.dirname(os.path.dirname(__file__))
-exec(open(os.path.join(here, 'tk_tools/version.py')).read())
+exec(open(os.path.join(here, 'tk_tools/tk_tools/version.py')).read())
 
 # archive the image files into 'tk_tools/images.py'
 try:
