@@ -4,6 +4,7 @@ from tk_tools.groups import EntryGrid, LabelGrid, \
     Calendar
 from tk_tools.widgets import SmartOptionMenu, SmartSpinBox, \
     SmartCheckbutton, BinaryLabel
+from tk_tools.tooltips import ToolTip
 
 from tk_tools.version import __version__
 
@@ -12,6 +13,6 @@ __all__ = [
     'Dial', 'RotaryScale', 'Graph', 'Led',
     'EntryGrid', 'LabelGrid', 'ButtonGrid', 'KeyValueEntry',
     'SpreadSheetReader', 'SmartOptionMenu', 'SmartSpinBox',
-    'SmartCheckbutton', 'Calendar', 'BinaryLabel',
+    'SmartCheckbutton', 'Calendar', 'BinaryLabel', 'ToolTip',
     '__version__'
 ]
