@@ -343,7 +343,7 @@ class Led(tk.Frame):
     def __init__(self, parent, size=100, **options):
         self._parent = parent
         super().__init__(self._parent, padx=3, pady=3, borderwidth=2,
-                          **options)
+                         **options)
 
         self.size = size
 

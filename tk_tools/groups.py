@@ -22,7 +22,7 @@ class Grid(ttk.Frame):
                  **options):
         self._parent = parent
         super().__init__(self._parent, padding=3, borderwidth=2,
-                        **options)
+                         **options)
         self.grid()
 
         self.headers = list()
@@ -446,7 +446,7 @@ class SpreadSheetReader(tk.Frame):
         tk.Frame.__init__(self, parent, **options)
 
         self.header = ttk.Label(self,
-                               text='Select the column you wish to import')
+                                text='Select the column you wish to import')
         self.header.grid(row=0, column=0, columnspan=4)
 
         self.entry_grid = EntryGrid(self, num_of_columns=8)
