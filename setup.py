@@ -22,7 +22,12 @@ setup_requirements = [
 # provide correct path for version
 __version__ = None
 here = os.path.dirname(os.path.dirname(__file__))
-exec(open(os.path.join(here, 'tk_tools/version.py')).read())
+
+try:
+    exec(open(os.path.join(here, 'tk_tools/version.py')).read())
+except FileNotFoundError:
+    # this is the path when installing into venv through pycharm
+    exec(open(os.path.join(here, 'tk_tools/tk_tools/version.py')).read())
 
 # archive the image files into 'tk_tools/images.py'
 try:

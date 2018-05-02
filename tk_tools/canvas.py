@@ -174,6 +174,22 @@ class RotaryScale(Dial):
 
 
 class Gauge(ttk.Frame):
+    """
+    Shows a gauge, much like the RotaryGauge::
+
+        gauge = tk_tools.Gauge(root, max_value=100.0, label='speed', unit='km/h')
+        gauge.grid()
+
+        gauge.set_value(10)
+
+    :param parent: tkinter parent frame
+    :param width: canvas width
+    :param height: canvas height
+    :param min_value: the minimum value
+    :param max_value: the maximum value
+    :param label: the label on the scale
+    :param unit: the unit to show on the scale
+    """
     def __init__(self, parent, width=200, height=100, min_value=0.0, max_value=100.0, label='', unit=''):
         self._parent = parent
         self._width = width
@@ -195,8 +211,7 @@ class Gauge(ttk.Frame):
         self._canvas.delete('all')
 
         max_angle = 120.0
-        max_percent = 100.0
-        value_as_percent = self._value / max_percent
+        value_as_percent = self._value / (self._max_value - self._min_value)
         value = int(max_angle * value_as_percent)
 
         # 1/8th tick marks
@@ -257,7 +272,7 @@ class Gauge(ttk.Frame):
                                 start=150, extent=-120, width=5,
                                 outline='black')
 
-    def set(self, value):
+    def set_value(self, value):
         if value < self._min_value:
             value = self._min_value
         elif value >= self._max_value:
@@ -514,7 +529,7 @@ if __name__ == '__main__':
     def test():
         global value
         value += 1
-        g.set(value)
+        g.set_value(value)
         root.after(100, test)
 
 
