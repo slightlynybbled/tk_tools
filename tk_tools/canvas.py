@@ -173,6 +173,101 @@ class RotaryScale(Dial):
             )
 
 
+class Gauge(ttk.Frame):
+    def __init__(self, parent, width=200, height=100, min_value=0.0, max_value=100.0, label='', unit=''):
+        self._parent = parent
+        self._width = width
+        self._height = height
+        self._label = label
+        self._unit = unit
+
+        super().__init__(self._parent)
+
+        self._canvas = tk.Canvas(self, width=self._width, height=self._height)
+        self._canvas.grid(row=0, column=0, sticky='news')
+
+        self._min_value, self._max_value = min_value, max_value
+        self._value = 0
+
+        self._redraw()
+
+    def _redraw(self):
+        self._canvas.delete('all')
+
+        max_angle = 120.0
+        max_percent = 100.0
+        value_as_percent = self._value / max_percent
+        value = int(max_angle * value_as_percent)
+
+        # 1/8th tick marks
+        for i in range(8):
+            extent = int(max_angle / 8)
+            start = 180 - (i+1) * extent
+
+            if i < 5:
+                bg_color = 'green'
+            elif i < 7:
+                bg_color = 'yellow'
+            else:
+                bg_color = 'red'
+
+            self._canvas.create_arc(0, int(self._height * 0.1),
+                                    self._width, int(self._height * 1.8),
+                                    start=start - extent, extent=-extent, width=2,
+                                    fill=bg_color, style='pie')
+
+        bg_color = 'white'
+
+        ratio = 0.06
+        self._canvas.create_arc(self._width * ratio, int(self._height * 0.2),
+                                self._width * (1.0 - ratio), int(self._height * 1.8 * (1.0 - ratio * 1.1)),
+                                start=150, extent=-120, width=2,
+                                fill=bg_color, style='pie')
+
+        r_width = 80
+        r_height = 20
+        r_offset = 10
+        self._canvas.create_rectangle(self._width/2.0 - r_width / 2.0, self._height/2.0 - r_height/2.0 + r_offset,
+                                      self._width/2.0 + r_width / 2.0, self._height/2.0 + r_height/2.0 + r_offset,
+                                      fill='black')
+
+        self._canvas.create_text(self._width * 0.5, self._height * 0.5 - r_offset,
+                                 font=('Courier New', 10), text=self._label)
+
+        value_text = '{}{}'.format(self._value, self._unit)
+        self._canvas.create_text(self._width * 0.5, self._height * 0.5 + r_offset,
+                                 font=('Courier New', 10), text=value_text,
+                                 fill='white')
+
+        # create first half
+        self._canvas.create_arc(0, int(self._height * 0.1),
+                                self._width, int(self._height * 1.8),
+                                start=150, extent=-value, width=4,
+                                outline='red')
+
+        # create second half
+        self._canvas.create_arc(0, int(self._height * 0.1),
+                                self._width, int(self._height * 1.8),
+                                start=30, extent=120-value, width=4,
+                                outline='red')
+
+        # create the overlapping black
+        self._canvas.create_arc(0, int(self._height * 0.1),
+                                self._width, int(self._height * 1.8),
+                                start=150, extent=-120, width=5,
+                                outline='black')
+
+    def set(self, value):
+        if value < self._min_value:
+            value = self._min_value
+        elif value >= self._max_value:
+            value = self._max_value * 0.99
+
+        self._value = value
+
+        self._redraw()
+
+
 class Graph(ttk.Frame):
     """
     Tkinter native graph (pretty basic, but doesn't require heavy install).::
@@ -406,3 +501,22 @@ class Led(tk.Frame):
             self._load_new(led_yellow_on)
         else:
             self._load_new(led_yellow)
+
+
+if __name__ == '__main__':
+    root = tk.Tk()
+
+    g = Gauge(root, label='Voltage', unit='mV')
+    g.grid()
+
+    value = 0.0
+
+    def test():
+        global value
+        value += 1
+        g.set(value)
+        root.after(100, test)
+
+
+    root.after(100, test)
+    root.mainloop()
