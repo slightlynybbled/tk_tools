@@ -177,7 +177,8 @@ class Gauge(ttk.Frame):
     """
     Shows a gauge, much like the RotaryGauge::
 
-        gauge = tk_tools.Gauge(root, max_value=100.0, label='speed', unit='km/h')
+        gauge = tk_tools.Gauge(root, max_value=100.0,
+                               label='speed', unit='km/h')
         gauge.grid()
 
         gauge.set_value(10)
@@ -190,7 +191,8 @@ class Gauge(ttk.Frame):
     :param label: the label on the scale
     :param unit: the unit to show on the scale
     """
-    def __init__(self, parent, width=200, height=100, min_value=0.0, max_value=100.0, label='', unit=''):
+    def __init__(self, parent, width=200, height=100,
+                 min_value=0.0, max_value=100.0, label='', unit=''):
         self._parent = parent
         self._width = width
         self._height = height
@@ -226,33 +228,42 @@ class Gauge(ttk.Frame):
             else:
                 bg_color = 'red'
 
-            self._canvas.create_arc(0, int(self._height * 0.1),
-                                    self._width, int(self._height * 1.8),
-                                    start=start - extent, extent=-extent, width=2,
-                                    fill=bg_color, style='pie')
+            self._canvas.create_arc(
+                0, int(self._height * 0.1),
+                self._width, int(self._height * 1.8),
+                start=start - extent, extent=-extent, width=2,
+                fill=bg_color, style='pie'
+             )
 
         bg_color = 'white'
 
         ratio = 0.06
-        self._canvas.create_arc(self._width * ratio, int(self._height * 0.2),
-                                self._width * (1.0 - ratio), int(self._height * 1.8 * (1.0 - ratio * 1.1)),
+        self._canvas.create_arc(self._width * ratio,
+                                int(self._height * 0.2),
+                                self._width * (1.0 - ratio),
+                                int(self._height * 1.8 * (1.0 - ratio * 1.1)),
                                 start=150, extent=-120, width=2,
                                 fill=bg_color, style='pie')
 
         r_width = 80
         r_height = 20
         r_offset = 10
-        self._canvas.create_rectangle(self._width/2.0 - r_width / 2.0, self._height/2.0 - r_height/2.0 + r_offset,
-                                      self._width/2.0 + r_width / 2.0, self._height/2.0 + r_height/2.0 + r_offset,
-                                      fill='black')
+        self._canvas.create_rectangle(
+            self._width/2.0 - r_width / 2.0,
+            self._height/2.0 - r_height/2.0 + r_offset,
+            self._width/2.0 + r_width / 2.0,
+            self._height/2.0 + r_height/2.0 + r_offset,
+            fill='black'
+        )
 
-        self._canvas.create_text(self._width * 0.5, self._height * 0.5 - r_offset,
-                                 font=('Courier New', 10), text=self._label)
+        self._canvas.create_text(
+            self._width * 0.5, self._height * 0.5 - r_offset,
+            font=('Courier New', 10), text=self._label)
 
         value_text = '{}{}'.format(self._value, self._unit)
-        self._canvas.create_text(self._width * 0.5, self._height * 0.5 + r_offset,
-                                 font=('Courier New', 10), text=value_text,
-                                 fill='white')
+        self._canvas.create_text(
+            self._width * 0.5, self._height * 0.5 + r_offset,
+            font=('Courier New', 10), text=value_text, fill='white')
 
         # create first half
         self._canvas.create_arc(0, int(self._height * 0.1),
@@ -516,22 +527,3 @@ class Led(tk.Frame):
             self._load_new(led_yellow_on)
         else:
             self._load_new(led_yellow)
-
-
-if __name__ == '__main__':
-    root = tk.Tk()
-
-    g = Gauge(root, label='Voltage', unit='mV')
-    g.grid()
-
-    value = 0.0
-
-    def test():
-        global value
-        value += 1
-        g.set_value(value)
-        root.after(100, test)
-
-
-    root.after(100, test)
-    root.mainloop()
