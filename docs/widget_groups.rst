@@ -60,4 +60,4 @@ The screenshot consists of three individual examples of ``KeyValueEntry`` widget
 
 .. autoclass:: groups.SevenSegment
 
-.. autoclass:: gorups.SevenSegmentDisplay
+.. autoclass:: groups.SevenSegmentDisplay
