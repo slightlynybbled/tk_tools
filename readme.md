@@ -10,7 +10,7 @@ This library used type hints and requires Python 3.5+; it could, however, be bac
 Here are some examples screenshots of the widgets you can create:
 
 #### Button-Grid:  
-![Button-Grid](https://raw.githubusercontent.com/slightlynybbled/tk_tools/master/docs/img/button-grid.png)
+![Button-Grid](docs/img/button-grid.png)
 #### Byte-Label:  
 ![Byte-Label](https://raw.githubusercontent.com/slightlynybbled/tk_tools/master/docs/img/byte-label.png)
 #### Calendar:  
