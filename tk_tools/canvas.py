@@ -4,6 +4,7 @@ import cmath
 import sys
 import logging
 from decimal import Decimal
+from engineering_notation import EngNumber
 
 try:
     from tk_tools.images import rotary_scale, \
@@ -300,7 +301,7 @@ class Gauge(ttk.Frame):
         elif value >= self._max_value:
             value = self._max_value * 0.99
 
-        self._value = value
+        self._value = EngNumber(value)
 
         self._redraw()
 

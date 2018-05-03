@@ -8,7 +8,9 @@ try:
 except ImportError:
     pass
 
-requirements = []
+requirements = [
+    'engineering-notation >= 0.5'
+]
 with open('requirements.txt', 'r') as f:
     for line in f.readlines():
         requirements.append(line.strip())

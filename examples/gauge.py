@@ -4,21 +4,21 @@ import tk_tools
 
 root = tk.Tk()
 
-max_speed = 20.0
+max_speed = 20000
 speed_gauge = tk_tools.Gauge(root,
                              max_value=max_speed,
-                             label='speed', unit='km/h')
+                             label='speed', unit='m/h')
 speed_gauge.grid(row=0, column=0, sticky='news')
 
 
 tach_gauge = tk_tools.Gauge(root,
-                            max_value=8.0,
-                            label='tach', unit='kRPM',
+                            max_value=8000,
+                            label='tach', unit='RPM',
                             divisions=10)
 tach_gauge.grid(row=1, column=0, sticky='news')
 
 strange_gauge = tk_tools.Gauge(root,
-                               max_value=30.0,
+                               max_value=30000,
                                label='strange', unit='blah',
                                divisions=3)
 strange_gauge.grid(row=2, column=0, sticky='news')
@@ -30,12 +30,14 @@ up = True
 def update_gauge():
     global count, up
 
+    increment = 30
+
     if up:
-        count += 1.0
+        count += increment
         if count > max_speed:
             up = False
     else:
-        count -= 1.0
+        count -= increment
 
         if count <= 0.0:
             up = True
@@ -44,7 +46,7 @@ def update_gauge():
     tach_gauge.set_value(count)
     strange_gauge.set_value(count)
 
-    root.after(200, update_gauge)
+    root.after(50, update_gauge)
 
 
 root.after(100, update_gauge)
