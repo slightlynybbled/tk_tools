@@ -1,7 +1,7 @@
 from tk_tools.canvas import Dial, RotaryScale, Gauge, Graph, Led
 from tk_tools.groups import EntryGrid, LabelGrid, \
     KeyValueEntry, SpreadSheetReader, ButtonGrid, \
-    Calendar, MultiSlotFrame
+    Calendar, MultiSlotFrame, SevenSegment, SevenSegmentDigits
 from tk_tools.widgets import SmartOptionMenu, SmartSpinBox, \
     SmartCheckbutton, BinaryLabel
 from tk_tools.tooltips import ToolTip
@@ -14,6 +14,7 @@ __all__ = [
     'EntryGrid', 'LabelGrid', 'ButtonGrid', 'KeyValueEntry',
     'SpreadSheetReader', 'SmartOptionMenu', 'SmartSpinBox',
     'SmartCheckbutton', 'Calendar', 'MultiSlotFrame',
+    'SevenSegment', 'SevenSegmentDigits',
     'BinaryLabel', 'ToolTip',
     '__version__'
 ]
