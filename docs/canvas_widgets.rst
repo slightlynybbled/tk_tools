@@ -11,6 +11,14 @@ These widgets provide visual feedback to the user using the canvas.
 .. autoclass:: canvas.RotaryScale
     :members:
 
+``Gauge``
+---------
+
+.. image:: img/gauges.png
+
+.. autoclass:: canvas.Gauge
+    :members:
+
 ``Graph``
 ---------
 

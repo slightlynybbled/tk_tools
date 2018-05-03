@@ -9,7 +9,7 @@ class ToolTip(object):
         entry.grid()
 
         # createst a tooltip
-        tk_tools.ToolTip(entry, '_enter a value between 1 and 10')
+        tk_tools.ToolTip(entry, 'enter a value between 1 and 10')
 
     :param widget: the widget on which to hover
     :param text: the text to display
