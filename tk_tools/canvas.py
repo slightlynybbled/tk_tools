@@ -248,6 +248,7 @@ class Gauge(ttk.Frame):
                                 start=150, extent=-120, width=2,
                                 fill=bg_color, style='pie')
 
+        # draw the black behind the readout
         r_width = 80
         r_height = 20
         r_offset = 10
@@ -259,6 +260,7 @@ class Gauge(ttk.Frame):
             fill='black', outline='grey'
         )
 
+        # the digital readout
         self._canvas.create_text(
             self._width * 0.5, self._height * 0.5 - r_offset,
             font=('Courier New', 10), text=self._label)
@@ -284,13 +286,13 @@ class Gauge(ttk.Frame):
         self._canvas.create_arc(self._width * 0.35, int(self._height * 0.7),
                                 self._width * 0.65, int(self._height * 1.2),
                                 start=150, extent=-120, width=1,
-                                outline='black', fill=red, style='pie')
+                                outline='grey', fill=red, style='pie')
 
         # create the overlapping black border
         self._canvas.create_arc(0, int(self._height * 0.1),
                                 self._width, int(self._height * 1.8),
                                 start=150, extent=-120, width=4,
-                                outline='black')
+                                outline='#343434')
 
     def set_value(self, value):
         if value < self._min_value:

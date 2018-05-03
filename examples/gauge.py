@@ -44,7 +44,7 @@ def update_gauge():
     tach_gauge.set_value(count)
     strange_gauge.set_value(count)
 
-    root.after(30, update_gauge)
+    root.after(200, update_gauge)
 
 
 root.after(100, update_gauge)
