@@ -7,10 +7,10 @@ root = tk.Tk()
 
 max_speed = 20.0
 
-ss_float = tk_tools.SevenSegmentDigits(root, digits=3)
+ss_float = tk_tools.SevenSegmentDigits(root, digits=5)
 ss_float.grid(row=0, column=1, sticky='news')
 
-ss_int = tk_tools.SevenSegmentDigits(root, digits=5, background='black', digit_color='red')
+ss_int = tk_tools.SevenSegmentDigits(root, digits=3, background='black', digit_color='red')
 ss_int.grid(row=1, column=1, sticky='news')
 
 count = 0
@@ -27,7 +27,7 @@ def update_gauge():
     else:
         count -= 0.1
 
-        if count <= 0.0:
+        if count < -1.0:
             up = True
 
     decimal_count_float = str(Decimal(count).quantize(Decimal('0.10')))

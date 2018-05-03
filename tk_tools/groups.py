@@ -1018,36 +1018,37 @@ class SevenSegment(tk.Frame):
         self.columnconfigure(4, weight=1)
 
         self.rowconfigure(0, weight=1)
-        self.rowconfigure(1, weight=8)
-        self.rowconfigure(2, weight=1)
-        self.rowconfigure(3, weight=8)
-        self.rowconfigure(4, weight=1)
+        self.rowconfigure(1, weight=1)
+        self.rowconfigure(2, weight=8)
+        self.rowconfigure(3, weight=1)
+        self.rowconfigure(4, weight=8)
+        self.rowconfigure(5, weight=1)
 
         self._segments = dict()
 
         self._segments['a'] = tk.Frame(self, bg=self._bg_color)
-        self._segments['a'].grid(row=0, column=2, sticky='news')
+        self._segments['a'].grid(row=1, column=2, sticky='news')
 
         self._segments['b'] = tk.Frame(self, bg=self._bg_color)
-        self._segments['b'].grid(row=1, column=3, sticky='news')
+        self._segments['b'].grid(row=2, column=3, sticky='news')
 
         self._segments['c'] = tk.Frame(self, bg=self._bg_color)
-        self._segments['c'].grid(row=3, column=3, sticky='news')
+        self._segments['c'].grid(row=4, column=3, sticky='news')
 
         self._segments['d'] = tk.Frame(self, bg=self._bg_color)
-        self._segments['d'].grid(row=4, column=2, sticky='news')
+        self._segments['d'].grid(row=5, column=2, sticky='news')
 
         self._segments['e'] = tk.Frame(self, bg=self._bg_color)
-        self._segments['e'].grid(row=3, column=1, sticky='news')
+        self._segments['e'].grid(row=4, column=1, sticky='news')
 
         self._segments['f'] = tk.Frame(self, bg=self._bg_color)
-        self._segments['f'].grid(row=1, column=1, sticky='news')
+        self._segments['f'].grid(row=2, column=1, sticky='news')
 
         self._segments['g'] = tk.Frame(self, bg=self._bg_color)
-        self._segments['g'].grid(row=2, column=2, sticky='news')
+        self._segments['g'].grid(row=3, column=2, sticky='news')
 
         self._segments['period'] = tk.Frame(self, bg=self._bg_color)
-        self._segments['period'].grid(row=4, column=4, sticky='news')
+        self._segments['period'].grid(row=5, column=4, sticky='news')
 
         self.grid_propagate(0)
 
@@ -1128,6 +1129,8 @@ class SevenSegment(tk.Frame):
             self._segments['c'].configure(background=self._color)
             self._segments['f'].configure(background=self._color)
             self._segments['g'].configure(background=self._color)
+        elif value in ['-']:
+            self._segments['g'].configure(background=self._color)
 
         else:
             raise ValueError('unsupported character: {}'.format(value))
@@ -1202,9 +1205,10 @@ class SevenSegmentDigits(tk.Frame):
         :param value: a string containing an integer or float value
         :return: None
         """
-        grouped = self._group(value)
+        [digit.clear() for digit in self._digits]
 
-        digits = self._digits[::-1]
+        grouped = self._group(value)  # return the parts, reversed
+        digits = self._digits[::-1]  # reverse the digits
 
         # fill from right to left
         has_period = False
@@ -1221,46 +1225,3 @@ class SevenSegmentDigits(tk.Frame):
                     digits[i].set_value(digit_value)
             except IndexError:
                 raise ValueError('the value "{}" contains too many digits'.format(value))
-
-
-if __name__ == '__main__':
-    count = 0
-
-
-def ss_test():
-    root = tk.Tk()
-
-    ss = SevenSegment(root)
-    ss.grid()
-
-    ss.set_value(str('1.'))
-
-    root.mainloop()
-
-
-def ssa_test():
-    root = tk.Tk()
-
-    ss = SevenSegmentDigits(root, digits=4)
-    ss.grid()
-
-    def update():
-        global count
-
-        print(count, Decimal(count).quantize(Decimal('1.')))
-
-        ss.set_value(str(count)[:4])
-
-        count += 0.1
-
-
-
-        root.after(1000, update)
-
-    root.after(1000, update)
-    root.mainloop()
-
-
-if __name__ == '__main__':
-    ssa_test()
-    #ss_test()
