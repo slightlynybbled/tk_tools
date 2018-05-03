@@ -1001,15 +1001,19 @@ class SevenSegment(tk.Frame):
 
     :param parent: the tk parent frame
     :param height: the widget height (defaults to 50)
-    :param digit_color: the digit color (tkinter color specifications apply, such as 'black' or '#ff0000')
-    :param background: the background color (tkinter color specifications apply, such as 'black' or '#ff0000')
+    :param digit_color: the digit color (tkinter
+    color specifications apply, such as 'black' or '#ff0000')
+    :param background: the background color (tkinter
+    color specifications apply, such as 'black' or '#ff0000')
     """
-    def __init__(self, parent, height=50, digit_color='black', background='white'):
+    def __init__(self, parent, height=50,
+                 digit_color='black', background='white'):
         self._parent = parent
         self._color = digit_color
         self._bg_color = background
 
-        super().__init__(self._parent, height=height, width=int(height / 2), background=self._bg_color)
+        super().__init__(self._parent, height=height, width=int(height / 2),
+                         background=self._bg_color)
 
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
@@ -1153,10 +1157,13 @@ class SevenSegmentDigits(tk.Frame):
 
         :param parent: the tk parent frame
         :param height: the widget height (defaults to 50)
-        :param digit_color: the digit color (tkinter color specifications apply, such as 'black' or '#ff0000')
-        :param background: the background color (tkinter color specifications apply, such as 'black' or '#ff0000')
+        :param digit_color: the digit color (tkinter color
+        specifications apply, such as 'black' or '#ff0000')
+        :param background: the background color (tkinter color
+        specifications apply, such as 'black' or '#ff0000')
         """
-    def __init__(self, parent, digits=1, height=50, digit_color='black', background='white'):
+    def __init__(self, parent, digits=1, height=50,
+                 digit_color='black', background='white'):
         self._parent = parent
         self._max_value = digits * 10 - 1
 
@@ -1224,4 +1231,5 @@ class SevenSegmentDigits(tk.Frame):
                 else:
                     digits[i].set_value(digit_value)
             except IndexError:
-                raise ValueError('the value "{}" contains too many digits'.format(value))
+                raise ValueError('the value "{}" contains too '
+                                 'many digits'.format(value))

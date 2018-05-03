@@ -52,3 +52,12 @@ The screenshot consists of three individual examples of ``KeyValueEntry`` widget
 
 .. autoclass:: groups.MultiSlotFrame
     :members:
+
+``SevenSegment``
+----------------
+
+.. image:: img/seven-segment-display.png
+
+.. autoclass:: groups.SevenSegment
+
+.. autoclass:: gorups.SevenSegmentDisplay
