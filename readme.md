@@ -10,25 +10,56 @@ This library used type hints and requires Python 3.5+; it could, however, be bac
 Here are some examples screenshots of the widgets you can create:
 
 #### Button-Grid:  
+
 ![Button-Grid](docs/img/button-grid.png)
+
 #### Byte-Label:  
-![Byte-Label](https://raw.githubusercontent.com/slightlynybbled/tk_tools/master/docs/img/byte-label.png)
+
+![Byte-Label](docs/img/byte-label.png)
+
 #### Calendar:  
-![Calendar](https://raw.githubusercontent.com/slightlynybbled/tk_tools/master/docs/img/calendar.png)
+
+![Calendar](docs/img/calendar.png)
+
 #### Dropdown:  
-![Dropdown](https://raw.githubusercontent.com/slightlynybbled/tk_tools/master/docs/img/dropdown.png)
+
+![Dropdown](docs/img/dropdown.png)
+
 #### Entry-Grid:  
-![Entry-Grid](https://raw.githubusercontent.com/slightlynybbled/tk_tools/master/docs/img/entry-grid.png)
+
+![Entry-Grid](docs/img/entry-grid.png)
+
+#### Multi-Slot Frame
+
+![Multi-Slot Frame](docs/img/multi-slot-frame.png)
+
 #### Graph:  
-![Graph](https://raw.githubusercontent.com/slightlynybbled/tk_tools/master/docs/img/graph.png)
+
+![Graph](docs/img/graph.png)
+
 #### Key-Value:  
-![Key-Value](https://raw.githubusercontent.com/slightlynybbled/tk_tools/master/docs/img/key-value.png)
+
+![Key-Value](docs/img/key-value.png)
+
 #### Label-Grid:  
-![Label-Grid](https://raw.githubusercontent.com/slightlynybbled/tk_tools/master/docs/img/label-grid.png)
+
+![Label-Grid](docs/img/label-grid.png)
+
 #### LED: (size can be scaled)  
-![LED](https://raw.githubusercontent.com/slightlynybbled/tk_tools/master/docs/img/led.gif)
+
+![LED](docs/img/led.gif)
+
+#### SevenSegment and SevenSegmentDisplay
+
+![Seven Segment Display](docs/img/seven-segment-display.png)
+
+#### Gauge
+
+![Gauges](docs/img/gauges.png)
+
 #### Rotary-Scale: (Tachymeter)    
-![Rotary-Scale](https://raw.githubusercontent.com/slightlynybbled/tk_tools/master/docs/img/rotary-scale.png)
+
+![Rotary-Scale](docs/img/rotary-scale.png)
 
 For more details, check out the [documentation](https://tk-tools.readthedocs.io).
 
