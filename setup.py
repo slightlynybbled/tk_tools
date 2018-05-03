@@ -29,6 +29,9 @@ except FileNotFoundError:
     # this is the path when installing into venv through pycharm
     exec(open(os.path.join(here, 'tk_tools/tk_tools/version.py')).read())
 
+with open('readme.md', 'r') as f:
+    readme = f.read()
+
 # archive the image files into 'tk_tools/images.py'
 try:
     stringify_py('images', 'tk_tools/images.py')
@@ -41,6 +44,7 @@ setup(
     name='tk_tools',
     version=__version__,
     description='Tkinter-native toolset and widget library',
+    long_description=readme,
     author='Jason R. Jones',
     author_email='slightlynybbled@gmail.com',
     url='https://github.com/slightlynybbled/tk_tools',
