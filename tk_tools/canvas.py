@@ -192,12 +192,14 @@ class Gauge(ttk.Frame):
     :param unit: the unit to show on the scale
     """
     def __init__(self, parent, width=200, height=100,
-                 min_value=0.0, max_value=100.0, label='', unit=''):
+                 min_value=0.0, max_value=100.0, label='', unit='',
+                 divisions=8):
         self._parent = parent
         self._width = width
         self._height = height
         self._label = label
         self._unit = unit
+        self._divisions = divisions
 
         super().__init__(self._parent)
 
@@ -216,14 +218,14 @@ class Gauge(ttk.Frame):
         value_as_percent = self._value / (self._max_value - self._min_value)
         value = int(max_angle * value_as_percent)
 
-        # 1/8th tick marks
-        for i in range(8):
-            extent = int(max_angle / 8)
-            start = 180 - (i+1) * extent
+        # create the tick marks and colors across the top
+        for i in range(self._divisions):
+            extent = int(max_angle / self._divisions)
+            start = 150.0 - i * extent
 
-            if i < 5:
+            if i/self._divisions <= 0.5000:
                 bg_color = 'green'
-            elif i < 7:
+            elif i/self._divisions < 0.8500:
                 bg_color = 'yellow'
             else:
                 bg_color = 'red'
@@ -231,11 +233,12 @@ class Gauge(ttk.Frame):
             self._canvas.create_arc(
                 0, int(self._height * 0.1),
                 self._width, int(self._height * 1.8),
-                start=start - extent, extent=-extent, width=2,
+                start=start, extent=-extent, width=2,
                 fill=bg_color, style='pie'
-             )
+            )
 
         bg_color = 'white'
+        red = '#c21807'
 
         ratio = 0.06
         self._canvas.create_arc(self._width * ratio,
@@ -253,7 +256,7 @@ class Gauge(ttk.Frame):
             self._height/2.0 - r_height/2.0 + r_offset,
             self._width/2.0 + r_width / 2.0,
             self._height/2.0 + r_height/2.0 + r_offset,
-            fill='black'
+            fill='black', outline='grey'
         )
 
         self._canvas.create_text(
@@ -268,19 +271,25 @@ class Gauge(ttk.Frame):
         # create first half
         self._canvas.create_arc(0, int(self._height * 0.1),
                                 self._width, int(self._height * 1.8),
-                                start=150, extent=-value, width=4,
-                                outline='red')
+                                start=150, extent=-value, width=3,
+                                outline=red)
 
         # create second half
         self._canvas.create_arc(0, int(self._height * 0.1),
                                 self._width, int(self._height * 1.8),
-                                start=30, extent=120-value, width=4,
-                                outline='red')
+                                start=30, extent=120-value, width=3,
+                                outline=red)
 
-        # create the overlapping black
+        # create inset red
+        self._canvas.create_arc(self._width * 0.35, int(self._height * 0.7),
+                                self._width * 0.65, int(self._height * 1.2),
+                                start=150, extent=-120, width=1,
+                                outline='black', fill=red, style='pie')
+
+        # create the overlapping black border
         self._canvas.create_arc(0, int(self._height * 0.1),
                                 self._width, int(self._height * 1.8),
-                                start=150, extent=-120, width=5,
+                                start=150, extent=-120, width=4,
                                 outline='black')
 
     def set_value(self, value):
