@@ -480,7 +480,8 @@ class Led(ttk.Frame):
     :param on_click_callback: a callback which accepts a boolean parameter 'on'
     :param options: the frame options
     """
-    def __init__(self, parent, size=100, on_click_callback=None, toggle_on_click=False, **options):
+    def __init__(self, parent, size=100,
+                 on_click_callback=None, toggle_on_click=False, **options):
         self._parent = parent
         super().__init__(self._parent, padding=3, borderwidth=2,
                          **options)
