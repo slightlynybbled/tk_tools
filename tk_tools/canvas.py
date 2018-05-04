@@ -449,7 +449,7 @@ class Graph(ttk.Frame):
 
         :param start: starting value
         :param stop: ending value
-        :param step: the increment
+        :param step: the increment_value
         :param digits_to_round: the digits to which to round \
         (makes floating-point numbers much easier to work with)
         :return: generator

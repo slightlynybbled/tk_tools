@@ -1,16 +1,18 @@
 import tkinter
 import tk_tools
 
-root = tkinter.Tk()
-root.title('TK Tools Calendar')
-cal = tk_tools.Calendar(root)
-cal.pack()
+
+def callback():
+    print(calendar.selection)
 
 
-def custom_callback():
-    print(cal.selection)
+if __name__ == '__main__':
 
+    root = tkinter.Tk()
+    root.title('TK Tools Calendar')
+    calendar = tk_tools.Calendar(root)
+    calendar.pack()
 
-cal.add_callback(custom_callback)
+    calendar.add_callback(callback)
 
-root.mainloop()
+    root.mainloop()

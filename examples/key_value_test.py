@@ -1,31 +1,35 @@
 import tkinter as tk
 import tk_tools
 
-root = tk.Tk()
 
-kv = tk_tools.KeyValueEntry(
-    root, ['key0', 'key1', 'key2'],
-    title='help',
-    unit_labels=['one', 'two', 'three'],
-    defaults=['', 'two', 'three'],
-    enables=[True, False, True],
-    on_change_callback=lambda: print('works')
-)
-kv.pack()
+if __name__ == '__main__':
 
-kv.add_row('key3')
-kv.add_row('key4', enable=False)
-kv.add_row('key5', unit_label='five')
+    root = tk.Tk()
 
-kv.load(
-    {
-        'key0': '1',
-        'key1': '2',
-        'key2': '3',
-        'key3': '4',
-        'key4': '5',
-        'key5': '6'
-    }
-)
+    key_value = tk_tools.KeyValueEntry(
+                root, ['key0', 'key1', 'key2'],
+                title='help',
+                unit_labels=['one', 'two', 'three'],
+                defaults=['', 'two', 'three'],
+                enables=[True, False, True],
+                on_change_callback=lambda: print('works')
+                )
 
-root.mainloop()
+    key_value.pack()
+
+    key_value.add_row('key3')
+    key_value.add_row('key4', enable=False)
+    key_value.add_row('key5', unit_label='five')
+
+    key_value.load(
+                  {
+                      'key0': '1',
+                      'key1': '2',
+                      'key2': '3',
+                      'key3': '4',
+                      'key4': '5',
+                      'key5': '6'
+                  }
+                  )
+
+    root.mainloop()
