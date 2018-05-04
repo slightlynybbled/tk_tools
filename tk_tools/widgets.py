@@ -13,7 +13,7 @@ class SmartWidget(ttk.Frame):
         self._parent = parent
         super().__init__(self._parent)
 
-        self.var = None
+        self._var = None
 
     def add_callback(self, callback: callable):
         """
@@ -28,7 +28,7 @@ class SmartWidget(ttk.Frame):
             except TypeError:
                 callback(self.get())
 
-        self.var.trace('w', internal_callback)
+        self._var.trace('w', internal_callback)
 
     def get(self):
         """
@@ -36,7 +36,7 @@ class SmartWidget(ttk.Frame):
 
         :return: the value of the current variable
         """
-        return self.var.get()
+        return self._var.get()
 
     def set(self, value):
         """
@@ -45,7 +45,7 @@ class SmartWidget(ttk.Frame):
         :param value: a string representing the
         :return: None
         """
-        self.var.set(value)
+        self._var.set(value)
 
 
 class SmartOptionMenu(SmartWidget):
@@ -73,17 +73,17 @@ class SmartOptionMenu(SmartWidget):
                  callback: callable=None):
         super().__init__(parent)
 
-        self.var = tk.StringVar()
-        self.var.set(initial_value if initial_value else options[0])
+        self._var = tk.StringVar()
+        self._var.set(initial_value if initial_value else options[0])
 
-        self.option_menu = tk.OptionMenu(self._parent, self.var,
+        self.option_menu = tk.OptionMenu(self._parent, self._var,
                                          *options)
         self.option_menu.grid()
 
         if callback is not None:
             def internal_callback(*args):
                 callback()
-            self.var.trace('w', internal_callback)
+            self._var.trace('w', internal_callback)
 
 
 class SmartSpinBox(tk.Spinbox, SmartWidget):
@@ -118,32 +118,31 @@ class SmartSpinBox(tk.Spinbox, SmartWidget):
         """
         sb_options = options.copy()
 
-        print('sb_options: ', sb_options)
-
         if entry_type == 'str':
-            self.var = tk.StringVar()
+            self._var = tk.StringVar()
         elif entry_type == 'int':
-            self.var = tk.IntVar()
+            self._var = tk.IntVar()
 
         elif entry_type == 'float':
-            self.var = tk.DoubleVar()
+            self._var = tk.DoubleVar()
         else:
             raise ValueError('Entry type must be "str", "int", or "float"')
 
-        sb_options['textvariable'] = self.var
+        sb_options['textvariable'] = self._var
         tk.Spinbox.__init__(parent, **sb_options)
 
         if callback is not None:
             def internal_callback(*args):
                 callback()
-            self.var.trace('w', internal_callback)
+            self._var.trace('w', internal_callback)
 
 
 class SmartCheckbutton(tk.Checkbutton, SmartWidget):
     """
-    Easy-to-use spinbox.  Takes most options that work with a normal SpinBox.
-    Attempts to call your callback function - if assigned - whenever there
-    is a change to the spinbox.::
+    Easy-to-use check button.  Takes most options that work with
+    a normal CheckButton. Attempts to call your callback
+    function - if assigned - whenever there is a change to
+    the check button.::
 
         # create the smart spinbox and grid
         scb = SmartCheckbutton(root)
@@ -163,13 +162,13 @@ class SmartCheckbutton(tk.Checkbutton, SmartWidget):
     """
     def __init__(self, parent, callback: callable=None, **options):
         self._parent = parent
-        self.var = tk.BooleanVar()
-        super().__init__(self._parent, variable=self.var, **options)
+        self._var = tk.BooleanVar()
+        super().__init__(self._parent, variable=self._var, **options)
 
         if callback is not None:
             def internal_callback(*args):
                 callback(self.get())
-            self.var.trace('w', internal_callback)
+            self._var.trace('w', internal_callback)
 
 
 class BinaryLabel(ttk.Label):
