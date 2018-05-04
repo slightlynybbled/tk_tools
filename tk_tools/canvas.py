@@ -1,8 +1,10 @@
 import tkinter as tk
+import tkinter.ttk as ttk
 import cmath
 import sys
 import logging
 from decimal import Decimal
+from engineering_notation import EngNumber
 
 try:
     from tk_tools.images import rotary_scale, \
@@ -23,13 +25,13 @@ else:
 logger.info('frozen: {}'.format(frozen))
 
 
-class Dial(tk.Frame):
+class Dial(ttk.Frame):
     """
     Base class for all dials and dial-like widgets
     """
     def __init__(self, parent, size=100, **options):
-        tk.Frame.__init__(self, parent, padx=3, pady=3, borderwidth=2,
-                          **options)
+        self._parent = parent
+        super().__init__(self._parent, padding=3, borderwidth=2, **options)
 
         self.size = size
 
@@ -172,7 +174,139 @@ class RotaryScale(Dial):
             )
 
 
-class Graph(tk.Frame):
+class Gauge(ttk.Frame):
+    """
+    Shows a gauge, much like the RotaryGauge::
+
+        gauge = tk_tools.Gauge(root, max_value=100.0,
+                               label='speed', unit='km/h')
+        gauge.grid()
+
+        gauge.set_value(10)
+
+    :param parent: tkinter parent frame
+    :param width: canvas width
+    :param height: canvas height
+    :param min_value: the minimum value
+    :param max_value: the maximum value
+    :param label: the label on the scale
+    :param unit: the unit to show on the scale
+    """
+    def __init__(self, parent, width=200, height=100,
+                 min_value=0.0, max_value=100.0, label='', unit='',
+                 divisions=8):
+        self._parent = parent
+        self._width = width
+        self._height = height
+        self._label = label
+        self._unit = unit
+        self._divisions = divisions
+
+        super().__init__(self._parent)
+
+        self._canvas = tk.Canvas(self, width=self._width, height=self._height)
+        self._canvas.grid(row=0, column=0, sticky='news')
+
+        self._min_value, self._max_value = min_value, max_value
+        self._value = 0
+
+        self._redraw()
+
+    def _redraw(self):
+        self._canvas.delete('all')
+
+        max_angle = 120.0
+        value_as_percent = self._value / (self._max_value - self._min_value)
+        value = int(max_angle * value_as_percent)
+
+        # create the tick marks and colors across the top
+        for i in range(self._divisions):
+            extent = int(max_angle / self._divisions)
+            start = 150.0 - i * extent
+
+            if i/self._divisions <= 0.5000:
+                bg_color = 'green'
+            elif i/self._divisions < 0.8500:
+                bg_color = 'yellow'
+            else:
+                bg_color = 'red'
+
+            self._canvas.create_arc(
+                0, int(self._height * 0.1),
+                self._width, int(self._height * 1.8),
+                start=start, extent=-extent, width=2,
+                fill=bg_color, style='pie'
+            )
+
+        bg_color = 'white'
+        red = '#c21807'
+
+        ratio = 0.06
+        self._canvas.create_arc(self._width * ratio,
+                                int(self._height * 0.2),
+                                self._width * (1.0 - ratio),
+                                int(self._height * 1.8 * (1.0 - ratio * 1.1)),
+                                start=150, extent=-120, width=2,
+                                fill=bg_color, style='pie')
+
+        # draw the black behind the readout
+        r_width = 80
+        r_height = 20
+        r_offset = 10
+        self._canvas.create_rectangle(
+            self._width/2.0 - r_width / 2.0,
+            self._height/2.0 - r_height/2.0 + r_offset,
+            self._width/2.0 + r_width / 2.0,
+            self._height/2.0 + r_height/2.0 + r_offset,
+            fill='black', outline='grey'
+        )
+
+        # the digital readout
+        self._canvas.create_text(
+            self._width * 0.5, self._height * 0.5 - r_offset,
+            font=('Courier New', 10), text=self._label)
+
+        value_text = '{}{}'.format(self._value, self._unit)
+        self._canvas.create_text(
+            self._width * 0.5, self._height * 0.5 + r_offset,
+            font=('Courier New', 10), text=value_text, fill='white')
+
+        # create first half
+        self._canvas.create_arc(0, int(self._height * 0.1),
+                                self._width, int(self._height * 1.8),
+                                start=150, extent=-value, width=3,
+                                outline=red)
+
+        # create second half
+        self._canvas.create_arc(0, int(self._height * 0.1),
+                                self._width, int(self._height * 1.8),
+                                start=30, extent=120-value, width=3,
+                                outline=red)
+
+        # create inset red
+        self._canvas.create_arc(self._width * 0.35, int(self._height * 0.7),
+                                self._width * 0.65, int(self._height * 1.2),
+                                start=150, extent=-120, width=1,
+                                outline='grey', fill=red, style='pie')
+
+        # create the overlapping black border
+        self._canvas.create_arc(0, int(self._height * 0.1),
+                                self._width, int(self._height * 1.8),
+                                start=150, extent=-120, width=4,
+                                outline='#343434')
+
+    def set_value(self, value):
+        if value < self._min_value:
+            value = self._min_value
+        elif value >= self._max_value:
+            value = self._max_value * 0.99
+
+        self._value = EngNumber(value)
+
+        self._redraw()
+
+
+class Graph(ttk.Frame):
     """
     Tkinter native graph (pretty basic, but doesn't require heavy install).::
 
@@ -207,7 +341,8 @@ class Graph(tk.Frame):
                  y_min: float, y_max: float,
                  x_tick: float, y_tick: float,
                  **options):
-        tk.Frame.__init__(self, parent, **options)
+        self._parent = parent
+        super().__init__(self._parent, **options)
 
         self.canvas = tk.Canvas(self)
         self.canvas.grid(row=0, column=0)
@@ -339,8 +474,9 @@ class Led(tk.Frame):
     :param options: the frame options
     """
     def __init__(self, parent, size=100, **options):
-        tk.Frame.__init__(self, parent, padx=3, pady=3, borderwidth=2,
-                          **options)
+        self._parent = parent
+        super().__init__(self._parent, padx=3, pady=3, borderwidth=2,
+                         **options)
 
         self.size = size
 

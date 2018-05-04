@@ -13,6 +13,7 @@ Welcome to tk_tools's documentation!
     Widget Groups <widget_groups.rst>
     Canvas Widgets <canvas_widgets.rst>
     Smart Widgets <smart_widgets.rst>
+    Tool Tips <tooltips.rst>
 
 Introduction
 ------------
