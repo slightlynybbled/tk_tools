@@ -1,16 +1,18 @@
 import tkinter as tk
 import tk_tools
 
-root = tk.Tk()
-
-dd = tk_tools.SmartOptionMenu(root, ['one', 'two', 'three'])
-dd.grid()
-
 
 def callback():
-    print(dd.get())
+    print(drop_down.get())
 
 
-dd.add_callback(lambda: print(dd.get()))
+if __name__ == '__main__':
 
-root.mainloop()
+    root = tk.Tk()
+
+    drop_down = tk_tools.SmartOptionMenu(root, ['one', 'two', 'three'])
+    drop_down.grid()
+
+    drop_down.add_callback(callback)
+
+    root.mainloop()
