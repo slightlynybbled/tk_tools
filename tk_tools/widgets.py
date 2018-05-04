@@ -95,17 +95,13 @@ class SmartSpinBox(tk.Spinbox, SmartWidget):
     Attempts to call your callback function - if assigned - whenever there
     is a change to the spinbox.::
 
+        # create a callback function
+        def callback(value):
+            print('the new value is: ', value)
+
         # create the smart spinbox and grid
-        ssb = SmartSpinBox(root, from_=0, to=5)
+        ssb = SmartSpinBox(root, from_=0, to=5, callback=callback)
         ssb.grid()
-
-        # define a callback function that retrieves
-        # the currently selected option
-        def callback():
-            print(ssb.get())
-
-        # add the callback function to the spinbox
-        ssb.add_callback(callback)
 
     :param parent: the tk parent frame
     :param entry_type: 'str', 'int', 'float'
