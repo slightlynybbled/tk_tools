@@ -12,10 +12,6 @@ def add_with_data():
     entry_grid.add_row(data=data)
 
 
-def remove_row():
-    entry_grid.remove_row(0)
-
-
 def read():
     print(entry_grid.read(as_dicts=False))
 

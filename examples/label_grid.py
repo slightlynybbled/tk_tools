@@ -9,10 +9,6 @@ def add_row():
     label_grid.add_row(row)
 
 
-def remove_row():
-    label_grid.remove_row(0)
-
-
 if __name__ == '__main__':
 
     root = tk.Tk()
