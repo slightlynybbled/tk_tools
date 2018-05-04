@@ -34,7 +34,7 @@ except FileNotFoundError:
 with open('readme.md', 'r') as f:
     readme = f.read()
 
-# archive the image files into 'tk_tools/images.py'
+# archive the _image files into 'tk_tools/images.py'
 try:
     stringify_py('images', 'tk_tools/images.py')
 except NameError:
