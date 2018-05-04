@@ -82,7 +82,10 @@ class SmartOptionMenu(SmartWidget):
 
         if callback is not None:
             def internal_callback(*args):
-                callback()
+                try:
+                    callback()
+                except TypeError:
+                    callback(self.get())
             self._var.trace('w', internal_callback)
 
 
