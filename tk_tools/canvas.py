@@ -556,8 +556,14 @@ class Led(ttk.Frame):
         self._on = on
         if on:
             self._load_new(led_red_on)
+
+            if self._toggle_on_click:
+                self._canvas.bind('<Button-1>', lambda x: self.to_red(False))
         else:
             self._load_new(led_red)
+
+            if self._toggle_on_click:
+                self._canvas.bind('<Button-1>', lambda x: self.to_red(True))
 
     def to_yellow(self, on: bool=False):
         """
@@ -568,5 +574,11 @@ class Led(ttk.Frame):
         self._on = on
         if on:
             self._load_new(led_yellow_on)
+
+            if self._toggle_on_click:
+                self._canvas.bind('<Button-1>', lambda x: self.to_yellow(False))
         else:
             self._load_new(led_yellow)
+
+            if self._toggle_on_click:
+                self._canvas.bind('<Button-1>', lambda x: self.to_yellow(True))
