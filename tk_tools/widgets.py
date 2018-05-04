@@ -23,7 +23,10 @@ class SmartWidget(ttk.Frame):
         :return: None
         """
         def internal_callback(*args):
-            callback()
+            try:
+                callback()
+            except TypeError:
+                callback(self.get())
 
         self.var.trace('w', internal_callback)
 
@@ -159,12 +162,13 @@ class SmartCheckbutton(tk.Checkbutton, SmartWidget):
     :param options: any options that are valid for tkinter.Checkbutton
     """
     def __init__(self, parent, callback: callable=None, **options):
+        self._parent = parent
         self.var = tk.BooleanVar()
-        tk.Checkbutton.__init__(parent, variable=self.var, **options)
+        super().__init__(self._parent, variable=self.var, **options)
 
         if callback is not None:
             def internal_callback(*args):
-                callback()
+                callback(self.get())
             self.var.trace('w', internal_callback)
 
 
