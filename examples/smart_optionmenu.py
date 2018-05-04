@@ -11,9 +11,14 @@ if __name__ == '__main__':
 
     root = tk.Tk()
 
-    drop_down = tk_tools.SmartOptionMenu(root, ['one', 'two', 'three'])
-    drop_down.grid()
+    tk.Label(root, text="The variable value: ").grid(row=0, column=0)
+    value_label = tk.Label(root, text="")
+    value_label.grid(row=0, column=1)
 
-    drop_down.add_callback(callback)
+    def callback(value):
+        value_label.config(text=str(value))
+
+    drop_down = tk_tools.SmartOptionMenu(root, ['one', 'two', 'three'], callback=callback)
+    drop_down.grid()
 
     root.mainloop()
