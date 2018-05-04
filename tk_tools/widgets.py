@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 
 
 class SmartWidget(ttk.Frame):
-    r"""
+    """
     Superclass which contains basic elements of the 'smart' widgets.
     """
     def __init__(self, parent):
@@ -16,7 +16,7 @@ class SmartWidget(ttk.Frame):
         self.var = None
 
     def add_callback(self, callback: callable):
-        r"""
+        """
         Add a callback on change
 
         :param callback: callable function
@@ -28,7 +28,7 @@ class SmartWidget(ttk.Frame):
         self.var.trace('w', internal_callback)
 
     def get(self):
-        r"""
+        """
         Retrieve the value of the dropdown
 
         :return: the value of the current variable
@@ -36,7 +36,7 @@ class SmartWidget(ttk.Frame):
         return self.var.get()
 
     def set(self, value):
-        r"""
+        """
         Set the value of the dropdown
 
         :param value: a string representing the
@@ -46,7 +46,7 @@ class SmartWidget(ttk.Frame):
 
 
 class SmartOptionMenu(SmartWidget):
-    r"""
+    """
     Classic drop down entry with built-in tracing variable.::
 
         # create the dropdown and grid
@@ -84,7 +84,7 @@ class SmartOptionMenu(SmartWidget):
 
 
 class SmartSpinBox(tk.Spinbox, SmartWidget):
-    r"""
+    """
     Easy-to-use spinbox.  Takes most options that work with a normal SpinBox.
     Attempts to call your callback function - if assigned - whenever there
     is a change to the spinbox.::
@@ -108,7 +108,7 @@ class SmartSpinBox(tk.Spinbox, SmartWidget):
     """
     def __init__(self, parent, entry_type: str='float',
                  callback: callable=None, **options):
-        r"""
+        """
         Constructor for SmartSpinBox
 
 
@@ -137,7 +137,7 @@ class SmartSpinBox(tk.Spinbox, SmartWidget):
 
 
 class SmartCheckbutton(tk.Checkbutton, SmartWidget):
-    r"""
+    """
     Easy-to-use spinbox.  Takes most options that work with a normal SpinBox.
     Attempts to call your callback function - if assigned - whenever there
     is a change to the spinbox.::
@@ -169,7 +169,7 @@ class SmartCheckbutton(tk.Checkbutton, SmartWidget):
 
 
 class BinaryLabel(ttk.Label):
-    r"""
+    """
     Displays a value binary. Provides methods for
     easy manipulation of bit values.::
 
@@ -204,7 +204,7 @@ class BinaryLabel(ttk.Label):
                                     " side due to insufficient bit width.")
 
     def get(self):
-        r"""
+        """
         Return the current value
 
         :return: the current integer value
@@ -212,7 +212,7 @@ class BinaryLabel(ttk.Label):
         return self._value
 
     def set(self, value: int):
-        r"""
+        """
         Set the current value
 
         :param value:
@@ -229,7 +229,7 @@ class BinaryLabel(ttk.Label):
             str(bin(self._value))[2:].zfill(self._bit_width)[-self._bit_width:]
 
     def get_bit(self, position: int):
-        r"""
+        """
         Returns the bit value at position
 
         :param position: integer between 0 and 7, inclusive
@@ -239,7 +239,7 @@ class BinaryLabel(ttk.Label):
         return self._value & (1 << position)
 
     def toggle_bit(self, position: int):
-        r"""
+        """
         Toggles the value at position
 
         :param position: integer between 0 and 7, inclusive
@@ -250,7 +250,7 @@ class BinaryLabel(ttk.Label):
         self._text_update()
 
     def set_bit(self, position: int):
-        r"""
+        """
         Sets the value at position
 
         :param position: integer between 0 and 7, inclusive
@@ -261,7 +261,7 @@ class BinaryLabel(ttk.Label):
         self._text_update()
 
     def clear_bit(self, position: int):
-        r"""
+        """
         Clears the value at position
 
         :param position: integer between 0 and 7, inclusive
@@ -297,7 +297,7 @@ class BinaryLabel(ttk.Label):
 
 
 class ByteLabel(BinaryLabel):
-    r"""
+    """
     Has been replaced with more general BinaryLabel.
     Still here for backwards compatibility.
     """
