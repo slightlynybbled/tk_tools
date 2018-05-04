@@ -96,7 +96,7 @@ class SmartSpinBox(tk.Spinbox, SmartWidget):
     is a change to the spinbox.::
 
         # create the smart spinbox and grid
-        ssb = SmartSpinBox(root)
+        ssb = SmartSpinBox(root, from_=0, to=5)
         ssb.grid()
 
         # define a callback function that retrieves
