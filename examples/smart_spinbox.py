@@ -13,10 +13,10 @@ if __name__ == '__main__':
         value_label.config(text=str(value))
 
     # specify a callback, then specify the normal spinbox options (such as "from_", "to", and "increment"
-    tk_tools.SmartSpinBox(root, callback=callback,
+    tk_tools.SmartSpinBox(root, callback=callback, entry_type='int',
                           from_=0, to=3).grid(row=1, column=0)
-    tk_tools.SmartSpinBox(root, callback=callback,
+    tk_tools.SmartSpinBox(root, callback=callback, entry_type='float',
                           from_=-2.5, to=3.0, increment=0.1).grid(row=2, column=0)
-    tk_tools.SmartSpinBox(root, callback=callback,
+    tk_tools.SmartSpinBox(root, callback=callback, entry_type='str',
                           values=('a', 'b', 'c')).grid(row=3, column=0)
     root.mainloop()
