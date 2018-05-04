@@ -1,11 +1,14 @@
 import tkinter as tk
 import tk_tools
 
-root = tk.Tk()
 
-handle = tk_tools.SpreadSheetReader(root,
-                                    path='./ref/test_data.xlsx',
-                                    sheetname='Data entry')
-handle.grid()
+if __name__ == '__main__':
 
-root.mainloop()
+    root = tk.Tk()
+
+    sheet_handle = tk_tools.SpreadSheetReader(root,
+                                              path='./ref/test_data.xlsx',
+                                              sheetname='Data entry')
+    sheet_handle.grid()
+
+    root.mainloop()
