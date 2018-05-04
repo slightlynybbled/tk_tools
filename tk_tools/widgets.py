@@ -116,27 +116,28 @@ class SmartSpinBox(tk.Spinbox, SmartWidget):
                  callback: callable=None, **options):
         """
         Constructor for SmartSpinBox
-
-
         """
+        self._parent = parent
         sb_options = options.copy()
 
         if entry_type == 'str':
             self._var = tk.StringVar()
         elif entry_type == 'int':
             self._var = tk.IntVar()
-
         elif entry_type == 'float':
             self._var = tk.DoubleVar()
         else:
             raise ValueError('Entry type must be "str", "int", or "float"')
 
         sb_options['textvariable'] = self._var
-        tk.Spinbox.__init__(parent, **sb_options)
+        super().__init__(self._parent, **sb_options)
 
         if callback is not None:
             def internal_callback(*args):
-                callback()
+                try:
+                    callback()
+                except TypeError:
+                    callback(self.get())
             self._var.trace('w', internal_callback)
 
 
