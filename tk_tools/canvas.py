@@ -459,7 +459,7 @@ class Graph(ttk.Frame):
             start += step
 
 
-class Led(tk.Frame):
+class Led(ttk.Frame):
     """
     Create an LED-like interface for the user.::
 
@@ -469,22 +469,38 @@ class Led(tk.Frame):
         led.to_red()
         led.to_green(on=True)
 
+    The user also has the option of adding an `on_click_callback`
+    function.  When the button is clicked, the button will change
+    state and the on-click callback will be executed.  The
+    callback must accept a single boolean parameter, `on`, which
+    indicates if the LED was just turned on or off.
+
     :param parent: the parent frame
     :param size: the size in pixels
+    :param on_click_callback: a callback which accepts a boolean parameter 'on'
     :param options: the frame options
     """
-    def __init__(self, parent, size=100, **options):
+    def __init__(self, parent, size=100, on_click_callback=None, toggle_on_click=False, **options):
         self._parent = parent
-        super().__init__(self._parent, padx=3, pady=3, borderwidth=2,
+        super().__init__(self._parent, padding=3, borderwidth=2,
                          **options)
 
-        self.size = size
+        self._size = size
 
-        self.canvas = tk.Canvas(self, width=self.size, height=self.size)
-        self.canvas.grid(row=0)
-        self.image = None
+        self._canvas = tk.Canvas(self, width=self._size, height=self._size)
+        self._canvas.grid(row=0)
+        self._image = None
+        self._on = False
+        self._user_click_callback = on_click_callback
+        self._toggle_on_click = toggle_on_click
 
         self.to_grey()
+
+        def on_click(e):
+            if self._user_click_callback is not None:
+                self._user_click_callback(self._on)
+
+        self._canvas.bind('<Button-1>', on_click)
 
     def _load_new(self, img_data: str):
         """
@@ -493,17 +509,22 @@ class Led(tk.Frame):
         :param img_data: the image data as a base64 string
         :return: None
         """
-        self.image = tk.PhotoImage(data=img_data)
-        self.image = self.image.subsample(int(200 / self.size),
-                                          int(200 / self.size))
-        self.canvas.create_image(0, 0, image=self.image, anchor='nw')
+        self._image = tk.PhotoImage(data=img_data)
+        self._image = self._image.subsample(int(200 / self._size),
+                                            int(200 / self._size))
+        self._canvas.create_image(0, 0, image=self._image, anchor='nw')
 
-    def to_grey(self):
+        if self._user_click_callback is not None:
+            self._user_click_callback(self._on)
+
+    def to_grey(self, on: bool=False):
         """
         Change the LED to grey.
 
+        :param on: Unused, here for API consistency with the other states
         :return: None
         """
+        self._on = False
         self._load_new(led_grey)
 
     def to_green(self, on: bool=False):
@@ -513,10 +534,17 @@ class Led(tk.Frame):
         :param on: True or False
         :return: None
         """
+        self._on = on
         if on:
             self._load_new(led_green_on)
+
+            if self._toggle_on_click:
+                self._canvas.bind('<Button-1>', lambda x: self.to_green(False))
         else:
             self._load_new(led_green)
+
+            if self._toggle_on_click:
+                self._canvas.bind('<Button-1>', lambda x: self.to_green(True))
 
     def to_red(self, on: bool=False):
         """
@@ -524,6 +552,7 @@ class Led(tk.Frame):
         :param on: True or False
         :return: None
         """
+        self._on = on
         if on:
             self._load_new(led_red_on)
         else:
@@ -535,6 +564,7 @@ class Led(tk.Frame):
         :param on: True or False
         :return: None
         """
+        self._on = on
         if on:
             self._load_new(led_yellow_on)
         else:

@@ -615,7 +615,7 @@ class Calendar(ttk.Frame):
         self.__setup_styles()       # creates custom styles
         self.__place_widgets()      # pack/grid used widgets
         self.__config_calendar()    # adjust calendar columns and setup tags
-        # configure a canvas, and proper bindings, for selecting dates
+        # configure a _canvas, and proper bindings, for selecting dates
         self.__setup_selection(sel_bg, sel_fg)
 
         # store items ids, used for insertion later
