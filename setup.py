@@ -18,7 +18,8 @@ with open('requirements.txt', 'r') as f:
 setup_requirements = [
     'flake8 >= 3.5.0',
     'stringify >= 0.1.1',
-    'sphinx >= 1.6'
+    'sphinx >= 1.6',
+    'pytest >= 3.5'
 ]
 
 # provide correct path for version
