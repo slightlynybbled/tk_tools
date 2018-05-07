@@ -11,3 +11,4 @@ install:
 
 script:
   - "flake8 tk_tools"
+  - "py.test test.py"
