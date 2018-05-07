@@ -65,9 +65,17 @@ For more details, check out the [documentation](https://tk-tools.readthedocs.io)
 
 # Testing
 
-Currently, style-level tests are implemented.  To execute:
+Basic testing has been instantiated *however* it is currently limited.  To execute style testing:
 
     flake8 tk_tools
+    
+To execute automated tests:
+
+    py.test test.py
+    
+At the time of this writing, only 49% of lines are covered.  More testing will be
+added to new widgets as they are brought online while further testing will be added
+to old widgets as the project matures.
 
 # Contributions
 
