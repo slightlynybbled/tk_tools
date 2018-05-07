@@ -5,6 +5,7 @@ python:
   - "3.6"
 
 install:
+  - "export DISPLAY=0.0"
   - "pip install flake8"
   - "pip install stringify==0.1.1"
   - "pip install pytest"
