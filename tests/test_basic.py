@@ -36,4 +36,10 @@ def test_init(root):
     bl.grid()
     ToolTip(bl, 'some text')
 
+    # if the test suite makes it to here, then all widgets
+    # have been successfully instantiated
     assert True
+
+
+
+

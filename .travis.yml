@@ -17,4 +17,5 @@ install:
 
 script:
   - "flake8 tk_tools"
-  - "py.test test.py"
+  - "py.test tests/test_basic.py"
+  - "py.test tests/test_LabelGrid.py"

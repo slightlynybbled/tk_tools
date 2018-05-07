@@ -14,7 +14,7 @@ except ImportError:
     minus = ''
 
 
-class Grid(ttk.Frame):
+class _Grid(ttk.Frame):
     padding = 3
 
     """
@@ -94,7 +94,7 @@ class Grid(ttk.Frame):
             self.remove_row(0)
 
 
-class LabelGrid(Grid):
+class LabelGrid(_Grid):
     """
     A table-like display widget.
 
@@ -131,7 +131,7 @@ class LabelGrid(Grid):
         self.rows.append(row)
 
 
-class EntryGrid(Grid):
+class EntryGrid(_Grid):
     """
     Add a spreadsheet-like grid of entry widgets.
 
@@ -236,7 +236,7 @@ class EntryGrid(Grid):
             return self._read_as_table()
 
 
-class ButtonGrid(Grid):
+class ButtonGrid(_Grid):
     """
     A grid of buttons.
 
