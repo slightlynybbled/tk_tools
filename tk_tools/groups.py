@@ -120,6 +120,9 @@ class LabelGrid(_Grid):
             if len(self.headers) != len(data):
                 raise ValueError
 
+        if len(data) != self.num_of_columns:
+            raise ValueError
+
         offset = 0 if not self.headers else 1
         row = list()
         for i, element in enumerate(data):
