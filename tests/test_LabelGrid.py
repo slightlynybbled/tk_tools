@@ -4,7 +4,7 @@ import pytest
 
 from tk_tools import *
 
-from tests.test_basic import root
+from .test_basic import root
 
 
 def test_LabelGrid_header_len_doesnt_match_cols(root):
