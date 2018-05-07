@@ -16,7 +16,7 @@ if __name__ == '__main__':
     add_row_btn = tk.Button(text='Add Row', command=add_row)
     add_row_btn.grid(row=0, column=0, columnspan=2, sticky='ew')
 
-    remove_row_btn = tk.Button(text='Remove Row', command=remove_row)
+    remove_row_btn = tk.Button(text='Remove Row')
     remove_row_btn.grid(row=1, column=0, sticky='ew')
 
     row_to_remove_entry = tk.Entry(root)
