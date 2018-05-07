@@ -11,6 +11,10 @@ def root():
     yield root_frame
 
 
+def test_version():
+    assert isinstance(__version__, str)
+
+
 def test_init(root):
     """
     Ensures that all elements of the GUI may be instantiated
