@@ -48,6 +48,7 @@ setup(
     version=__version__,
     description='Tkinter-native toolset and widget library',
     long_description=readme,
+    long_description_content_type='text/markdown',
     author='Jason R. Jones',
     author_email='slightlynybbled@gmail.com',
     url='https://github.com/slightlynybbled/tk_tools',
