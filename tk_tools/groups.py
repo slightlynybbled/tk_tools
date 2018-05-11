@@ -32,7 +32,7 @@ class _Grid(ttk.Frame):
         self.grid()
 
         self.headers = list()
-        self.rows = list()
+        self._rows = list()
         self.num_of_columns = num_of_columns
 
         # do some validation
@@ -61,12 +61,12 @@ class _Grid(ttk.Frame):
 
         :return: None
         """
-        for row in self.rows:
+        for row in self._rows:
             for widget in row:
                 widget.grid_forget()
 
         offset = 0 if not self.headers else 1
-        for i, row in enumerate(self.rows):
+        for i, row in enumerate(self._rows):
             for j, widget in enumerate(row):
                 widget.grid(row=i+offset, column=j)
 
@@ -77,10 +77,10 @@ class _Grid(ttk.Frame):
         :param row_number: the row to remove (defaults to the last row)
         :return: None
         """
-        if len(self.rows) == 0:
+        if len(self._rows) == 0:
             return
 
-        row = self.rows.pop(row_number)
+        row = self._rows.pop(row_number)
         for widget in row:
             widget.destroy()
 
@@ -90,7 +90,7 @@ class _Grid(ttk.Frame):
 
         :return: None
         """
-        for i in range(len(self.rows)):
+        for i in range(len(self._rows)):
             self.remove_row(0)
 
 
@@ -128,10 +128,10 @@ class LabelGrid(_Grid):
         for i, element in enumerate(data):
             label = ttk.Label(self, text=str(element), relief=tk.GROOVE,
                               padding=self.padding)
-            label.grid(row=len(self.rows) + offset, column=i, sticky='E,W')
+            label.grid(row=len(self._rows) + offset, column=i, sticky='E,W')
             row.append(label)
 
-        self.rows.append(row)
+        self._rows.append(row)
 
 
 class EntryGrid(_Grid):
@@ -169,28 +169,28 @@ class EntryGrid(_Grid):
                 contents = '' if element is None else str(element)
                 entry = ttk.Entry(self)
                 entry.insert(0, contents)
-                entry.grid(row=len(self.rows) + offset, column=i, sticky='E,W')
+                entry.grid(row=len(self._rows) + offset, column=i, sticky='E,W')
                 row.append(entry)
         else:
             for i in range(self.num_of_columns):
                 entry = ttk.Entry(self)
-                entry.grid(row=len(self.rows) + offset, column=i, sticky='E,W')
+                entry.grid(row=len(self._rows) + offset, column=i, sticky='E,W')
                 row.append(entry)
 
-        self.rows.append(row)
+        self._rows.append(row)
 
         # clear all bindings
-        for row in self.rows:
+        for row in self._rows:
             for widget in row:
                 widget.unbind('<Tab>')
 
         def add(e):
             self.add_row()
 
-        last_entry = self.rows[-1][-1]
+        last_entry = self._rows[-1][-1]
         last_entry.bind('<Tab>', add)
 
-        e = self.rows[-1][0]
+        e = self._rows[-1][0]
         e.focus_set()
 
         self._redraw()
@@ -203,7 +203,7 @@ class EntryGrid(_Grid):
         :return: list of dicts containing all tabular data
         """
         data = list()
-        for row in self.rows:
+        for row in self._rows:
             row_data = OrderedDict()
             for i, header in enumerate(self.headers):
                 row_data[header.cget('text')] = row[i].get()
@@ -221,7 +221,7 @@ class EntryGrid(_Grid):
         """
         rows = list()
 
-        for row in self.rows:
+        for row in self._rows:
             rows.append([row[i].get() for i in range(self.num_of_columns)])
 
         return rows
@@ -277,10 +277,10 @@ class ButtonGrid(_Grid):
                                padx=self.padding,
                                pady=self.padding)
 
-            button.grid(row=len(self.rows) + offset, column=i, sticky='ew')
+            button.grid(row=len(self._rows) + offset, column=i, sticky='ew')
             row.append(button)
 
-        self.rows.append(row)
+        self._rows.append(row)
 
 
 class KeyValueEntry(tk.Frame):
