@@ -21,3 +21,4 @@ script:
   - "py.test tests/test_LabelGrid.py"
   - "py.test tests/test_EntryGrid.py"
   - "py.test tests/test_ButtonGrid.py"
+  - "py.test tests/test_KeyValueEntry.py"
