@@ -16,12 +16,13 @@ class ToolTip(object):
     :param time: the time to display the text, in milliseconds
     """
 
-    def __init__(self, widget, text='widget info', time: int=2000):
+    def __init__(self, widget, text='widget info', time: int=4000):
         self._widget = widget
         self._text = text
         self._time = time
 
-        self._widget.bind("<Enter>", self._enter)
+        self._widget.bind("<Enter>",
+                          lambda _: self._widget.after(500, self._enter()))
         self._widget.bind("<Leave>", self._close)
 
         self._tw = None
@@ -43,7 +44,8 @@ class ToolTip(object):
 
         label.pack(ipadx=1)
 
-        self._tw.after(self._time, self._tw.destroy)
+        if self._time:
+            self._tw.after(self._time, self._tw.destroy)
 
     def _close(self, event=None):
         if self._tw:
