@@ -289,7 +289,7 @@ class ButtonGrid(_Grid):
         self._rows.append(row)
 
 
-class KeyValueEntry(tk.Frame):
+class KeyValueEntry(ttk.Frame):
     """
     Creates a key-value input/output frame.
 
@@ -306,10 +306,9 @@ class KeyValueEntry(tk.Frame):
                  unit_labels: list=None, enables: list=None,
                  title: str=None, on_change_callback: callable=None,
                  **options):
-        tk.Frame.__init__(self, parent,
-                          borderwidth=2,
-                          padx=5, pady=5,
-                          **options)
+        self._parent = parent
+        super().__init__(self._parent, borderwidth=2,
+                         padding=5, **options)
 
         # some checks before proceeding
         if defaults:
