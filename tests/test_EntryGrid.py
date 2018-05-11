@@ -28,6 +28,10 @@ def entry_grid_with_data(entry_grid_3col):
     eg._redraw()
 
 
+def test_creation(root):
+    EntryGrid(root, 3)
+
+
 def test_creation_with_header(root):
     EntryGrid(root, 3, headers=['a', 'b', 'c'])
 
@@ -42,6 +46,10 @@ def test_add_row(entry_grid_3col):
     entry_grid_3col.add_row(data)
 
 
+def test_add_empty_row(entry_grid_3col):
+    entry_grid_3col.add_row()
+
+
 def test_add_row_len_doesnt_match_cols(entry_grid_3col):
     data = ['1', '2', '3', '4']
 
@@ -49,7 +57,7 @@ def test_add_row_len_doesnt_match_cols(entry_grid_3col):
         entry_grid_3col.add_row(data)
 
 
-def test_read_as_lists(entry_grid_with_data):
+def test_read_as_dicts(entry_grid_with_data):
     data = entry_grid_with_data.read()
 
     assert data[0]['a'] == '1'
@@ -61,6 +69,14 @@ def test_read_as_lists(entry_grid_with_data):
     assert data[2]['a'] == '7'
     assert data[2]['b'] == '8'
     assert data[2]['c'] == '9'
+
+
+def test_read_as_lists(entry_grid_with_data):
+    data = entry_grid_with_data.read(as_dicts=False)
+
+    assert data[0] == ['1', '2', '3']
+    assert data[1] == ['4', '5', '6']
+    assert data[2] == ['7', '8', '9']
 
 
 def test_remove_row(entry_grid_with_data):
@@ -77,3 +93,4 @@ def test_remove_row(entry_grid_with_data):
     assert data[1]['a'] == '7'
     assert data[1]['b'] == '8'
     assert data[1]['c'] == '9'
+
