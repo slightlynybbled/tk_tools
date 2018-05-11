@@ -251,10 +251,11 @@ class ButtonGrid(_Grid):
                  **options):
         super().__init__(parent, num_of_columns, headers, **options)
 
-    def add_row(self, data: list = None):
+    def add_row(self, data: list):
         """
-        Add a row of data to the current widget
-        :param data: a row of data
+        Add a row of buttons each with their own callbacks to the current widget.
+        Each element in `data` will consist of a label and a command.
+        :param data: a list of tuples of the form ('label', <callback>)
         :return: None
         """
 
@@ -267,11 +268,16 @@ class ButtonGrid(_Grid):
         row = list()
 
         for i, e in enumerate(data):
-            button = tk.Button(self, text=str(e[0]), relief=tk.RAISED,
-                               command=e[1], padx=self.padding,
+            if not isinstance(e, tuple):
+                raise ValueError('all elements must be a tuple consisting of ("label", <command>)')
+
+            label, command = e
+            button = tk.Button(self, text=str(label), relief=tk.RAISED,
+                               command=command,
+                               padx=self.padding,
                                pady=self.padding)
 
-            button.grid(row=len(self.rows) + offset, column=i, sticky='E,W')
+            button.grid(row=len(self.rows) + offset, column=i, sticky='ew')
             row.append(button)
 
         self.rows.append(row)
