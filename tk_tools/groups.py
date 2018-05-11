@@ -169,12 +169,16 @@ class EntryGrid(_Grid):
                 contents = '' if element is None else str(element)
                 entry = ttk.Entry(self)
                 entry.insert(0, contents)
-                entry.grid(row=len(self._rows) + offset, column=i, sticky='E,W')
+                entry.grid(row=len(self._rows) + offset,
+                           column=i,
+                           sticky='E,W')
                 row.append(entry)
         else:
             for i in range(self.num_of_columns):
                 entry = ttk.Entry(self)
-                entry.grid(row=len(self._rows) + offset, column=i, sticky='E,W')
+                entry.grid(row=len(self._rows) + offset,
+                           column=i,
+                           sticky='E,W')
                 row.append(entry)
 
         self._rows.append(row)
@@ -253,8 +257,9 @@ class ButtonGrid(_Grid):
 
     def add_row(self, data: list):
         """
-        Add a row of buttons each with their own callbacks to the current widget.
-        Each element in `data` will consist of a label and a command.
+        Add a row of buttons each with their own callbacks to the
+        current widget.  Each element in `data` will consist of a
+        label and a command.
         :param data: a list of tuples of the form ('label', <callback>)
         :return: None
         """
@@ -269,7 +274,8 @@ class ButtonGrid(_Grid):
 
         for i, e in enumerate(data):
             if not isinstance(e, tuple):
-                raise ValueError('all elements must be a tuple consisting of ("label", <command>)')
+                raise ValueError('all elements must be a tuple '
+                                 'consisting of ("label", <command>)')
 
             label, command = e
             button = tk.Button(self, text=str(label), relief=tk.RAISED,
