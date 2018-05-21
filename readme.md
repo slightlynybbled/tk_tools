@@ -73,9 +73,7 @@ To execute automated tests:
 
     py.test test.py
     
-At the time of this writing, only 49% of lines are covered.  More testing will be
-added to new widgets as they are brought online while further testing will be added
-to old widgets as the project matures.
+More testing will be added to new widgets as they are brought online while further testing will be added to old widgets as the project matures.
 
 # Contributions
 
