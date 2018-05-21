@@ -21,6 +21,12 @@ Smart widgets consist of existing widgets with improved API.  In most cases, the
 .. autoclass:: widgets.SmartCheckbutton
     :members:
 
+``BinaryLabel``
+--------------------
+
+.. autoclass:: widgets.BinaryLabel
+    :members:
+
 ``ByteLabel``
 -------------
 
