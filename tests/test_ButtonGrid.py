@@ -15,27 +15,6 @@ def btn_grid_3col(root):
     eg._redraw()
 
 
-@pytest.fixture
-def entry_grid_with_data(btn_grid_3col):
-    bg = btn_grid_3col
-
-    btn_grid_3col.add_row([('1', lambda: print('1')),
-                           ('2', lambda: print('2')),
-                           ('3', lambda: print('3'))])
-
-    btn_grid_3col.add_row([('4', lambda: print('4')),
-                           ('5', lambda: print('5')),
-                           ('6', lambda: print('6'))])
-
-    btn_grid_3col.add_row([('7', lambda: print('7')),
-                           ('8', lambda: print('8')),
-                           ('9', lambda: print('9'))])
-
-    yield bg
-
-    bg._redraw()
-
-
 def test_creation_with_header(root):
     ButtonGrid(root, 3, headers=['a', 'b', 'c'])
 

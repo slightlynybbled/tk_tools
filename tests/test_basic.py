@@ -10,6 +10,11 @@ def root():
     root_frame = tk.Tk()
     yield root_frame
 
+    try:
+        root_frame.destroy()
+    except:
+        pass
+
 
 def test_version():
     assert isinstance(__version__, str)

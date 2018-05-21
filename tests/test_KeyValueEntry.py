@@ -49,3 +49,18 @@ def test_reset(root):
 
     # todo: figure out how to verify that the entries were in fact cleared
 
+
+def test_with_defaults(root):
+    kve = KeyValueEntry(root, keys=['a', 'b', 'c'], defaults=['1', '2', '3'])
+    kve.grid()
+
+    kve.add_row('d')
+    kve.add_row('e', default='5')
+
+
+def test_enables(root):
+    kve = KeyValueEntry(root, keys=['a', 'b', 'c'], enables=[True, False, False])
+    kve.grid()
+
+    kve.add_row('d')
+    kve.change_enables([False, False, False, False])
