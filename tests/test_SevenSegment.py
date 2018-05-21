@@ -20,12 +20,4 @@ def test_creation(root):
 
 
 def test_set_value_str(ssd):
-    ssd.set_value('987')
-
-
-def set_value_int(ssd):
-    ssd.set_value(987)
-
-
-def set_value_float(ssd):
-    ssd.set_value(98.7)
+    ssd.set_value('98.7')
