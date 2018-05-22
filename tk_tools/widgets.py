@@ -257,6 +257,8 @@ class BinaryLabel(ttk.Label):
         :param position: integer between 0 and 7, inclusive
         :return: None
         """
+        if position > (self._bit_width - 1):
+            raise ValueError('position greater than the bit width')
 
         self._value ^= (1 << position)
         self._text_update()
@@ -268,6 +270,8 @@ class BinaryLabel(ttk.Label):
         :param position: integer between 0 and 7, inclusive
         :return: None
         """
+        if position > (self._bit_width - 1):
+            raise ValueError('position greater than the bit width')
 
         self._value |= (1 << position)
         self._text_update()
@@ -279,32 +283,66 @@ class BinaryLabel(ttk.Label):
         :param position: integer between 0 and 7, inclusive
         :return: None
         """
+        if position > (self._bit_width - 1):
+            raise ValueError('position greater than the bit width')
 
         self._value &= ~(1 << position)
         self._text_update()
 
     def get_msb(self):
-        self.get_bit(self._bit_width-1)
+        """
+        Returns the most significant bit as an integer
+        :return: the MSB
+        """
+        return self.get_bit(self._bit_width-1)
 
     def toggle_msb(self):
+        """
+        Changes the most significant bit
+        :return: None
+        """
         self.toggle_bit(self._bit_width-1)
 
     def get_lsb(self):
-        self.get_bit(0)
+        """
+        Returns the least significant bit as an integer
+        :return: the LSB
+        """
+        return self.get_bit(0)
 
     def set_msb(self):
+        """
+        Sets the most significant bit
+        :return: None
+        """
         self.set_bit(self._bit_width-1)
 
     def clear_msb(self):
+        """
+        Clears the most significant bit
+        :return: None
+        """
         self.clear_bit(self._bit_width-1)
 
     def toggle_lsb(self):
+        """
+        Toggles the least significant bit
+        :return:
+        """
         self.toggle_bit(0)
 
     def set_lsb(self):
+        """
+        Sets the least significant bit
+        :return: None
+        """
         self.set_bit(0)
 
     def clear_lsb(self):
+        """
+        Clears the least significant bit
+        :return: None
+        """
         self.clear_bit(0)
 
 
