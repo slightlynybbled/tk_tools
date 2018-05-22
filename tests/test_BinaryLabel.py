@@ -37,6 +37,11 @@ def test_change_value(bl):
     assert bl.get() == 10
 
 
+def test_change_value_too_large(bl):
+    with pytest.raises(ValueError):
+        bl.set(0x100)
+
+
 def test_get_bit(bl):
     bl.set(0x55)
 

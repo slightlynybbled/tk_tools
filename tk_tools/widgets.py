@@ -191,23 +191,14 @@ class BinaryLabel(ttk.Label):
     :param options: prefix string for identifiers
     """
     def __init__(self, parent, value: int=0, prefix: str="", bit_width=8,
-                 truncation_warning=True, **options):
+                 **options):
         self._parent = parent
         super().__init__(self._parent, **options)
 
         self._value = value
         self._prefix = prefix
         self._bit_width = bit_width
-        self._truncation_warning = truncation_warning
-        self._check_width()
         self._text_update()
-
-    def _check_width(self):
-        if self._truncation_warning and\
-                len(str(bin(self._value)[2:])) > self._bit_width:
-            logger.warning(
-                type(self).__name__+": Displayed value is truncated on left"
-                                    " side due to insufficient bit width.")
 
     def get(self):
         """
@@ -224,9 +215,12 @@ class BinaryLabel(ttk.Label):
         :param value:
         :return: None
         """
+        max_value = int(''.join(['1' for _ in range(self._bit_width)]), 2)
+
+        if value > max_value:
+            raise ValueError('the value {} is larger than the maximum value {}'.format(value, max_value))
 
         self._value = value
-        self._check_width()
         self._text_update()
 
     def _text_update(self):
