@@ -167,7 +167,10 @@ class SmartCheckbutton(tk.Checkbutton, SmartWidget):
 
         if callback is not None:
             def internal_callback(*args):
-                callback(self.get())
+                try:
+                    callback()
+                except TypeError:
+                    callback(self.get())
             self._var.trace('w', internal_callback)
 
 
