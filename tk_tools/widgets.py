@@ -238,11 +238,14 @@ class BinaryLabel(ttk.Label):
         """
         Returns the bit value at position
 
-        :param position: integer between 0 and 7, inclusive
+        :param position: integer between 0 and <width>, inclusive
         :return: the value at position as a integer
         """
 
-        return self._value & (1 << position)
+        if self._value & (1 << position):
+            return 1
+        else:
+            return 0
 
     def toggle_bit(self, position: int):
         """
