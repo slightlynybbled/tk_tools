@@ -110,6 +110,21 @@ def test_clear_msb(bl):
     assert bl.get() == 0x7f
 
 
+def test_set_lsb(bl):
+    assert bl.get() == 0
+
+    bl.set_lsb()
+    assert bl.get() == 0x01
+
+
+def test_clear_lsb(bl):
+    bl.set(0xff)
+    assert bl.get() == 0xff
+
+    bl.clear_lsb()
+    assert bl.get() == 0xfe
+
+
 def test_toggle_msb_lsb(bl):
     bl.toggle_msb()
     bl.toggle_lsb()
