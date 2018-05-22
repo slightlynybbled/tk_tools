@@ -25,3 +25,4 @@ script:
   - "py.test tests/test_MultiSlotFrame.py"
   - "py.test tests/test_SevenSegment.py"
   - "py.test tests/test_SmartOptionMenu.py"
+  - "py.test tests/test_SmartCheckbutton.py"
