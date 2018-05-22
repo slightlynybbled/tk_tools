@@ -242,6 +242,9 @@ class BinaryLabel(ttk.Label):
         :return: the value at position as a integer
         """
 
+        if position > (self._bit_width - 1):
+            raise ValueError('position greater than the bit width')
+
         if self._value & (1 << position):
             return 1
         else:
