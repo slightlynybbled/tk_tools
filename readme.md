@@ -13,7 +13,7 @@ Here are some examples screenshots of the widgets you can create:
 
 ![Button-Grid](docs/img/button-grid.png)
 
-#### Byte-Label:  
+#### Binary-Label:  
 
 ![Byte-Label](docs/img/byte-label.png)
 
