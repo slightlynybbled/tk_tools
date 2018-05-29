@@ -3,7 +3,7 @@ from tk_tools.groups import EntryGrid, LabelGrid, \
     KeyValueEntry, SpreadSheetReader, ButtonGrid, \
     Calendar, MultiSlotFrame, SevenSegment, SevenSegmentDigits
 from tk_tools.widgets import SmartOptionMenu, SmartSpinBox, \
-    SmartCheckbutton, BinaryLabel
+    SmartCheckbutton, BinaryLabel, ByteLabel
 from tk_tools.tooltips import ToolTip
 
 from tk_tools.version import __version__
@@ -15,6 +15,6 @@ __all__ = [
     'SpreadSheetReader', 'SmartOptionMenu', 'SmartSpinBox',
     'SmartCheckbutton', 'Calendar', 'MultiSlotFrame',
     'SevenSegment', 'SevenSegmentDigits',
-    'BinaryLabel', 'ToolTip',
+    'BinaryLabel', 'ByteLabel', 'ToolTip',
     '__version__'
 ]
