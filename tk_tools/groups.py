@@ -600,7 +600,12 @@ def _get_calendar(locale, fwday):
 
 class Calendar(ttk.Frame):
     """
-    Graphical date selection widget, with callbacks.
+    Graphical date selection widget, with callbacks.  To change
+    the language, use the ``locale`` library with the appropriate
+    settings for the target language.  For instance, to display
+    the ``Calendar`` widget in German, you might use::
+
+        locale.setlocale(locale.LC_ALL, 'deu_deu')
 
     :param parent: the parent frame
     :param callback: the callable to be executed on selection
