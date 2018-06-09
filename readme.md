@@ -7,6 +7,8 @@
 This repository holds useful high-level widgets written in pure python.  
 This library used type hints and requires Python 3.5+; it could, however, be back-ported to earlier Python versions without difficulty.
 
+For more details, check out the [documentation](https://tk-tools.readthedocs.io).
+
 Here are some examples screenshots of the widgets you can create:
 
 #### Button-Grid:  
@@ -60,8 +62,6 @@ Here are some examples screenshots of the widgets you can create:
 #### Rotary-Scale: (Tachymeter)    
 
 ![Rotary-Scale](docs/img/rotary-scale.png)
-
-For more details, check out the [documentation](https://tk-tools.readthedocs.io).
 
 # Testing
 
