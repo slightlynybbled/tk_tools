@@ -15,6 +15,7 @@ with open('requirements.txt', 'r') as f:
     for line in f.readlines():
         requirements.append(line.strip())
 
+# these are generally only used by devs
 setup_requirements = [
     'flake8 >= 3.5.0',
     'stringify >= 0.1.1',
