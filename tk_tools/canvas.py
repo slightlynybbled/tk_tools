@@ -191,10 +191,10 @@ class Gauge(ttk.Frame):
     :param label: the label on the scale
     :param unit: the unit to show on the scale
     :param divisions: the number of divisions on the scale
-    :parm yellow: the beginning of the yellow (warning) zone in percent
-    :parm red: the beginning of the red (danger) zone in percent
-    :parm yellow_low: in percent warning for low values
-    :parm red_low: in percent if very low values are a danger
+    :param yellow: the beginning of the yellow (warning) zone in percent
+    :param red: the beginning of the red (danger) zone in percent
+    :param yellow_low: in percent warning for low values
+    :param red_low: in percent if very low values are a danger
     :param bg: background
     """
     def __init__(self, parent, width=200, height=100,
@@ -293,17 +293,16 @@ class Gauge(ttk.Frame):
                                 start=30, extent=120-value, width=3,
                                 outline=red)'''
         # create inset red
-        self._canvas.create_arc(self._width * 0.35, int(self._height * 0.7),
+        self._canvas.create_arc(self._width * 0.35, int(self._height * 0.75),
                                 self._width * 0.65, int(self._height * 1.2),
                                 start=150, extent=-120, width=1,
                                 outline='grey', fill=red, style='pie')
 
-        # create the overlapping black border
+        # create the overlapping border
         self._canvas.create_arc(0, int(self._height * 0.15),
                                 self._width, int(self._height * 1.8),
-                                start=150, extent=-120, width=3,
+                                start=150, extent=-120, width=4,
                                 outline='#343434')
-# ----------------------------------------------------------------------
 
     def readout(self, value, bg):  # value, BG color
         # draw the black behind the readout
@@ -326,7 +325,6 @@ class Gauge(ttk.Frame):
         self._canvas.create_text(
             self._width * 0.5, self._height * 0.5 + r_offset,
             font=('Courier New', 10), text=value_text, fill='white')
-# ----------------------------------------------------------------------
 
     def set_value(self, value):
         self._value = EngNumber(value)
