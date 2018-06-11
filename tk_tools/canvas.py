@@ -4,7 +4,12 @@ import cmath
 import sys
 import logging
 from decimal import Decimal
-from engineering_notation import EngNumber
+
+# these imports make autodoc easier to run
+try:
+    from engineering_notation import EngNumber
+except ImportError:
+    pass
 
 try:
     from tk_tools.images import rotary_scale, \
