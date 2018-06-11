@@ -176,7 +176,7 @@ class RotaryScale(Dial):
 
 class Gauge(ttk.Frame):
     """
-    Shows a gauge, much like the RotaryGauge::
+    Shows a gauge, much like the RotaryGauge.::
 
         gauge = tk_tools.Gauge(root, max_value=100.0,
                                label='speed', unit='km/h')
@@ -287,11 +287,6 @@ class Gauge(ttk.Frame):
                                 start=150, extent=-value, width=3,
                                 outline=red)
 
-        # create second half
-        '''self._canvas.create_arc(0, int(self._height * 0.15),
-                                self._width, int(self._height * 1.8),
-                                start=30, extent=120-value, width=3,
-                                outline=red)'''
         # create inset red
         self._canvas.create_arc(self._width * 0.35, int(self._height * 0.75),
                                 self._width * 0.65, int(self._height * 1.2),
