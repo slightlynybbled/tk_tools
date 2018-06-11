@@ -76,9 +76,9 @@ class SmartOptionMenu(SmartWidget):
         self._var = tk.StringVar()
         self._var.set(initial_value if initial_value else options[0])
 
-        self.option_menu = tk.OptionMenu(self._parent, self._var,
+        self.option_menu = tk.OptionMenu(self, self._var,
                                          *options)
-        self.option_menu.grid()
+        self.option_menu.grid(row=0, column=0)
 
         if callback is not None:
             def internal_callback(*args):

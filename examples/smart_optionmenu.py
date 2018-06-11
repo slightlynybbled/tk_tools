@@ -8,17 +8,21 @@ def callback(value):
 
 
 if __name__ == '__main__':
-
     root = tk.Tk()
 
-    tk.Label(root, text="The variable value: ").grid(row=0, column=0)
+    tk.Label(root, text="The variable value: ").grid(row=1, column=0, sticky='ew')
     value_label = tk.Label(root, text="")
-    value_label.grid(row=0, column=1)
+    value_label.grid(row=1, column=1, sticky='ew')
 
     def callback(value):
         value_label.config(text=str(value))
 
+    tk.Label(root, text="Select a value: ").grid(row=0, column=0, sticky='ew')
     drop_down = tk_tools.SmartOptionMenu(root, ['one', 'two', 'three'], callback=callback)
-    drop_down.grid()
+    drop_down.grid(row=0, column=1, sticky='ew')
+
+    print(root.winfo_children())
+    print(drop_down.winfo_manager(), drop_down.winfo_parent())
+    print(drop_down.winfo_children())
 
     root.mainloop()
