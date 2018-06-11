@@ -1161,26 +1161,26 @@ class SevenSegment(tk.Frame):
 
 class SevenSegmentDigits(tk.Frame):
     """
-        Creates a single seven-segment display which may be
-        used to emulate a numeric display of old::
+    Creates a single seven-segment display which may be
+    used to emulate a numeric display of old::
 
-            # create and grid the frame
-            ss = tk_tools.SevenSegment(root)
-            ss.grid()
+        # create and grid the frame
+        ss = tk_tools.SevenSegment(root)
+        ss.grid()
 
-            # set the value
-            ss.set_value(2)
+        # set the value
+        ss.set_value(2)
 
-            # set the value with a period
-            ss.set_value(6.0)
+        # set the value with a period
+        ss.set_value(6.0)
 
-        :param parent: the tk parent frame
-        :param height: the widget height (defaults to 50)
-        :param digit_color: the digit color (tkinter color
-        specifications apply, such as 'black' or '#ff0000')
-        :param background: the background color (tkinter color
-        specifications apply, such as 'black' or '#ff0000')
-        """
+    :param parent: the tk parent frame
+    :param height: the widget height (defaults to 50)
+    :param digit_color: the digit color (tkinter color
+    specifications apply, such as 'black' or '#ff0000')
+    :param background: the background color (tkinter color
+    specifications apply, such as 'black' or '#ff0000')
+    """
     def __init__(self, parent, digits=1, height=50,
                  digit_color='black', background='white'):
         self._parent = parent
