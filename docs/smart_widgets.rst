@@ -24,11 +24,15 @@ Smart widgets consist of existing widgets with improved API.  In most cases, the
 ``BinaryLabel``
 --------------------
 
+.. image:: img/byte-label.png
+
 .. autoclass:: widgets.BinaryLabel
     :members:
 
 ``ByteLabel``
 -------------
+
+.. image:: img/byte-label.png
 
 .. autoclass:: widgets.ByteLabel
     :members:

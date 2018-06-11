@@ -23,10 +23,6 @@ Here are some examples screenshots of the widgets you can create:
 
 ![Calendar](https://tk-tools.readthedocs.io/en/latest/_images/calendar.png)
 
-## Dropdown:  
-
-![Dropdown](https://tk-tools.readthedocs.io/en/latest/_images/dropdown.png)
-
 ## Entry-Grid:  
 
 ![Entry-Grid](https://tk-tools.readthedocs.io/en/latest/_images/entry-grid.png)
