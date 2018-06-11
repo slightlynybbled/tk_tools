@@ -319,6 +319,7 @@ class Gauge(ttk.Frame):
 # idem on value
 # math correction now min_value can be different from 0 or negative
 
+
 class Gauge2(ttk.Frame):
     """
     Shows a gauge, much like the RotaryGauge::
@@ -478,7 +479,6 @@ class Gauge2(ttk.Frame):
             self._redraw()      # refresh all
         else:                   # OFF limits refresh only readout
             self.readout(self._value, 'red')  # on RED BackGround
-
 
 
 class Graph(ttk.Frame):
