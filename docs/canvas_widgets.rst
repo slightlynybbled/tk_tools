@@ -16,6 +16,8 @@ These widgets provide visual feedback to the user using the canvas.
 
 .. image:: img/gauges.png
 
+.. image:: img/gaugedoc.png
+
 .. autoclass:: canvas.Gauge
     :members:
 

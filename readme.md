@@ -58,6 +58,7 @@ Here are some examples screenshots of the widgets you can create:
 ## Gauge
 
 ![Gauge](https://tk-tools.readthedocs.io/en/latest/_images/gauges.png)
+
 ![Gauge Documentation](https://tk-tools.readthedocs.io/en/latest/_images/gaugedoc.png)
 
 ## Rotary-Scale: (Tachometer)    
