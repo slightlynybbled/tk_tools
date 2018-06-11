@@ -1174,10 +1174,8 @@ class SevenSegmentDigits(tk.Frame):
 
     :param parent: the tk parent frame
     :param height: the widget height (defaults to 50)
-    :param digit_color: the digit color (tkinter color
-    specifications apply, such as 'black' or '#ff0000')
-    :param background: the background color (tkinter color
-    specifications apply, such as 'black' or '#ff0000')
+    :param digit_color: the digit color (ex: 'black', '#ff0000')
+    :param background: the background color (ex: 'black', '#ff0000')
     """
     def __init__(self, parent, digits=1, height=50,
                  digit_color='black', background='white'):
