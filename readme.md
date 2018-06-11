@@ -11,58 +11,58 @@ For more details, check out the [documentation](https://tk-tools.readthedocs.io)
 
 Here are some examples screenshots of the widgets you can create:
 
-#### Button-Grid:  
+## Button-Grid:  
 
-![Button-Grid](docs/img/button-grid.png)
+![Button-Grid](https://tk-tools.readthedocs.io/en/latest/_images/button-grid.png)
 
-#### Binary-Label:  
+## Binary-Label:  
 
-![Byte-Label](docs/img/byte-label.png)
+![Byte-Label](https://tk-tools.readthedocs.io/en/latest/_images/byte-label.png)
 
-#### Calendar:  
+## Calendar:  
 
-![Calendar](docs/img/calendar.png)
+![Calendar](https://tk-tools.readthedocs.io/en/latest/_images/calendar.png)
 
-#### Dropdown:  
+## Dropdown:  
 
-![Dropdown](docs/img/dropdown.png)
+![Dropdown](https://tk-tools.readthedocs.io/en/latest/_images/dropdown.png)
 
-#### Entry-Grid:  
+## Entry-Grid:  
 
-![Entry-Grid](docs/img/entry-grid.png)
+![Entry-Grid](https://tk-tools.readthedocs.io/en/latest/_images/entry-grid.png)
 
-#### Multi-Slot Frame
+## Multi-Slot Frame
 
-![Multi-Slot Frame](docs/img/multi-slot-frame.png)
+![Multi-Slot Frame](https://tk-tools.readthedocs.io/en/latest/_images/multi-slot-frame.png)
 
-#### Graph:  
+## Graph:  
 
-![Graph](docs/img/graph.png)
+![Graph](https://tk-tools.readthedocs.io/en/latest/_images/graph.png)
 
-#### Key-Value:  
+## Key-Value:  
 
-![Key-Value](docs/img/key-value.png)
+![Key-Value](https://tk-tools.readthedocs.io/en/latest/_images/key-value.png)
 
-#### Label-Grid:  
+## Label-Grid:  
 
-![Label-Grid](docs/img/label-grid.png)
+![Label-Grid](https://tk-tools.readthedocs.io/en/latest/_images/label-grid.png)
 
-#### LED: (size can be scaled)  
+## LED: (size can be scaled)  
 
-![LED](docs/img/led.gif)
+![LED](https://tk-tools.readthedocs.io/en/latest/_images/led.gif)
 
-#### SevenSegment and SevenSegmentDisplay
+## SevenSegment and SevenSegmentDisplay
 
-![Seven Segment Display](docs/img/seven-segment-display.png)
+![Seven Segment Display](https://tk-tools.readthedocs.io/en/latest/_images/seven-segment-display.png)
 
-#### Gauge
+## Gauge
 
-![Gauge](docs/img/gauges.png)
-![Gauge Documentation](docs/img/gaugedoc.png)
+![Gauge](https://tk-tools.readthedocs.io/en/latest/_images/gauges.png)
+![Gauge Documentation](https://tk-tools.readthedocs.io/en/latest/_images/gaugedoc.png)
 
-#### Rotary-Scale: (Tachymeter)    
+## Rotary-Scale: (Tachometer)    
 
-![Rotary-Scale](docs/img/rotary-scale.png)
+![Rotary-Scale](https://tk-tools.readthedocs.io/en/latest/_images/rotary-scale.png)
 
 # Testing
 
