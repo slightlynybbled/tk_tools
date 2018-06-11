@@ -21,8 +21,4 @@ if __name__ == '__main__':
     drop_down = tk_tools.SmartOptionMenu(root, ['one', 'two', 'three'], callback=callback)
     drop_down.grid(row=0, column=1, sticky='ew')
 
-    print(root.winfo_children())
-    print(drop_down.winfo_manager(), drop_down.winfo_parent())
-    print(drop_down.winfo_children())
-
     root.mainloop()
