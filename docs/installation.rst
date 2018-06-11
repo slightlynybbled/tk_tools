@@ -4,7 +4,7 @@ Installation
 Pip
 ---
 
-To install, simply ``pip install tk_tools``.  All images and other source material are included as packages within python, so you shouldn't have to do any funky workarounds even when using this package in pyinstaller or other static execution environments.
+To install, simply ``pip install tk_tools``.  All images and other source material are included as packages within python, so you shouldn't have to do any funky workarounds even when using this package in pyinstaller or other static execution environments.  Some environments may require some basic modification to this, such as the use of `pip3` instead of `pip`.
 
 Setup.py
 --------
