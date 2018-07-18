@@ -89,7 +89,7 @@ class SmartOptionMenu(SmartWidget):
             self._var.trace('w', internal_callback)
 
 
-class SmartSpinBox(tk.Spinbox, SmartWidget):
+class SmartSpinBox(SmartWidget):
     """
     Easy-to-use spinbox.  Takes most options that work with a normal SpinBox.
     Attempts to call your callback function - if assigned - whenever there
@@ -114,6 +114,8 @@ class SmartSpinBox(tk.Spinbox, SmartWidget):
         Constructor for SmartSpinBox
         """
         self._parent = parent
+        super().__init__(self._parent)
+
         sb_options = options.copy()
 
         if entry_type == 'str':
@@ -126,7 +128,8 @@ class SmartSpinBox(tk.Spinbox, SmartWidget):
             raise ValueError('Entry type must be "str", "int", or "float"')
 
         sb_options['textvariable'] = self._var
-        super().__init__(self._parent, **sb_options)
+        self._spin_box = tk.Spinbox(self, **sb_options)
+        self._spin_box.grid()
 
         if callback is not None:
             def internal_callback(*args):
@@ -137,7 +140,7 @@ class SmartSpinBox(tk.Spinbox, SmartWidget):
             self._var.trace('w', internal_callback)
 
 
-class SmartCheckbutton(tk.Checkbutton, SmartWidget):
+class SmartCheckbutton(SmartWidget):
     """
     Easy-to-use check button.  Takes most options that work with
     a normal CheckButton. Attempts to call your callback
@@ -162,8 +165,11 @@ class SmartCheckbutton(tk.Checkbutton, SmartWidget):
     """
     def __init__(self, parent, callback: callable=None, **options):
         self._parent = parent
+        super().__init__(self._parent)
+
         self._var = tk.BooleanVar()
-        super().__init__(self._parent, variable=self._var, **options)
+        self._cb = tk.Checkbutton(self, variable=self._var, **options)
+        self._cb.grid()
 
         if callback is not None:
             def internal_callback(*args):
