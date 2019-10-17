@@ -69,8 +69,8 @@ class SmartOptionMenu(SmartWidget):
     :param initial_value: the initial value of the dropdown
     :param callback: a function
     """
-    def __init__(self, parent, options: list, initial_value: str=None,
-                 callback: callable=None):
+    def __init__(self, parent, options: list, initial_value: str = None,
+                 callback: callable = None):
         super().__init__(parent)
 
         self._var = tk.StringVar()
@@ -108,8 +108,8 @@ class SmartSpinBox(SmartWidget):
     :param callback: python callable
     :param options: any options that are valid for tkinter.SpinBox
     """
-    def __init__(self, parent, entry_type: str='float',
-                 callback: callable=None, **options):
+    def __init__(self, parent, entry_type: str = 'float',
+                 callback: callable = None, **options):
         """
         Constructor for SmartSpinBox
         """
@@ -163,7 +163,7 @@ class SmartCheckbutton(SmartWidget):
     :param callback: python callable
     :param options: any options that are valid for tkinter.Checkbutton
     """
-    def __init__(self, parent, callback: callable=None, **options):
+    def __init__(self, parent, callback: callable = None, **options):
         self._parent = parent
         super().__init__(self._parent)
 
@@ -196,8 +196,8 @@ class BinaryLabel(ttk.Label):
     :param value: the initial value, default is 0
     :param options: prefix string for identifiers
     """
-    def __init__(self, parent, value: int=0, prefix: str="", bit_width=8,
-                 **options):
+    def __init__(self, parent, value: int = 0, prefix: str = "",
+                 bit_width: int = 8, **options):
         self._parent = parent
         super().__init__(self._parent, **options)
 

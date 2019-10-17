@@ -16,7 +16,7 @@ class ToolTip(object):
     :param time: the time to display the text, in milliseconds
     """
 
-    def __init__(self, widget, text='widget info', time: int=4000):
+    def __init__(self, widget, text: str = 'widget info', time: int = 4000):
         self._widget = widget
         self._text = text
         self._time = time

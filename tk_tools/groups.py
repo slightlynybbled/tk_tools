@@ -22,7 +22,7 @@ class _Grid(ttk.Frame):
     :param num_of_columns: the number of columns contained of the grid
     :param headers: a list containing the names of the column headers
     """
-    def __init__(self, parent, num_of_columns: int, headers: list=None,
+    def __init__(self, parent, num_of_columns: int, headers: list = None,
                  **options):
         self._parent = parent
         super().__init__(self._parent, padding=3, borderwidth=2,
@@ -68,7 +68,7 @@ class _Grid(ttk.Frame):
             for j, widget in enumerate(row):
                 widget.grid(row=i+offset, column=j)
 
-    def remove_row(self, row_number: int=-1):
+    def remove_row(self, row_number: int = -1):
         """
         Removes a specified row of data
 
@@ -101,7 +101,7 @@ class LabelGrid(_Grid):
     :param headers: a list containing the names of the column headers
     """
     def __init__(self, parent,
-                 num_of_columns: int, headers: list=None,
+                 num_of_columns: int, headers: list = None,
                  **options):
         self._parent = parent
         super().__init__(self._parent, num_of_columns, headers, **options)
@@ -141,11 +141,11 @@ class EntryGrid(_Grid):
     :param headers: a list containing the names of the column headers
     """
     def __init__(self, parent,
-                 num_of_columns: int, headers: list=None,
+                 num_of_columns: int, headers: list = None,
                  **options):
         super().__init__(parent, num_of_columns, headers, **options)
 
-    def add_row(self, data: list=None):
+    def add_row(self, data: list = None):
         """
         Add a row of data to the current widget, add a <Tab> \
         binding to the last element of the last row, and set \
@@ -249,7 +249,7 @@ class ButtonGrid(_Grid):
     :param num_of_columns: the number of columns contained of the grid
     :param headers: a list containing the names of the column headers
     """
-    def __init__(self, parent, num_of_columns: int, headers: list=None,
+    def __init__(self, parent, num_of_columns: int, headers: list = None,
                  **options):
         super().__init__(parent, num_of_columns, headers, **options)
 
@@ -300,9 +300,9 @@ class KeyValueEntry(ttk.Frame):
     :param on_change_callback: a function callback when any element is changed
     :param options: frame tk options
     """
-    def __init__(self, parent, keys: list, defaults: list=None,
-                 unit_labels: list=None, enables: list=None,
-                 title: str=None, on_change_callback: callable=None,
+    def __init__(self, parent, keys: list, defaults: list = None,
+                 unit_labels: list = None, enables: list = None,
+                 title: str = None, on_change_callback: callable = None,
                  **options):
         self._parent = parent
         super().__init__(self._parent, borderwidth=2,
@@ -343,8 +343,8 @@ class KeyValueEntry(ttk.Frame):
                 enable=enables[i] if enables else None
             )
 
-    def add_row(self, key: str, default: str=None,
-                unit_label: str=None, enable: bool=None):
+    def add_row(self, key: str, default: str = None,
+                unit_label: str = None, enable: bool = None):
         """
         Add a single row and re-draw as necessary
 
@@ -482,7 +482,7 @@ class Calendar(ttk.Frame):
     timedelta = datetime.timedelta
     datetime = datetime.datetime
 
-    def __init__(self, parent, callback=None, **kwargs):
+    def __init__(self, parent, callback: callable = None, **kwargs):
         # remove custom options from kw before initializing ttk.Frame
         fwday = calendar.SUNDAY
         year = kwargs.pop('year', self.datetime.now().year)
@@ -802,7 +802,7 @@ class MultiSlotFrame(ttk.Frame):
     :param parent: the tk parent frame
     :param columns: the number of user columns (defaults to 1)
     """
-    def __init__(self, parent, columns=1):
+    def __init__(self, parent, columns: int = 1):
         self._parent = parent
         super().__init__(self._parent)
 
@@ -891,7 +891,7 @@ class SevenSegment(tk.Frame):
     :param digit_color: the digit color (ex: 'black', '#ff0000')
     :param background: the background color (ex: 'black', '#ff0000')
     """
-    def __init__(self, parent, height=50,
+    def __init__(self, parent, height: int = 50,
                  digit_color='black', background='white'):
         self._parent = parent
         self._color = digit_color
@@ -1045,7 +1045,7 @@ class SevenSegmentDigits(tk.Frame):
     :param digit_color: the digit color (ex: 'black', '#ff0000')
     :param background: the background color (ex: 'black', '#ff0000')
     """
-    def __init__(self, parent, digits=1, height=50,
+    def __init__(self, parent, digits: int = 1, height: int = 50,
                  digit_color='black', background='white'):
         self._parent = parent
         self._max_value = digits * 10 - 1

@@ -34,7 +34,7 @@ class Dial(ttk.Frame):
     """
     Base class for all dials and dial-like widgets
     """
-    def __init__(self, parent, size=100, **options):
+    def __init__(self, parent, size: int = 100, **options):
         self._parent = parent
         super().__init__(self._parent, padding=3, borderwidth=2, **options)
 
@@ -58,7 +58,7 @@ class Compass(Dial):
     """
     Displays a compass typically seen on a map
     """
-    def __init__(self, parent, size=100, **options):
+    def __init__(self, parent, size: int = 100, **options):
         super().__init__(parent, size=size, **options)
         raise NotImplementedError()
 
@@ -81,8 +81,8 @@ class RotaryScale(Dial):
     :param options: the frame options
     """
     def __init__(self, parent,
-                 max_value: (float, int)=100.0, size: (float, int)=100,
-                 unit: str=None, img_data: str=None,
+                 max_value: (float, int) = 100.0, size: (float, int) = 100,
+                 unit: str = None, img_data: str = None,
                  needle_color='blue', needle_thickness=0,
                  **options):
         super().__init__(parent, size=size, **options)
@@ -144,7 +144,7 @@ class RotaryScale(Dial):
 
         self.readout['text'] = '{}{}'.format(number, self.unit)
 
-    def _draw_background(self, divisions=10):
+    def _draw_background(self, divisions: int = 10):
         """
         Draws the background of the dial
 
@@ -202,7 +202,7 @@ class Gauge(ttk.Frame):
     :param red_low: in percent if very low values are a danger
     :param bg: background
     """
-    def __init__(self, parent, width=200, height=100,
+    def __init__(self, parent, width: int = 200, height: int = 100,
                  min_value=0.0, max_value=100.0, label='', unit='',
                  divisions=8, yellow=50, red=80, yellow_low=0,
                  red_low=0, bg='lightgrey'):
@@ -508,8 +508,9 @@ class Led(ttk.Frame):
     :param on_click_callback: a callback which accepts a boolean parameter 'on'
     :param options: the frame options
     """
-    def __init__(self, parent, size=100,
-                 on_click_callback=None, toggle_on_click=False, **options):
+    def __init__(self, parent, size: int = 100,
+                 on_click_callback: callable = None,
+                 toggle_on_click: bool = False, **options):
         self._parent = parent
         super().__init__(self._parent, padding=3, borderwidth=2,
                          **options)
@@ -547,7 +548,7 @@ class Led(ttk.Frame):
         if self._user_click_callback is not None:
             self._user_click_callback(self._on)
 
-    def to_grey(self, on: bool=False):
+    def to_grey(self, on: bool = False):
         """
         Change the LED to grey.
 
@@ -557,7 +558,7 @@ class Led(ttk.Frame):
         self._on = False
         self._load_new(led_grey)
 
-    def to_green(self, on: bool=False):
+    def to_green(self, on: bool = False):
         """
         Change the LED to green (on or off).
 
@@ -576,7 +577,7 @@ class Led(ttk.Frame):
             if self._toggle_on_click:
                 self._canvas.bind('<Button-1>', lambda x: self.to_green(True))
 
-    def to_red(self, on: bool=False):
+    def to_red(self, on: bool = False):
         """
         Change the LED to red (on or off)
         :param on: True or False
@@ -594,7 +595,7 @@ class Led(ttk.Frame):
             if self._toggle_on_click:
                 self._canvas.bind('<Button-1>', lambda x: self.to_red(True))
 
-    def to_yellow(self, on: bool=False):
+    def to_yellow(self, on: bool = False):
         """
         Change the LED to yellow (on or off)
         :param on: True or False
