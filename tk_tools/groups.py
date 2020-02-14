@@ -433,8 +433,7 @@ class KeyValueEntry(ttk.Frame):
         for i, label in enumerate(self.keys):
             key = label.cget('text')
             if key in data.keys():
-                entry_was_enabled = True if \
-                    self.values[i].cget('state') == 'normal' else False
+                entry_was_enabled = str(self.values[i].cget('state')) == 'normal'
                 if not entry_was_enabled:
                     self.values[i].config(state='normal')
 
