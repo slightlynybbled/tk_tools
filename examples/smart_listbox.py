@@ -13,10 +13,10 @@ if __name__ == '__main__':
         string = ''.join(values)
         value_label.config(text=string)
 
-    # specify a callback, then specify the normal spinbox options (such as "from_", "to", and "increment"
     tk.Label(root, text='selectmode="browse"').grid(row=1, column=0)
     tk_tools.SmartListBox(root, on_select_callback=callback, selectmode='browse',
                           options=['1', '2', '3']).grid(row=2, column=0)
+
     tk.Label(root, text='selectmode="multiple"').grid(row=1, column=0)
     tk_tools.SmartListBox(root, on_select_callback=callback, selectmode='multiple',
                           options=['a', 'b', 'c']).grid(row=4, column=0)
