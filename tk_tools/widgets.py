@@ -216,7 +216,8 @@ class SmartListBox(SmartWidget):
         self._values = {}
 
         r = 0
-        self._lb = tk.Listbox(self, width=width, height=height, selectmode=selectmode, exportselection=0)
+        self._lb = tk.Listbox(self, width=width, height=height,
+                              selectmode=selectmode, exportselection=0)
         self._lb.grid(row=r, column=0, sticky='ew')
         [self._lb.insert('end', option) for option in options]
         self._lb.bind('<<ListboxSelect>>', lambda _: self._on_select())
