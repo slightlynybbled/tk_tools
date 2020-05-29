@@ -237,7 +237,11 @@ class SmartListBox(SmartWidget):
             self._values.popitem()
 
         if self._on_select_callback is not None:
-            self._on_select_callback()
+            values = list(self._values.keys())
+            try:
+                self._on_select_callback(values)
+            except TypeError:
+                self._on_select_callback()
 
     def __on_select(self):
         value = self._lb.get('active')
