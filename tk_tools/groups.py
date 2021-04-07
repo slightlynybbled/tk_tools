@@ -22,7 +22,8 @@ class _Grid(ttk.Frame):
     :param num_of_columns: the number of columns contained of the grid
     :param headers: a list containing the names of the column headers
     """
-    def __init__(self, parent, num_of_columns: int, headers: list = None,
+    def __init__(self, parent, num_of_columns: int,
+                 headers: list = None,
                  **options):
         self._parent = parent
         super().__init__(self._parent, padding=3, borderwidth=2,
@@ -32,6 +33,7 @@ class _Grid(ttk.Frame):
         self.headers = list()
         self._rows = list()
         self.num_of_columns = num_of_columns
+        self._has_row_labels = False
 
         # do some validation
         if headers:
@@ -59,14 +61,20 @@ class _Grid(ttk.Frame):
 
         :return: None
         """
+        for widget in self.headers:
+            widget.grid_forget()
+
         for row in self._rows:
             for widget in row:
                 widget.grid_forget()
 
-        offset = 0 if not self.headers else 1
+        for i, widget in enumerate(self.headers):
+            widget.grid(row=0, column=i, sticky='E,W')
+
+        r = 0 if not self.headers else 1
         for i, row in enumerate(self._rows):
             for j, widget in enumerate(row):
-                widget.grid(row=i+offset, column=j)
+                widget.grid(row=i+r, column=j)
 
     def remove_row(self, row_number: int = -1):
         """
@@ -249,11 +257,11 @@ class ButtonGrid(_Grid):
     :param num_of_columns: the number of columns contained of the grid
     :param headers: a list containing the names of the column headers
     """
-    def __init__(self, parent, num_of_columns: int, headers: list = None,
-                 **options):
+    def __init__(self, parent, num_of_columns: int,
+                 headers: list = None, **options):
         super().__init__(parent, num_of_columns, headers, **options)
 
-    def add_row(self, data: list):
+    def add_row(self, data: list, row_label: str = None):
         """
         Add a row of buttons each with their own callbacks to the
         current widget.  Each element in `data` will consist of a
@@ -267,8 +275,18 @@ class ButtonGrid(_Grid):
             if len(self.headers) != len(data):
                 raise ValueError
 
-        offset = 0 if not self.headers else 1
+        for widget in self.headers:
+            widget.grid_forget()
+
+        for row in self._rows:
+            for widget in row:
+                widget.grid_forget()
+
         row = list()
+
+        if row_label is not None:
+            l = tk.Label(self, text=row_label)
+            row.append(l)
 
         for i, e in enumerate(data):
             if not isinstance(e, tuple):
@@ -281,10 +299,29 @@ class ButtonGrid(_Grid):
                                padx=self.padding,
                                pady=self.padding)
 
-            button.grid(row=len(self._rows) + offset, column=i, sticky='ew')
             row.append(button)
 
         self._rows.append(row)
+
+        # check if row has row labels
+        has_row_labels = False
+        for row in self._rows:
+            if isinstance(row[0], tk.Label):
+                has_row_labels = True
+                break
+
+        r = 0 if not self.headers else 1
+
+        for i, widget in enumerate(self.headers):
+            if has_row_labels:
+                widget.grid(row=0, column=i+1, sticky='ew')
+            else:
+                widget.grid(row=0, column=i, sticky='ew')
+
+        for i, row in enumerate(self._rows):
+            for j, widget in enumerate(row):
+                widget.grid(row=i+r, column=j, sticky='ew')
+
 
 
 class KeyValueEntry(ttk.Frame):
