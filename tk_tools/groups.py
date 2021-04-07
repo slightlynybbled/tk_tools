@@ -285,8 +285,8 @@ class ButtonGrid(_Grid):
         row = list()
 
         if row_label is not None:
-            l = tk.Label(self, text=row_label)
-            row.append(l)
+            lbl = tk.Label(self, text=row_label)
+            row.append(lbl)
 
         for i, e in enumerate(data):
             if not isinstance(e, tuple):
@@ -321,7 +321,6 @@ class ButtonGrid(_Grid):
         for i, row in enumerate(self._rows):
             for j, widget in enumerate(row):
                 widget.grid(row=i+r, column=j, sticky='ew')
-
 
 
 class KeyValueEntry(ttk.Frame):
