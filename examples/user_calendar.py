@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import tkinter
 import tk_tools
 import locale
@@ -19,7 +21,7 @@ if __name__ == '__main__':
     if show_in_german:
         locale.setlocale(locale.LC_ALL, 'deu_deu')
 
-    calendar = tk_tools.Calendar(root)
+    calendar = tk_tools.Calendar(root, year=2021, month=2, day=5)
     calendar.pack()
 
     calendar.add_callback(callback)

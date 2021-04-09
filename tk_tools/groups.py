@@ -513,21 +513,29 @@ class Calendar(ttk.Frame):
 
     :param parent: the parent frame
     :param callback: the callable to be executed on selection
-    :param kw: tkinter.frame keyword arguments
+    :param year: the year as an integer, i.e. `2020`
+    :param month: the month as an integer; not zero-indexed; i.e.
+    "1" will translate to "January"
+    :param day: the day as an integer; not zero-indexed
+    :param kwargs: tkinter.frame keyword arguments
     """
     timedelta = datetime.timedelta
     datetime = datetime.datetime
 
-    def __init__(self, parent, callback: callable = None, **kwargs):
+    def __init__(self, parent, callback: callable = None,
+                 year: int = None, month: int = None, day: int = None,
+                 **kwargs):
         # remove custom options from kw before initializing ttk.Frame
         fwday = calendar.SUNDAY
-        year = kwargs.pop('year', self.datetime.now().year)
-        month = kwargs.pop('month', self.datetime.now().month)
+        now = self.datetime.now()
+        year = year if year else now.year
+        month = month if month else now.month
+        day = day if day else now.day
         locale = kwargs.pop('locale', None)
         sel_bg = kwargs.pop('selectbackground', '#ecffc4')
         sel_fg = kwargs.pop('selectforeground', '#05640e')
 
-        self._date = self.datetime(year, month, 1)
+        self._date = self.datetime(year, month, day)
         self._selection = None  # no date selected
         self.callback = callback
 
