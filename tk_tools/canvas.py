@@ -30,13 +30,13 @@ else:
 logger.info('frozen: {}'.format(frozen))
 
 
-class Dial(ttk.Frame):
+class Dial(tk.Frame):
     """
     Base class for all dials and dial-like widgets
     """
     def __init__(self, parent, size: int = 100, **options):
         self._parent = parent
-        super().__init__(self._parent, padding=3, borderwidth=2, **options)
+        super().__init__(self._parent, padx=3, pady=3, borderwidth=2, **options)
 
         self.size = size
 
@@ -179,7 +179,7 @@ class RotaryScale(Dial):
             )
 
 
-class Gauge(ttk.Frame):
+class Gauge(tk.Frame):
     """
     Shows a gauge, much like the RotaryGauge.::
 
@@ -334,7 +334,7 @@ class Gauge(ttk.Frame):
             self.readout(self._value, 'red')  # on RED BackGround
 
 
-class Graph(ttk.Frame):
+class Graph(tk.Frame):
     """
     Tkinter native graph (pretty basic, but doesn't require heavy install).::
 
@@ -487,7 +487,7 @@ class Graph(ttk.Frame):
             start += step
 
 
-class Led(ttk.Frame):
+class Led(tk.Frame):
     """
     Create an LED-like interface for the user.::
 
@@ -512,12 +512,18 @@ class Led(ttk.Frame):
                  on_click_callback: callable = None,
                  toggle_on_click: bool = False, **options):
         self._parent = parent
-        super().__init__(self._parent, padding=3, borderwidth=2,
+        super().__init__(self._parent, padx=3, pady=3, borderwidth=0,
                          **options)
 
         self._size = size
 
-        self._canvas = tk.Canvas(self, width=self._size, height=self._size)
+        canvas_opts = {}
+        if 'bg' in options.keys():
+            canvas_opts['bg'] = options.get('bg')
+        canvas_opts['highlightthickness'] = 0
+        canvas_opts['width'] = self._size
+        canvas_opts['height'] = self._size
+        self._canvas = tk.Canvas(self, **canvas_opts)
         self._canvas.grid(row=0)
         self._image = None
         self._on = False

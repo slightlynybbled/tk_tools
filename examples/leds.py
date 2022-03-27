@@ -10,10 +10,11 @@ def on_click_callback(on):
 
 
 if __name__ == '__main__':
-
     root = tk.Tk()
+    root.configure(bg='black')
 
-    led0 = tk_tools.Led(root, size=50, on_click_callback=on_click_callback)
+    led0 = tk_tools.Led(root, size=50, on_click_callback=on_click_callback,
+                        bg='black')
     led0.pack()
 
     tk.Button(root, text='red', command=led0.to_red).pack(fill=tk.X)

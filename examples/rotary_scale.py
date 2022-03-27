@@ -1,7 +1,7 @@
 import tkinter as tk
 import tk_tools
 
-from tk_tools.images import rotary_gauge_volt
+from tk_tools.images import rotary_gauge_volt, rotary_scale
 
 max_value = 100.0
 min_value = 0.0
@@ -16,6 +16,7 @@ def increment():
 
     p1.set_value(value)
     p2.set_value(value)
+    p3.set_value(value)
 
 
 def decrement():
@@ -27,6 +28,7 @@ def decrement():
 
     p1.set_value(value)
     p2.set_value(value)
+    p3.set_value(value)
 
 
 if __name__ == '__main__':
