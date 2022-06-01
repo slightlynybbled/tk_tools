@@ -9,7 +9,7 @@ from collections import OrderedDict
 try:
     from tk_tools.images import minus
 except ImportError:
-    minus = ''
+    minus = ""
 
 
 class _Grid(ttk.Frame):
@@ -22,12 +22,10 @@ class _Grid(ttk.Frame):
     :param num_of_columns: the number of columns contained of the grid
     :param headers: a list containing the names of the column headers
     """
-    def __init__(self, parent, num_of_columns: int,
-                 headers: list = None,
-                 **options):
+
+    def __init__(self, parent, num_of_columns: int, headers: list = None, **options):
         self._parent = parent
-        super().__init__(self._parent, padding=3, borderwidth=2,
-                         **options)
+        super().__init__(self._parent, padding=3, borderwidth=2, **options)
         self.grid()
 
         self.headers = list()
@@ -41,9 +39,10 @@ class _Grid(ttk.Frame):
                 raise ValueError
 
             for i, element in enumerate(headers):
-                label = ttk.Label(self, text=str(element), relief=tk.GROOVE,
-                                  padding=self.padding)
-                label.grid(row=0, column=i, sticky='E,W')
+                label = ttk.Label(
+                    self, text=str(element), relief=tk.GROOVE, padding=self.padding
+                )
+                label.grid(row=0, column=i, sticky="E,W")
                 self.headers.append(label)
 
     def add_row(self, data: list):
@@ -69,12 +68,12 @@ class _Grid(ttk.Frame):
                 widget.grid_forget()
 
         for i, widget in enumerate(self.headers):
-            widget.grid(row=0, column=i, sticky='E,W')
+            widget.grid(row=0, column=i, sticky="E,W")
 
         r = 0 if not self.headers else 1
         for i, row in enumerate(self._rows):
             for j, widget in enumerate(row):
-                widget.grid(row=i+r, column=j)
+                widget.grid(row=i + r, column=j)
 
     def remove_row(self, row_number: int = -1):
         """
@@ -108,9 +107,8 @@ class LabelGrid(_Grid):
     :param num_of_columns: the number of columns contained of the grid
     :param headers: a list containing the names of the column headers
     """
-    def __init__(self, parent,
-                 num_of_columns: int, headers: list = None,
-                 **options):
+
+    def __init__(self, parent, num_of_columns: int, headers: list = None, **options):
         self._parent = parent
         super().__init__(self._parent, num_of_columns, headers, **options)
 
@@ -132,9 +130,10 @@ class LabelGrid(_Grid):
         offset = 0 if not self.headers else 1
         row = list()
         for i, element in enumerate(data):
-            label = ttk.Label(self, text=str(element), relief=tk.GROOVE,
-                              padding=self.padding)
-            label.grid(row=len(self._rows) + offset, column=i, sticky='E,W')
+            label = ttk.Label(
+                self, text=str(element), relief=tk.GROOVE, padding=self.padding
+            )
+            label.grid(row=len(self._rows) + offset, column=i, sticky="E,W")
             row.append(label)
 
         self._rows.append(row)
@@ -148,9 +147,8 @@ class EntryGrid(_Grid):
     :param num_of_columns: the number of columns contained of the grid
     :param headers: a list containing the names of the column headers
     """
-    def __init__(self, parent,
-                 num_of_columns: int, headers: list = None,
-                 **options):
+
+    def __init__(self, parent, num_of_columns: int, headers: list = None, **options):
         super().__init__(parent, num_of_columns, headers, **options)
 
     def add_row(self, data: list = None):
@@ -172,19 +170,15 @@ class EntryGrid(_Grid):
 
         if data:
             for i, element in enumerate(data):
-                contents = '' if element is None else str(element)
+                contents = "" if element is None else str(element)
                 entry = ttk.Entry(self)
                 entry.insert(0, contents)
-                entry.grid(row=len(self._rows) + offset,
-                           column=i,
-                           sticky='E,W')
+                entry.grid(row=len(self._rows) + offset, column=i, sticky="E,W")
                 row.append(entry)
         else:
             for i in range(self.num_of_columns):
                 entry = ttk.Entry(self)
-                entry.grid(row=len(self._rows) + offset,
-                           column=i,
-                           sticky='E,W')
+                entry.grid(row=len(self._rows) + offset, column=i, sticky="E,W")
                 row.append(entry)
 
         self._rows.append(row)
@@ -192,13 +186,13 @@ class EntryGrid(_Grid):
         # clear all bindings
         for row in self._rows:
             for widget in row:
-                widget.unbind('<Tab>')
+                widget.unbind("<Tab>")
 
         def add(e):
             self.add_row()
 
         last_entry = self._rows[-1][-1]
-        last_entry.bind('<Tab>', add)
+        last_entry.bind("<Tab>", add)
 
         e = self._rows[-1][0]
         e.focus_set()
@@ -216,7 +210,7 @@ class EntryGrid(_Grid):
         for row in self._rows:
             row_data = OrderedDict()
             for i, header in enumerate(self.headers):
-                row_data[header.cget('text')] = row[i].get()
+                row_data[header.cget("text")] = row[i].get()
 
             data.append(row_data)
 
@@ -257,8 +251,8 @@ class ButtonGrid(_Grid):
     :param num_of_columns: the number of columns contained of the grid
     :param headers: a list containing the names of the column headers
     """
-    def __init__(self, parent, num_of_columns: int,
-                 headers: list = None, **options):
+
+    def __init__(self, parent, num_of_columns: int, headers: list = None, **options):
         super().__init__(parent, num_of_columns, headers, **options)
 
     def add_row(self, data: list, row_label: str = None):
@@ -290,14 +284,19 @@ class ButtonGrid(_Grid):
 
         for i, e in enumerate(data):
             if not isinstance(e, tuple):
-                raise ValueError('all elements must be a tuple '
-                                 'consisting of ("label", <command>)')
+                raise ValueError(
+                    "all elements must be a tuple " 'consisting of ("label", <command>)'
+                )
 
             label, command = e
-            button = tk.Button(self, text=str(label), relief=tk.RAISED,
-                               command=command,
-                               padx=self.padding,
-                               pady=self.padding)
+            button = tk.Button(
+                self,
+                text=str(label),
+                relief=tk.RAISED,
+                command=command,
+                padx=self.padding,
+                pady=self.padding,
+            )
 
             row.append(button)
 
@@ -314,13 +313,13 @@ class ButtonGrid(_Grid):
 
         for i, widget in enumerate(self.headers):
             if has_row_labels:
-                widget.grid(row=0, column=i+1, sticky='ew')
+                widget.grid(row=0, column=i + 1, sticky="ew")
             else:
-                widget.grid(row=0, column=i, sticky='ew')
+                widget.grid(row=0, column=i, sticky="ew")
 
         for i, row in enumerate(self._rows):
             for j, widget in enumerate(row):
-                widget.grid(row=i+r, column=j, sticky='ew')
+                widget.grid(row=i + r, column=j, sticky="ew")
 
 
 class KeyValueEntry(ttk.Frame):
@@ -336,27 +335,31 @@ class KeyValueEntry(ttk.Frame):
     :param on_change_callback: a function callback when any element is changed
     :param options: frame tk options
     """
-    def __init__(self, parent, keys: list, defaults: list = None,
-                 unit_labels: list = None, enables: list = None,
-                 title: str = None, on_change_callback: callable = None,
-                 **options):
+
+    def __init__(
+        self,
+        parent,
+        keys: list,
+        defaults: list = None,
+        unit_labels: list = None,
+        enables: list = None,
+        title: str = None,
+        on_change_callback: callable = None,
+        **options
+    ):
         self._parent = parent
-        super().__init__(self._parent, borderwidth=2,
-                         padding=5, **options)
+        super().__init__(self._parent, borderwidth=2, padding=5, **options)
 
         # some checks before proceeding
         if defaults:
             if len(keys) != len(defaults):
-                raise ValueError('unit_labels length does not '
-                                 'match keys length')
+                raise ValueError("unit_labels length does not " "match keys length")
         if unit_labels:
             if len(keys) != len(unit_labels):
-                raise ValueError('unit_labels length does not '
-                                 'match keys length')
+                raise ValueError("unit_labels length does not " "match keys length")
         if enables:
             if len(keys) != len(enables):
-                raise ValueError('enables length does not '
-                                 'match keys length')
+                raise ValueError("enables length does not " "match keys length")
 
         self.keys = []
         self.values = []
@@ -376,11 +379,12 @@ class KeyValueEntry(ttk.Frame):
                 key=keys[i],
                 default=defaults[i] if defaults else None,
                 unit_label=unit_labels[i] if unit_labels else None,
-                enable=enables[i] if enables else None
+                enable=enables[i] if enables else None,
             )
 
-    def add_row(self, key: str, default: str = None,
-                unit_label: str = None, enable: bool = None):
+    def add_row(
+        self, key: str, default: str = None, unit_label: str = None, enable: bool = None
+    ):
         """
         Add a single row and re-draw as necessary
 
@@ -394,9 +398,7 @@ class KeyValueEntry(ttk.Frame):
         self.keys.append(ttk.Label(self, text=key))
 
         self.defaults.append(default)
-        self.unit_labels.append(
-            ttk.Label(self, text=unit_label if unit_label else '')
-        )
+        self.unit_labels.append(ttk.Label(self, text=unit_label if unit_label else ""))
         self.enables.append(enable)
         self.values.append(ttk.Entry(self))
 
@@ -405,11 +407,11 @@ class KeyValueEntry(ttk.Frame):
         for i in range(len(self.keys)):
             self.keys[i].grid_forget()
 
-            self.keys[i].grid(row=row_offset, column=0, sticky='e')
+            self.keys[i].grid(row=row_offset, column=0, sticky="e")
             self.values[i].grid(row=row_offset, column=1)
 
             if self.unit_labels[i]:
-                self.unit_labels[i].grid(row=row_offset, column=3, sticky='w')
+                self.unit_labels[i].grid(row=row_offset, column=3, sticky="w")
 
             if self.defaults[i]:
                 self.values[i].config(state=tk.NORMAL)
@@ -424,15 +426,16 @@ class KeyValueEntry(ttk.Frame):
             row_offset += 1
 
             # strip <Return> and <Tab> bindings, add callbacks to all entries
-            self.values[i].unbind('<Return>')
-            self.values[i].unbind('<Tab>')
+            self.values[i].unbind("<Return>")
+            self.values[i].unbind("<Tab>")
 
             if self.callback is not None:
+
                 def callback(event):
                     self.callback()
 
-                self.values[i].bind('<Return>', callback)
-                self.values[i].bind('<Tab>', callback)
+                self.values[i].bind("<Return>", callback)
+                self.values[i].bind("<Tab>", callback)
 
     def reset(self):
         """
@@ -467,18 +470,17 @@ class KeyValueEntry(ttk.Frame):
         :return: None
         """
         for i, label in enumerate(self.keys):
-            key = label.cget('text')
+            key = label.cget("text")
             if key in data.keys():
-                entry_was_enabled = \
-                    str(self.values[i].cget('state')) == 'normal'
+                entry_was_enabled = str(self.values[i].cget("state")) == "normal"
                 if not entry_was_enabled:
-                    self.values[i].config(state='normal')
+                    self.values[i].config(state="normal")
 
                 self.values[i].delete(0, tk.END)
                 self.values[i].insert(0, str(data[key]))
 
                 if not entry_was_enabled:
-                    self.values[i].config(state='disabled')
+                    self.values[i].config(state="disabled")
 
     def get(self):
         """
@@ -489,7 +491,7 @@ class KeyValueEntry(ttk.Frame):
         """
         data = dict()
         for label, entry in zip(self.keys, self.values):
-            data[label.cget('text')] = entry.get()
+            data[label.cget("text")] = entry.get()
 
         return data
 
@@ -519,21 +521,28 @@ class Calendar(ttk.Frame):
     :param day: the day as an integer; not zero-indexed
     :param kwargs: tkinter.frame keyword arguments
     """
+
     timedelta = datetime.timedelta
     datetime = datetime.datetime
 
-    def __init__(self, parent, callback: callable = None,
-                 year: int = None, month: int = None, day: int = None,
-                 **kwargs):
+    def __init__(
+        self,
+        parent,
+        callback: callable = None,
+        year: int = None,
+        month: int = None,
+        day: int = None,
+        **kwargs
+    ):
         # remove custom options from kw before initializing ttk.Frame
         fwday = calendar.SUNDAY
         now = self.datetime.now()
         year = year if year else now.year
         month = month if month else now.month
         day = day if day else now.day
-        locale = kwargs.pop('locale', None)
-        sel_bg = kwargs.pop('selectbackground', '#ecffc4')
-        sel_fg = kwargs.pop('selectforeground', '#05640e')
+        locale = kwargs.pop("locale", None)
+        sel_bg = kwargs.pop("selectbackground", "#ecffc4")
+        sel_fg = kwargs.pop("selectforeground", "#05640e")
 
         self._date = self.datetime(year, month, day)
         self._selection = None  # no date selected
@@ -543,41 +552,37 @@ class Calendar(ttk.Frame):
 
         self._cal = _get_calendar(locale, fwday)
 
-        self.__setup_styles()       # creates custom styles
-        self.__place_widgets()      # pack/grid used widgets
-        self.__config_calendar()    # adjust calendar columns and setup tags
+        self.__setup_styles()  # creates custom styles
+        self.__place_widgets()  # pack/grid used widgets
+        self.__config_calendar()  # adjust calendar columns and setup tags
         # configure a _canvas, and proper bindings, for selecting dates
         self.__setup_selection(sel_bg, sel_fg)
 
         # store items ids, used for insertion later
-        self._items = [
-            self._calendar.insert('', 'end', values='') for _ in range(6)
-        ]
+        self._items = [self._calendar.insert("", "end", values="") for _ in range(6)]
 
         # insert dates in the currently empty calendar
         self._build_calendar()
 
     def __setitem__(self, item, value):
-        if item in ('year', 'month'):
+        if item in ("year", "month"):
             raise AttributeError("attribute '%s' is not writeable" % item)
-        elif item == 'selectbackground':
-            self._canvas['background'] = value
-        elif item == 'selectforeground':
+        elif item == "selectbackground":
+            self._canvas["background"] = value
+        elif item == "selectforeground":
             self._canvas.itemconfigure(self._canvas.text, item=value)
         else:
             ttk.Frame.__setitem__(self, item, value)
 
     def __getitem__(self, item):
-        if item in ('year', 'month'):
+        if item in ("year", "month"):
             return getattr(self._date, item)
-        elif item == 'selectbackground':
-            return self._canvas['background']
-        elif item == 'selectforeground':
-            return self._canvas.itemcget(self._canvas.text, 'fill')
+        elif item == "selectbackground":
+            return self._canvas["background"]
+        elif item == "selectforeground":
+            return self._canvas.itemcget(self._canvas.text, "fill")
         else:
-            r = ttk.tclobjs_to_py(
-                {item: ttk.Frame.__getitem__(self, item)}
-            )
+            r = ttk.tclobjs_to_py({item: ttk.Frame.__getitem__(self, item)})
             return r[item]
 
     def __setup_styles(self):
@@ -585,66 +590,54 @@ class Calendar(ttk.Frame):
         style = ttk.Style(self.master)
 
         def arrow_layout(dir):
-            return [
-                ('Button.focus', {
-                    'children': [('Button.%sarrow' % dir, None)]
-                })
-            ]
+            return [("Button.focus", {"children": [("Button.%sarrow" % dir, None)]})]
 
-        style.layout('L.TButton', arrow_layout('left'))
-        style.layout('R.TButton', arrow_layout('right'))
+        style.layout("L.TButton", arrow_layout("left"))
+        style.layout("R.TButton", arrow_layout("right"))
 
     def __place_widgets(self):
         # header frame and its widgets
         hframe = ttk.Frame(self)
-        lbtn = ttk.Button(hframe,
-                          style='L.TButton',
-                          command=self._prev_month)
-        rbtn = ttk.Button(hframe,
-                          style='R.TButton',
-                          command=self._next_month)
-        self._header = ttk.Label(hframe, width=15, anchor='center')
+        lbtn = ttk.Button(hframe, style="L.TButton", command=self._prev_month)
+        rbtn = ttk.Button(hframe, style="R.TButton", command=self._next_month)
+        self._header = ttk.Label(hframe, width=15, anchor="center")
         # the calendar
-        self._calendar = ttk.Treeview(self, show='',
-                                      selectmode='none', height=7)
+        self._calendar = ttk.Treeview(self, show="", selectmode="none", height=7)
 
         # pack the widgets
-        hframe.pack(in_=self, side='top', pady=4, anchor='center')
+        hframe.pack(in_=self, side="top", pady=4, anchor="center")
         lbtn.grid(in_=hframe)
         self._header.grid(in_=hframe, column=1, row=0, padx=12)
         rbtn.grid(in_=hframe, column=2, row=0)
-        self._calendar.pack(in_=self, expand=1, fill='both', side='bottom')
+        self._calendar.pack(in_=self, expand=1, fill="both", side="bottom")
 
     def __config_calendar(self):
         cols = self._cal.formatweekheader(3).split()
 
-        self._calendar['columns'] = cols
-        self._calendar.tag_configure('header', background='grey90')
-        self._calendar.insert('', 'end', values=cols, tag='header')
+        self._calendar["columns"] = cols
+        self._calendar.tag_configure("header", background="grey90")
+        self._calendar.insert("", "end", values=cols, tag="header")
 
         # adjust its columns width
         font = Font()
         maxwidth = max(font.measure(col) for col in cols)
         for col in cols:
-            self._calendar.column(
-                col, width=maxwidth, minwidth=maxwidth, anchor='e'
-            )
+            self._calendar.column(col, width=maxwidth, minwidth=maxwidth, anchor="e")
 
     def __setup_selection(self, sel_bg, sel_fg):
         self._font = Font()
         self._canvas = canvas = tk.Canvas(
-            self._calendar, background=sel_bg,
-            borderwidth=0, highlightthickness=0
+            self._calendar, background=sel_bg, borderwidth=0, highlightthickness=0
         )
-        canvas.text = canvas.create_text(0, 0, fill=sel_fg, anchor='w')
+        canvas.text = canvas.create_text(0, 0, fill=sel_fg, anchor="w")
 
-        canvas.bind('<ButtonPress-1>', lambda evt: canvas.place_forget())
-        self._calendar.bind('<Configure>', lambda evt: canvas.place_forget())
-        self._calendar.bind('<ButtonPress-1>', self._pressed)
+        canvas.bind("<ButtonPress-1>", lambda evt: canvas.place_forget())
+        self._calendar.bind("<Configure>", lambda evt: canvas.place_forget())
+        self._calendar.bind("<ButtonPress-1>", self._pressed)
 
     def __minsize(self, evt):
-        width, height = self._calendar.master.geometry().split('x')
-        height = height[:height.index('+')]
+        width, height = self._calendar.master.geometry().split("x")
+        height = height[: height.index("+")]
         self._calendar.master.minsize(width, height)
 
     def _build_calendar(self):
@@ -652,13 +645,13 @@ class Calendar(ttk.Frame):
 
         # update header text (Month, YEAR)
         header = self._cal.formatmonthname(year, month, 0)
-        self._header['text'] = header.title()
+        self._header["text"] = header.title()
 
         # update calendar shown dates
         cal = self._cal.monthdayscalendar(year, month)
         for indx, item in enumerate(self._items):
             week = cal[indx] if indx < len(cal) else []
-            fmt_week = [('%02d' % day) if day else '' for day in week]
+            fmt_week = [("%02d" % day) if day else "" for day in week]
             self._calendar.item(item, values=fmt_week)
 
     def _show_selection(self, text, bbox):
@@ -689,7 +682,7 @@ class Calendar(ttk.Frame):
             # clicked in the weekdays row or just outside the columns
             return
 
-        item_values = widget.item(item)['values']
+        item_values = widget.item(item)["values"]
         if not len(item_values):  # row is empty for this month
             return
 
@@ -702,7 +695,7 @@ class Calendar(ttk.Frame):
             return
 
         # update and then show selection
-        text = '%02d' % text
+        text = "%02d" % text
         self._selection = (text, item, column)
         self._show_selection(text, bbox)
 
@@ -736,7 +729,8 @@ class Calendar(ttk.Frame):
 
         year, month = self._date.year, self._date.month
         self._date = self._date + self.timedelta(
-            days=calendar.monthrange(year, month)[1] + 1)
+            days=calendar.monthrange(year, month)[1] + 1
+        )
         self._date = self.datetime(self._date.year, self._date.month, 1)
         self._build_calendar()  # reconstruct calendar
 
@@ -753,7 +747,8 @@ class Calendar(ttk.Frame):
 
 
 class _SlotFrame(ttk.Frame):
-    """ A single slot """
+    """A single slot"""
+
     def __init__(self, parent, remove_callback=None, entries=1):
         self.parent = parent
         super().__init__(self.parent)
@@ -762,17 +757,16 @@ class _SlotFrame(ttk.Frame):
         self._entries = []
 
         if entries < 1:
-            raise ValueError('entries must be >= 1')
+            raise ValueError("entries must be >= 1")
 
         for i in range(entries):
             entry = ttk.Entry(self)
-            entry.grid(row=0, column=i, sticky='ew')
+            entry.grid(row=0, column=i, sticky="ew")
             self._entries.append(entry)
 
         self._image = tk.PhotoImage(data=minus).subsample(2, 2)
-        self._remove_btn = ttk.Button(self,
-                                      image=self._image, command=self.remove)
-        self._remove_btn.grid(row=0, column=entries, sticky='ew')
+        self._remove_btn = ttk.Button(self, image=self._image, command=self.remove)
+        self._remove_btn.grid(row=0, column=entries, sticky="ew")
 
         self.deleted = False
         self._remove_callback = remove_callback
@@ -786,15 +780,16 @@ class _SlotFrame(ttk.Frame):
         :return:
         """
         if len(self._entries) == 1:
-            self._entries[0].delete(0, 'end')
+            self._entries[0].delete(0, "end")
             self._entries[0].insert(0, string)
         else:
             if len(string) != len(self._entries):
-                raise ValueError('the "string" list must be '
-                                 'equal to the number of entries')
+                raise ValueError(
+                    'the "string" list must be ' "equal to the number of entries"
+                )
 
             for i, e in enumerate(self._entries):
-                self._entries[i].delete(0, 'end')
+                self._entries[i].delete(0, "end")
                 self._entries[i].insert(0, string[i])
 
     def remove(self):
@@ -846,6 +841,7 @@ class MultiSlotFrame(ttk.Frame):
     :param parent: the tk parent frame
     :param columns: the number of user columns (defaults to 1)
     """
+
     def __init__(self, parent, columns: int = 1):
         self._parent = parent
         super().__init__(self._parent)
@@ -858,7 +854,7 @@ class MultiSlotFrame(ttk.Frame):
         self._blank_label = None
         self._redraw()
 
-        self._blank_label = ttk.Label(self, text='<no data>')
+        self._blank_label = ttk.Label(self, text="<no data>")
         self._blank_label.grid(row=0, column=0)
 
     def _redraw(self):
@@ -878,8 +874,7 @@ class MultiSlotFrame(ttk.Frame):
 
         max_per_col = 8
         for i, slot in enumerate(self._slots):
-            slot.grid(row=i % max_per_col,
-                      column=int(i / max_per_col), sticky='ew')
+            slot.grid(row=i % max_per_col, column=int(i / max_per_col), sticky="ew")
 
     def add(self, string: (str, list)):
         """
@@ -887,9 +882,9 @@ class MultiSlotFrame(ttk.Frame):
         :param string: a string to insert
         :return: None
         """
-        slot = _SlotFrame(self,
-                          remove_callback=self._redraw,
-                          entries=self._slot_columns)
+        slot = _SlotFrame(
+            self, remove_callback=self._redraw, entries=self._slot_columns
+        )
         slot.add(string)
 
         self._slots.append(slot)
@@ -935,14 +930,20 @@ class SevenSegment(tk.Frame):
     :param digit_color: the digit color (ex: 'black', '#ff0000')
     :param background: the background color (ex: 'black', '#ff0000')
     """
-    def __init__(self, parent, height: int = 50,
-                 digit_color='black', background='white'):
+
+    def __init__(
+        self, parent, height: int = 50, digit_color="black", background="white"
+    ):
         self._parent = parent
         self._color = digit_color
         self._bg_color = background
 
-        super().__init__(self._parent, height=height, width=int(height / 2),
-                         background=self._bg_color)
+        super().__init__(
+            self._parent,
+            height=height,
+            width=int(height / 2),
+            background=self._bg_color,
+        )
 
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
@@ -959,29 +960,29 @@ class SevenSegment(tk.Frame):
 
         self._segments = dict()
 
-        self._segments['a'] = tk.Frame(self, bg=self._bg_color)
-        self._segments['a'].grid(row=1, column=2, sticky='news')
+        self._segments["a"] = tk.Frame(self, bg=self._bg_color)
+        self._segments["a"].grid(row=1, column=2, sticky="news")
 
-        self._segments['b'] = tk.Frame(self, bg=self._bg_color)
-        self._segments['b'].grid(row=2, column=3, sticky='news')
+        self._segments["b"] = tk.Frame(self, bg=self._bg_color)
+        self._segments["b"].grid(row=2, column=3, sticky="news")
 
-        self._segments['c'] = tk.Frame(self, bg=self._bg_color)
-        self._segments['c'].grid(row=4, column=3, sticky='news')
+        self._segments["c"] = tk.Frame(self, bg=self._bg_color)
+        self._segments["c"].grid(row=4, column=3, sticky="news")
 
-        self._segments['d'] = tk.Frame(self, bg=self._bg_color)
-        self._segments['d'].grid(row=5, column=2, sticky='news')
+        self._segments["d"] = tk.Frame(self, bg=self._bg_color)
+        self._segments["d"].grid(row=5, column=2, sticky="news")
 
-        self._segments['e'] = tk.Frame(self, bg=self._bg_color)
-        self._segments['e'].grid(row=4, column=1, sticky='news')
+        self._segments["e"] = tk.Frame(self, bg=self._bg_color)
+        self._segments["e"].grid(row=4, column=1, sticky="news")
 
-        self._segments['f'] = tk.Frame(self, bg=self._bg_color)
-        self._segments['f'].grid(row=2, column=1, sticky='news')
+        self._segments["f"] = tk.Frame(self, bg=self._bg_color)
+        self._segments["f"].grid(row=2, column=1, sticky="news")
 
-        self._segments['g'] = tk.Frame(self, bg=self._bg_color)
-        self._segments['g'].grid(row=3, column=2, sticky='news')
+        self._segments["g"] = tk.Frame(self, bg=self._bg_color)
+        self._segments["g"].grid(row=3, column=2, sticky="news")
 
-        self._segments['period'] = tk.Frame(self, bg=self._bg_color)
-        self._segments['period'].grid(row=5, column=4, sticky='news')
+        self._segments["period"] = tk.Frame(self, bg=self._bg_color)
+        self._segments["period"].grid(row=5, column=4, sticky="news")
 
         self.grid_propagate(0)
 
@@ -1002,71 +1003,71 @@ class SevenSegment(tk.Frame):
 
         self.clear()
 
-        if '.' in value:
-            self._segments['period'].configure(background=self._color)
+        if "." in value:
+            self._segments["period"].configure(background=self._color)
 
-        if value in ['0', '0.']:
-            self._segments['a'].configure(background=self._color)
-            self._segments['b'].configure(background=self._color)
-            self._segments['c'].configure(background=self._color)
-            self._segments['d'].configure(background=self._color)
-            self._segments['e'].configure(background=self._color)
-            self._segments['f'].configure(background=self._color)
-        elif value in ['1', '1.']:
-            self._segments['b'].configure(background=self._color)
-            self._segments['c'].configure(background=self._color)
-        elif value in ['2', '2.']:
-            self._segments['a'].configure(background=self._color)
-            self._segments['b'].configure(background=self._color)
-            self._segments['g'].configure(background=self._color)
-            self._segments['e'].configure(background=self._color)
-            self._segments['d'].configure(background=self._color)
-        elif value in ['3', '3.']:
-            self._segments['a'].configure(background=self._color)
-            self._segments['b'].configure(background=self._color)
-            self._segments['g'].configure(background=self._color)
-            self._segments['c'].configure(background=self._color)
-            self._segments['d'].configure(background=self._color)
-        elif value in ['4', '4.']:
-            self._segments['f'].configure(background=self._color)
-            self._segments['g'].configure(background=self._color)
-            self._segments['b'].configure(background=self._color)
-            self._segments['c'].configure(background=self._color)
-        elif value in ['5', '5.']:
-            self._segments['a'].configure(background=self._color)
-            self._segments['f'].configure(background=self._color)
-            self._segments['g'].configure(background=self._color)
-            self._segments['c'].configure(background=self._color)
-            self._segments['d'].configure(background=self._color)
-        elif value in ['6', '6.']:
-            self._segments['f'].configure(background=self._color)
-            self._segments['g'].configure(background=self._color)
-            self._segments['c'].configure(background=self._color)
-            self._segments['d'].configure(background=self._color)
-            self._segments['e'].configure(background=self._color)
-        elif value in ['7', '7.']:
-            self._segments['a'].configure(background=self._color)
-            self._segments['b'].configure(background=self._color)
-            self._segments['c'].configure(background=self._color)
-        elif value in ['8', '8.']:
-            self._segments['a'].configure(background=self._color)
-            self._segments['b'].configure(background=self._color)
-            self._segments['c'].configure(background=self._color)
-            self._segments['d'].configure(background=self._color)
-            self._segments['e'].configure(background=self._color)
-            self._segments['f'].configure(background=self._color)
-            self._segments['g'].configure(background=self._color)
-        elif value in ['9', '9.']:
-            self._segments['a'].configure(background=self._color)
-            self._segments['b'].configure(background=self._color)
-            self._segments['c'].configure(background=self._color)
-            self._segments['f'].configure(background=self._color)
-            self._segments['g'].configure(background=self._color)
-        elif value in ['-']:
-            self._segments['g'].configure(background=self._color)
+        if value in ["0", "0."]:
+            self._segments["a"].configure(background=self._color)
+            self._segments["b"].configure(background=self._color)
+            self._segments["c"].configure(background=self._color)
+            self._segments["d"].configure(background=self._color)
+            self._segments["e"].configure(background=self._color)
+            self._segments["f"].configure(background=self._color)
+        elif value in ["1", "1."]:
+            self._segments["b"].configure(background=self._color)
+            self._segments["c"].configure(background=self._color)
+        elif value in ["2", "2."]:
+            self._segments["a"].configure(background=self._color)
+            self._segments["b"].configure(background=self._color)
+            self._segments["g"].configure(background=self._color)
+            self._segments["e"].configure(background=self._color)
+            self._segments["d"].configure(background=self._color)
+        elif value in ["3", "3."]:
+            self._segments["a"].configure(background=self._color)
+            self._segments["b"].configure(background=self._color)
+            self._segments["g"].configure(background=self._color)
+            self._segments["c"].configure(background=self._color)
+            self._segments["d"].configure(background=self._color)
+        elif value in ["4", "4."]:
+            self._segments["f"].configure(background=self._color)
+            self._segments["g"].configure(background=self._color)
+            self._segments["b"].configure(background=self._color)
+            self._segments["c"].configure(background=self._color)
+        elif value in ["5", "5."]:
+            self._segments["a"].configure(background=self._color)
+            self._segments["f"].configure(background=self._color)
+            self._segments["g"].configure(background=self._color)
+            self._segments["c"].configure(background=self._color)
+            self._segments["d"].configure(background=self._color)
+        elif value in ["6", "6."]:
+            self._segments["f"].configure(background=self._color)
+            self._segments["g"].configure(background=self._color)
+            self._segments["c"].configure(background=self._color)
+            self._segments["d"].configure(background=self._color)
+            self._segments["e"].configure(background=self._color)
+        elif value in ["7", "7."]:
+            self._segments["a"].configure(background=self._color)
+            self._segments["b"].configure(background=self._color)
+            self._segments["c"].configure(background=self._color)
+        elif value in ["8", "8."]:
+            self._segments["a"].configure(background=self._color)
+            self._segments["b"].configure(background=self._color)
+            self._segments["c"].configure(background=self._color)
+            self._segments["d"].configure(background=self._color)
+            self._segments["e"].configure(background=self._color)
+            self._segments["f"].configure(background=self._color)
+            self._segments["g"].configure(background=self._color)
+        elif value in ["9", "9."]:
+            self._segments["a"].configure(background=self._color)
+            self._segments["b"].configure(background=self._color)
+            self._segments["c"].configure(background=self._color)
+            self._segments["f"].configure(background=self._color)
+            self._segments["g"].configure(background=self._color)
+        elif value in ["-"]:
+            self._segments["g"].configure(background=self._color)
 
         else:
-            raise ValueError('unsupported character: {}'.format(value))
+            raise ValueError("unsupported character: {}".format(value))
 
 
 class SevenSegmentDigits(tk.Frame):
@@ -1089,18 +1090,24 @@ class SevenSegmentDigits(tk.Frame):
     :param digit_color: the digit color (ex: 'black', '#ff0000')
     :param background: the background color (ex: 'black', '#ff0000')
     """
-    def __init__(self, parent, digits: int = 1, height: int = 50,
-                 digit_color='black', background='white'):
+
+    def __init__(
+        self,
+        parent,
+        digits: int = 1,
+        height: int = 50,
+        digit_color="black",
+        background="white",
+    ):
         self._parent = parent
         self._max_value = digits * 10 - 1
 
         super().__init__(self._parent, bg=background)
 
         self._digits = [
-            SevenSegment(self,
-                         height=height,
-                         digit_color=digit_color,
-                         background=background)
+            SevenSegment(
+                self, height=height, digit_color=digit_color, background=background
+            )
             for _ in range(digits)
         ]
 
@@ -1122,14 +1129,14 @@ class SevenSegmentDigits(tk.Frame):
         has_period = False
         for c in reversed_v:
             if has_period:
-                parts.append(c + '.')
+                parts.append(c + ".")
                 has_period = False
-            elif c == '.':
+            elif c == ".":
                 has_period = True
             else:
                 parts.append(c)
 
-        parts = parts[:len(self._digits)]
+        parts = parts[: len(self._digits)]
 
         return parts
 
@@ -1149,14 +1156,15 @@ class SevenSegmentDigits(tk.Frame):
         for i, digit_value in enumerate(grouped):
             try:
                 if has_period:
-                    digits[i].set_value(digit_value + '.')
+                    digits[i].set_value(digit_value + ".")
                     has_period = False
 
-                elif grouped[i] == '.':
+                elif grouped[i] == ".":
                     has_period = True
 
                 else:
                     digits[i].set_value(digit_value)
             except IndexError:
-                raise ValueError('the value "{}" contains too '
-                                 'many digits'.format(value))
+                raise ValueError(
+                    'the value "{}" contains too ' "many digits".format(value)
+                )

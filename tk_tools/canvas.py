@@ -12,9 +12,16 @@ except ImportError:
     pass
 
 try:
-    from tk_tools.images import rotary_scale, \
-        led_green, led_green_on, led_yellow, led_yellow_on, \
-        led_red, led_red_on, led_grey
+    from tk_tools.images import (
+        rotary_scale,
+        led_green,
+        led_green_on,
+        led_yellow,
+        led_yellow_on,
+        led_red,
+        led_red_on,
+        led_grey,
+    )
 except ImportError:
     pass
 
@@ -22,18 +29,19 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 
-if getattr(sys, 'frozen', False):
+if getattr(sys, "frozen", False):
     frozen = True
 else:
     frozen = False
 
-logger.info('frozen: {}'.format(frozen))
+logger.info("frozen: {}".format(frozen))
 
 
 class Dial(tk.Frame):
     """
     Base class for all dials and dial-like widgets
     """
+
     def __init__(self, parent, size: int = 100, **options):
         self._parent = parent
         super().__init__(self._parent, padx=3, pady=3, borderwidth=2, **options)
@@ -51,13 +59,14 @@ class Dial(tk.Frame):
         :param y: x value in pixels
         :return: None
         """
-        return x + self.size/2, y + self.size/2
+        return x + self.size / 2, y + self.size / 2
 
 
 class Compass(Dial):
     """
     Displays a compass typically seen on a map
     """
+
     def __init__(self, parent, size: int = 100, **options):
         super().__init__(parent, size=size, **options)
         raise NotImplementedError()
@@ -80,22 +89,29 @@ class RotaryScale(Dial):
     :param size: the size in pixels
     :param options: the frame options
     """
-    def __init__(self, parent,
-                 max_value: (float, int) = 100.0, size: (float, int) = 100,
-                 unit: str = None, img_data: str = None,
-                 needle_color='blue', needle_thickness=0,
-                 **options):
+
+    def __init__(
+        self,
+        parent,
+        max_value: (float, int) = 100.0,
+        size: (float, int) = 100,
+        unit: str = None,
+        img_data: str = None,
+        needle_color="blue",
+        needle_thickness=0,
+        **options
+    ):
         super().__init__(parent, size=size, **options)
 
         self.max_value = float(max_value)
         self.size = size
-        self.unit = '' if not unit else unit
+        self.unit = "" if not unit else unit
         self.needle_color = needle_color
         self.needle_thickness = needle_thickness
 
         self.canvas = tk.Canvas(self, width=self.size, height=self.size)
         self.canvas.grid(row=0)
-        self.readout = tk.Label(self, text='-{}'.format(self.unit))
+        self.readout = tk.Label(self, text="-{}".format(self.unit))
         self.readout.grid(row=1)
 
         if img_data:
@@ -103,8 +119,7 @@ class RotaryScale(Dial):
         else:
             self.image = tk.PhotoImage(data=rotary_scale)
 
-        self.image = self.image.subsample(int(200 / self.size),
-                                          int(200 / self.size))
+        self.image = self.image.subsample(int(200 / self.size), int(200 / self.size))
 
         initial_value = 0.0
         self.set_value(initial_value)
@@ -117,15 +132,16 @@ class RotaryScale(Dial):
         'max_range' or the scale will peg the limits
         :return: None
         """
-        self.canvas.delete('all')
-        self.canvas.create_image(0, 0, image=self.image, anchor='nw')
+        self.canvas.delete("all")
+        self.canvas.create_image(0, 0, image=self.image, anchor="nw")
 
         number = number if number <= self.max_value else self.max_value
         number = 0.0 if number < 0.0 else number
 
-        radius = 0.9 * self.size/2.0
-        angle_in_radians = (2.0 * cmath.pi / 3.0) \
-            + number / self.max_value * (5.0 * cmath.pi / 3.0)
+        radius = 0.9 * self.size / 2.0
+        angle_in_radians = (2.0 * cmath.pi / 3.0) + number / self.max_value * (
+            5.0 * cmath.pi / 3.0
+        )
 
         center = cmath.rect(0, 0)
         outer = cmath.rect(radius, angle_in_radians)
@@ -142,7 +158,7 @@ class RotaryScale(Dial):
             fill=self.needle_color
         )
 
-        self.readout['text'] = '{}{}'.format(number, self.unit)
+        self.readout["text"] = "{}{}".format(number, self.unit)
 
     def _draw_background(self, divisions: int = 10):
         """
@@ -152,23 +168,45 @@ class RotaryScale(Dial):
         between 'ticks' shown on the dial
         :return: None
         """
-        self.canvas.create_arc(2, 2, self.size-2, self.size-2,
-                               style=tk.PIESLICE, start=-60, extent=30,
-                               fill='red')
-        self.canvas.create_arc(2, 2, self.size-2, self.size-2,
-                               style=tk.PIESLICE, start=-30, extent=60,
-                               fill='yellow')
-        self.canvas.create_arc(2, 2, self.size-2, self.size-2,
-                               style=tk.PIESLICE, start=30, extent=210,
-                               fill='green')
+        self.canvas.create_arc(
+            2,
+            2,
+            self.size - 2,
+            self.size - 2,
+            style=tk.PIESLICE,
+            start=-60,
+            extent=30,
+            fill="red",
+        )
+        self.canvas.create_arc(
+            2,
+            2,
+            self.size - 2,
+            self.size - 2,
+            style=tk.PIESLICE,
+            start=-30,
+            extent=60,
+            fill="yellow",
+        )
+        self.canvas.create_arc(
+            2,
+            2,
+            self.size - 2,
+            self.size - 2,
+            style=tk.PIESLICE,
+            start=30,
+            extent=210,
+            fill="green",
+        )
 
         # find the distance between the center and the inner tick radius
         inner_tick_radius = int(self.size * 0.4)
         outer_tick_radius = int(self.size * 0.5)
 
         for tick in range(divisions):
-            angle_in_radians = (2.0 * cmath.pi / 3.0) \
-                               + tick/divisions * (5.0 * cmath.pi / 3.0)
+            angle_in_radians = (2.0 * cmath.pi / 3.0) + tick / divisions * (
+                5.0 * cmath.pi / 3.0
+            )
             inner_point = cmath.rect(inner_tick_radius, angle_in_radians)
             outer_point = cmath.rect(outer_tick_radius, angle_in_radians)
 
@@ -202,10 +240,23 @@ class Gauge(tk.Frame):
     :param red_low: in percent if very low values are a danger
     :param bg: background
     """
-    def __init__(self, parent, width: int = 200, height: int = 100,
-                 min_value=0.0, max_value=100.0, label='', unit='',
-                 divisions=8, yellow=50, red=80, yellow_low=0,
-                 red_low=0, bg='lightgrey'):
+
+    def __init__(
+        self,
+        parent,
+        width: int = 200,
+        height: int = 100,
+        min_value=0.0,
+        max_value=100.0,
+        label="",
+        unit="",
+        divisions=8,
+        yellow=50,
+        red=80,
+        yellow_low=0,
+        red_low=0,
+        bg="lightgrey",
+    ):
         self._parent = parent
         self._width = width
         self._height = height
@@ -222,87 +273,126 @@ class Gauge(tk.Frame):
 
         super().__init__(self._parent)
 
-        self._canvas = tk.Canvas(self, width=self._width,
-                                 height=self._height, bg=bg)
-        self._canvas.grid(row=0, column=0, sticky='news')
+        self._canvas = tk.Canvas(self, width=self._width, height=self._height, bg=bg)
+        self._canvas.grid(row=0, column=0, sticky="news")
         self._min_value = EngNumber(min_value)
         self._max_value = EngNumber(max_value)
         self._value = self._min_value
         self._redraw()
 
     def _redraw(self):
-        self._canvas.delete('all')
+        self._canvas.delete("all")
         max_angle = 120.0
-        value_as_percent = ((self._value - self._min_value) /
-                            (self._max_value - self._min_value))
+        value_as_percent = (self._value - self._min_value) / (
+            self._max_value - self._min_value
+        )
         value = float(max_angle * value_as_percent)
         # no int() => accuracy
         # create the tick marks and colors across the top
         for i in range(self._divisions):
-            extent = (max_angle / self._divisions)
-            start = (150.0 - i * extent)
-            rate = (i+1)/(self._divisions+1)
+            extent = max_angle / self._divisions
+            start = 150.0 - i * extent
+            rate = (i + 1) / (self._divisions + 1)
             if rate < self._red_low:
-                bg_color = 'red'
+                bg_color = "red"
             elif rate <= self._yellow_low:
-                bg_color = 'yellow'
+                bg_color = "yellow"
             elif rate <= self._yellow:
-                bg_color = 'green'
+                bg_color = "green"
             elif rate <= self._red:
-                bg_color = 'yellow'
+                bg_color = "yellow"
             else:
-                bg_color = 'red'
+                bg_color = "red"
 
             self._canvas.create_arc(
-                0, int(self._height * 0.15),
-                self._width, int(self._height * 1.8),
-                start=start, extent=-extent, width=2,
-                fill=bg_color, style='pie'
+                0,
+                int(self._height * 0.15),
+                self._width,
+                int(self._height * 1.8),
+                start=start,
+                extent=-extent,
+                width=2,
+                fill=bg_color,
+                style="pie",
             )
-        bg_color = 'white'
-        red = '#c21807'
+        bg_color = "white"
+        red = "#c21807"
         ratio = 0.06
-        self._canvas.create_arc(self._width * ratio,
-                                int(self._height * 0.25),
-                                self._width * (1.0 - ratio),
-                                int(self._height * 1.8 * (1.0 - ratio * 1.1)),
-                                start=150, extent=-120, width=2,
-                                fill=bg_color, style='pie')
+        self._canvas.create_arc(
+            self._width * ratio,
+            int(self._height * 0.25),
+            self._width * (1.0 - ratio),
+            int(self._height * 1.8 * (1.0 - ratio * 1.1)),
+            start=150,
+            extent=-120,
+            width=2,
+            fill=bg_color,
+            style="pie",
+        )
         # readout & title
-        self.readout(self._value, 'black')  # BG black if OK
+        self.readout(self._value, "black")  # BG black if OK
 
         # display lowest value
-        value_text = '{}'.format(self._min_value)
+        value_text = "{}".format(self._min_value)
         self._canvas.create_text(
-            self._width * 0.1, self._height * 0.7,
-            font=('Courier New', 10), text=value_text)
+            self._width * 0.1,
+            self._height * 0.7,
+            font=("Courier New", 10),
+            text=value_text,
+        )
         # display greatest value
-        value_text = '{}'.format(self._max_value)
+        value_text = "{}".format(self._max_value)
         self._canvas.create_text(
-            self._width * 0.9, self._height * 0.7,
-            font=('Courier New', 10), text=value_text)
+            self._width * 0.9,
+            self._height * 0.7,
+            font=("Courier New", 10),
+            text=value_text,
+        )
         # display center value
-        value_text = '{}'.format(self._average_value)
+        value_text = "{}".format(self._average_value)
         self._canvas.create_text(
-            self._width * 0.5, self._height * 0.1,
-            font=('Courier New', 10), text=value_text)
+            self._width * 0.5,
+            self._height * 0.1,
+            font=("Courier New", 10),
+            text=value_text,
+        )
         # create first half (red needle)
-        self._canvas.create_arc(0, int(self._height * 0.15),
-                                self._width, int(self._height * 1.8),
-                                start=150, extent=-value, width=3,
-                                outline=red)
+        self._canvas.create_arc(
+            0,
+            int(self._height * 0.15),
+            self._width,
+            int(self._height * 1.8),
+            start=150,
+            extent=-value,
+            width=3,
+            outline=red,
+        )
 
         # create inset red
-        self._canvas.create_arc(self._width * 0.35, int(self._height * 0.75),
-                                self._width * 0.65, int(self._height * 1.2),
-                                start=150, extent=-120, width=1,
-                                outline='grey', fill=red, style='pie')
+        self._canvas.create_arc(
+            self._width * 0.35,
+            int(self._height * 0.75),
+            self._width * 0.65,
+            int(self._height * 1.2),
+            start=150,
+            extent=-120,
+            width=1,
+            outline="grey",
+            fill=red,
+            style="pie",
+        )
 
         # create the overlapping border
-        self._canvas.create_arc(0, int(self._height * 0.15),
-                                self._width, int(self._height * 1.8),
-                                start=150, extent=-120, width=4,
-                                outline='#343434')
+        self._canvas.create_arc(
+            0,
+            int(self._height * 0.15),
+            self._width,
+            int(self._height * 1.8),
+            start=150,
+            extent=-120,
+            width=4,
+            outline="#343434",
+        )
 
     def readout(self, value, bg):  # value, BG color
         # draw the black behind the readout
@@ -310,28 +400,36 @@ class Gauge(tk.Frame):
         r_height = 20
         r_offset = 8
         self._canvas.create_rectangle(
-            self._width/2.0 - r_width / 2.0,
-            self._height/2.0 - r_height/2.0 + r_offset,
-            self._width/2.0 + r_width / 2.0,
-            self._height/2.0 + r_height/2.0 + r_offset,
-            fill=bg, outline='grey'
+            self._width / 2.0 - r_width / 2.0,
+            self._height / 2.0 - r_height / 2.0 + r_offset,
+            self._width / 2.0 + r_width / 2.0,
+            self._height / 2.0 + r_height / 2.0 + r_offset,
+            fill=bg,
+            outline="grey",
         )
         # the digital readout
         self._canvas.create_text(
-            self._width * 0.5, self._height * 0.5 - r_offset,
-            font=('Courier New', 10), text=self._label)
+            self._width * 0.5,
+            self._height * 0.5 - r_offset,
+            font=("Courier New", 10),
+            text=self._label,
+        )
 
-        value_text = '{}{}'.format(self._value, self._unit)
+        value_text = "{}{}".format(self._value, self._unit)
         self._canvas.create_text(
-            self._width * 0.5, self._height * 0.5 + r_offset,
-            font=('Courier New', 10), text=value_text, fill='white')
+            self._width * 0.5,
+            self._height * 0.5 + r_offset,
+            font=("Courier New", 10),
+            text=value_text,
+            fill="white",
+        )
 
     def set_value(self, value):
         self._value = EngNumber(value)
         if self._min_value * 1.02 < value < self._max_value * 0.98:
-            self._redraw()      # refresh all
-        else:                   # OFF limits refresh only readout
-            self.readout(self._value, 'red')  # on RED BackGround
+            self._redraw()  # refresh all
+        else:  # OFF limits refresh only readout
+            self.readout(self._value, "red")  # on RED BackGround
 
 
 class Graph(tk.Frame):
@@ -365,18 +463,26 @@ class Graph(tk.Frame):
     :param y_tick: the 'tick' on the y-axis
     :param options: additional valid tkinter.canvas options
     """
-    def __init__(self, parent, x_min: float, x_max: float,
-                 y_min: float, y_max: float,
-                 x_tick: float, y_tick: float,
-                 **options):
+
+    def __init__(
+        self,
+        parent,
+        x_min: float,
+        x_max: float,
+        y_min: float,
+        y_max: float,
+        x_tick: float,
+        y_tick: float,
+        **options
+    ):
         self._parent = parent
         super().__init__(self._parent, **options)
 
         self.canvas = tk.Canvas(self)
         self.canvas.grid(row=0, column=0)
 
-        self.w = float(self.canvas.config('width')[4])
-        self.h = float(self.canvas.config('height')[4])
+        self.w = float(self.canvas.config("width")[4])
+        self.h = float(self.canvas.config("height")[4])
         self.x_min = x_min
         self.x_max = x_max
         self.x_tick = x_tick
@@ -394,7 +500,7 @@ class Graph(tk.Frame):
 
         :return: None
         """
-        self.canvas.delete('all')
+        self.canvas.delete("all")
         rect = 50, 50, self.w - 50, self.h - 50
 
         self.canvas.create_rectangle(rect, outline="black")
@@ -422,7 +528,7 @@ class Graph(tk.Frame):
                 label = round(value, 1)
                 self.canvas.create_text(coord, fill="black", text=label)
 
-    def plot_point(self, x, y, visible=True, color='black', size=5):
+    def plot_point(self, x, y, visible=True, color="black", size=5):
         """
         Places a single point on the grid
 
@@ -439,18 +545,14 @@ class Graph(tk.Frame):
 
         if visible:
             # divide down to an appropriate size
-            size = int(size/2) if int(size/2) > 1 else 1
+            size = int(size / 2) if int(size / 2) > 1 else 1
             x, y = coord
 
-            self.canvas.create_oval(
-                x-size, y-size,
-                x+size, y+size,
-                fill=color
-            )
+            self.canvas.create_oval(x - size, y - size, x + size, y + size, fill=color)
 
         return coord
 
-    def plot_line(self, points: list, color='black', point_visibility=False):
+    def plot_line(self, points: list, color="black", point_visibility=False):
         """
         Plot a line of points
 
@@ -462,8 +564,9 @@ class Graph(tk.Frame):
         """
         last_point = ()
         for point in points:
-            this_point = self.plot_point(point[0], point[1],
-                                         color=color, visible=point_visibility)
+            this_point = self.plot_point(
+                point[0], point[1], color=color, visible=point_visibility
+            )
 
             if last_point:
                 self.canvas.create_line(last_point + this_point, fill=color)
@@ -508,21 +611,26 @@ class Led(tk.Frame):
     :param on_click_callback: a callback which accepts a boolean parameter 'on'
     :param options: the frame options
     """
-    def __init__(self, parent, size: int = 100,
-                 on_click_callback: callable = None,
-                 toggle_on_click: bool = False, **options):
+
+    def __init__(
+        self,
+        parent,
+        size: int = 100,
+        on_click_callback: callable = None,
+        toggle_on_click: bool = False,
+        **options
+    ):
         self._parent = parent
-        super().__init__(self._parent, padx=3, pady=3, borderwidth=0,
-                         **options)
+        super().__init__(self._parent, padx=3, pady=3, borderwidth=0, **options)
 
         self._size = size
 
         canvas_opts = {}
-        if 'bg' in options.keys():
-            canvas_opts['bg'] = options.get('bg')
-        canvas_opts['highlightthickness'] = 0
-        canvas_opts['width'] = self._size
-        canvas_opts['height'] = self._size
+        if "bg" in options.keys():
+            canvas_opts["bg"] = options.get("bg")
+        canvas_opts["highlightthickness"] = 0
+        canvas_opts["width"] = self._size
+        canvas_opts["height"] = self._size
         self._canvas = tk.Canvas(self, **canvas_opts)
         self._canvas.grid(row=0)
         self._image = None
@@ -536,7 +644,7 @@ class Led(tk.Frame):
             if self._user_click_callback is not None:
                 self._user_click_callback(self._on)
 
-        self._canvas.bind('<Button-1>', on_click)
+        self._canvas.bind("<Button-1>", on_click)
 
     def _load_new(self, img_data: str):
         """
@@ -546,10 +654,11 @@ class Led(tk.Frame):
         :return: None
         """
         self._image = tk.PhotoImage(data=img_data)
-        self._image = self._image.subsample(int(200 / self._size),
-                                            int(200 / self._size))
-        self._canvas.delete('all')
-        self._canvas.create_image(0, 0, image=self._image, anchor='nw')
+        self._image = self._image.subsample(
+            int(200 / self._size), int(200 / self._size)
+        )
+        self._canvas.delete("all")
+        self._canvas.create_image(0, 0, image=self._image, anchor="nw")
 
         if self._user_click_callback is not None:
             self._user_click_callback(self._on)
@@ -576,12 +685,12 @@ class Led(tk.Frame):
             self._load_new(led_green_on)
 
             if self._toggle_on_click:
-                self._canvas.bind('<Button-1>', lambda x: self.to_green(False))
+                self._canvas.bind("<Button-1>", lambda x: self.to_green(False))
         else:
             self._load_new(led_green)
 
             if self._toggle_on_click:
-                self._canvas.bind('<Button-1>', lambda x: self.to_green(True))
+                self._canvas.bind("<Button-1>", lambda x: self.to_green(True))
 
     def to_red(self, on: bool = False):
         """
@@ -594,12 +703,12 @@ class Led(tk.Frame):
             self._load_new(led_red_on)
 
             if self._toggle_on_click:
-                self._canvas.bind('<Button-1>', lambda x: self.to_red(False))
+                self._canvas.bind("<Button-1>", lambda x: self.to_red(False))
         else:
             self._load_new(led_red)
 
             if self._toggle_on_click:
-                self._canvas.bind('<Button-1>', lambda x: self.to_red(True))
+                self._canvas.bind("<Button-1>", lambda x: self.to_red(True))
 
     def to_yellow(self, on: bool = False):
         """
@@ -612,11 +721,9 @@ class Led(tk.Frame):
             self._load_new(led_yellow_on)
 
             if self._toggle_on_click:
-                self._canvas.bind('<Button-1>',
-                                  lambda x: self.to_yellow(False))
+                self._canvas.bind("<Button-1>", lambda x: self.to_yellow(False))
         else:
             self._load_new(led_yellow)
 
             if self._toggle_on_click:
-                self._canvas.bind('<Button-1>',
-                                  lambda x: self.to_yellow(True))
+                self._canvas.bind("<Button-1>", lambda x: self.to_yellow(True))

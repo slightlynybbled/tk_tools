@@ -11,6 +11,7 @@ class SmartWidget(ttk.Frame):
     """
     Superclass which contains basic elements of the 'smart' widgets.
     """
+
     def __init__(self, parent):
         self._parent = parent
         super().__init__(self._parent)
@@ -24,13 +25,14 @@ class SmartWidget(ttk.Frame):
         :param callback: callable function
         :return: None
         """
+
         def internal_callback(*args):
             try:
                 callback()
             except TypeError:
                 callback(self.get())
 
-        self._var.trace('w', internal_callback)
+        self._var.trace("w", internal_callback)
 
     def get(self):
         """
@@ -71,24 +73,31 @@ class SmartOptionMenu(SmartWidget):
     :param initial_value: the initial value of the dropdown
     :param callback: a function
     """
-    def __init__(self, parent, options: list, initial_value: str = None,
-                 callback: callable = None):
+
+    def __init__(
+        self,
+        parent,
+        options: list,
+        initial_value: str = None,
+        callback: callable = None,
+    ):
         super().__init__(parent)
 
         self._var = tk.StringVar()
         self._var.set(initial_value if initial_value else options[0])
 
-        self.option_menu = tk.OptionMenu(self, self._var,
-                                         *options)
+        self.option_menu = tk.OptionMenu(self, self._var, *options)
         self.option_menu.grid(row=0, column=0)
 
         if callback is not None:
+
             def internal_callback(*args):
                 try:
                     callback()
                 except TypeError:
                     callback(self.get())
-            self._var.trace('w', internal_callback)
+
+            self._var.trace("w", internal_callback)
 
 
 class SmartSpinBox(SmartWidget):
@@ -110,8 +119,10 @@ class SmartSpinBox(SmartWidget):
     :param callback: python callable
     :param options: any options that are valid for tkinter.SpinBox
     """
-    def __init__(self, parent, entry_type: str = 'float',
-                 callback: callable = None, **options):
+
+    def __init__(
+        self, parent, entry_type: str = "float", callback: callable = None, **options
+    ):
         """
         Constructor for SmartSpinBox
         """
@@ -120,26 +131,28 @@ class SmartSpinBox(SmartWidget):
 
         sb_options = options.copy()
 
-        if entry_type == 'str':
+        if entry_type == "str":
             self._var = tk.StringVar()
-        elif entry_type == 'int':
+        elif entry_type == "int":
             self._var = tk.IntVar()
-        elif entry_type == 'float':
+        elif entry_type == "float":
             self._var = tk.DoubleVar()
         else:
             raise ValueError('Entry type must be "str", "int", or "float"')
 
-        sb_options['textvariable'] = self._var
+        sb_options["textvariable"] = self._var
         self._spin_box = tk.Spinbox(self, **sb_options)
         self._spin_box.grid()
 
         if callback is not None:
+
             def internal_callback(*args):
                 try:
                     callback()
                 except TypeError:
                     callback(self.get())
-            self._var.trace('w', internal_callback)
+
+            self._var.trace("w", internal_callback)
 
 
 class SmartCheckbutton(SmartWidget):
@@ -165,6 +178,7 @@ class SmartCheckbutton(SmartWidget):
     :param callback: python callable
     :param options: any options that are valid for tkinter.Checkbutton
     """
+
     def __init__(self, parent, callback: callable = None, **options):
         self._parent = parent
         super().__init__(self._parent)
@@ -174,12 +188,14 @@ class SmartCheckbutton(SmartWidget):
         self._cb.grid()
 
         if callback is not None:
+
             def internal_callback(*args):
                 try:
                     callback()
                 except TypeError:
                     callback(self.get())
-            self._var.trace('w', internal_callback)
+
+            self._var.trace("w", internal_callback)
 
 
 class SmartListBox(SmartWidget):
@@ -206,33 +222,40 @@ class SmartListBox(SmartWidget):
     :param on_select_callback: python callable
     :param selectmode: the selector mode (supports "browse" and "multiple")
     """
-    def __init__(self, parent, options: List[str],
-                 width: int = 12, height: int = 5,
-                 on_select_callback: callable = None,
-                 selectmode: str = 'browse'):
+
+    def __init__(
+        self,
+        parent,
+        options: List[str],
+        width: int = 12,
+        height: int = 5,
+        on_select_callback: callable = None,
+        selectmode: str = "browse",
+    ):
         super().__init__(parent=parent)
 
         self._on_select_callback = on_select_callback
         self._values = {}
 
         r = 0
-        self._lb = tk.Listbox(self, width=width, height=height,
-                              selectmode=selectmode, exportselection=0)
-        self._lb.grid(row=r, column=0, sticky='ew')
-        [self._lb.insert('end', option) for option in options]
-        self._lb.bind('<<ListboxSelect>>', lambda _: self._on_select())
+        self._lb = tk.Listbox(
+            self, width=width, height=height, selectmode=selectmode, exportselection=0
+        )
+        self._lb.grid(row=r, column=0, sticky="ew")
+        [self._lb.insert("end", option) for option in options]
+        self._lb.bind("<<ListboxSelect>>", lambda _: self._on_select())
 
         r += 1
-        clear_label = tk.Label(self, text='clear', fg='blue')
-        clear_label.grid(row=r, column=0, sticky='ew')
-        clear_label.bind('<Button-1>', lambda _: self._clear_selected())
+        clear_label = tk.Label(self, text="clear", fg="blue")
+        clear_label.grid(row=r, column=0, sticky="ew")
+        clear_label.bind("<Button-1>", lambda _: self._clear_selected())
 
     def _on_select(self):
         self.after(200, self.__on_select)
 
     def _clear_selected(self):
         for i in self._lb.curselection():
-            self._lb.selection_clear(i, 'end')
+            self._lb.selection_clear(i, "end")
 
         while len(self._values):
             self._values.popitem()
@@ -245,9 +268,9 @@ class SmartListBox(SmartWidget):
                 self._on_select_callback()
 
     def __on_select(self):
-        value = self._lb.get('active')
+        value = self._lb.get("active")
 
-        if self._lb.cget('selectmode') == 'multiple':
+        if self._lb.cget("selectmode") == "multiple":
             if value in self._values.keys():
                 self._values.pop(value)
             else:
@@ -276,9 +299,9 @@ class SmartListBox(SmartWidget):
         return list(self._values.keys())
 
     def select(self, value):
-        options = self._lb.get(0, 'end')
+        options = self._lb.get(0, "end")
         if value not in options:
-            raise ValueError('Not a valid selection')
+            raise ValueError("Not a valid selection")
 
         option = options.index(value)
 
@@ -302,8 +325,10 @@ class BinaryLabel(ttk.Label):
     :param value: the initial value, default is 0
     :param options: prefix string for identifiers
     """
-    def __init__(self, parent, value: int = 0, prefix: str = "",
-                 bit_width: int = 8, **options):
+
+    def __init__(
+        self, parent, value: int = 0, prefix: str = "", bit_width: int = 8, **options
+    ):
         self._parent = parent
         super().__init__(self._parent, **options)
 
@@ -327,19 +352,22 @@ class BinaryLabel(ttk.Label):
         :param value:
         :return: None
         """
-        max_value = int(''.join(['1' for _ in range(self._bit_width)]), 2)
+        max_value = int("".join(["1" for _ in range(self._bit_width)]), 2)
 
         if value > max_value:
-            raise ValueError('the value {} is larger than '
-                             'the maximum value {}'.format(value, max_value))
+            raise ValueError(
+                "the value {} is larger than "
+                "the maximum value {}".format(value, max_value)
+            )
 
         self._value = value
         self._text_update()
 
     def _text_update(self):
-        self["text"] = \
-            self._prefix +\
-            str(bin(self._value))[2:].zfill(self._bit_width)[-self._bit_width:]
+        self["text"] = (
+            self._prefix
+            + str(bin(self._value))[2:].zfill(self._bit_width)[-self._bit_width :]
+        )
 
     def get_bit(self, position: int):
         """
@@ -350,7 +378,7 @@ class BinaryLabel(ttk.Label):
         """
 
         if position > (self._bit_width - 1):
-            raise ValueError('position greater than the bit width')
+            raise ValueError("position greater than the bit width")
 
         if self._value & (1 << position):
             return 1
@@ -365,9 +393,9 @@ class BinaryLabel(ttk.Label):
         :return: None
         """
         if position > (self._bit_width - 1):
-            raise ValueError('position greater than the bit width')
+            raise ValueError("position greater than the bit width")
 
-        self._value ^= (1 << position)
+        self._value ^= 1 << position
         self._text_update()
 
     def set_bit(self, position: int):
@@ -378,9 +406,9 @@ class BinaryLabel(ttk.Label):
         :return: None
         """
         if position > (self._bit_width - 1):
-            raise ValueError('position greater than the bit width')
+            raise ValueError("position greater than the bit width")
 
-        self._value |= (1 << position)
+        self._value |= 1 << position
         self._text_update()
 
     def clear_bit(self, position: int):
@@ -391,7 +419,7 @@ class BinaryLabel(ttk.Label):
         :return: None
         """
         if position > (self._bit_width - 1):
-            raise ValueError('position greater than the bit width')
+            raise ValueError("position greater than the bit width")
 
         self._value &= ~(1 << position)
         self._text_update()
@@ -401,14 +429,14 @@ class BinaryLabel(ttk.Label):
         Returns the most significant bit as an integer
         :return: the MSB
         """
-        return self.get_bit(self._bit_width-1)
+        return self.get_bit(self._bit_width - 1)
 
     def toggle_msb(self):
         """
         Changes the most significant bit
         :return: None
         """
-        self.toggle_bit(self._bit_width-1)
+        self.toggle_bit(self._bit_width - 1)
 
     def get_lsb(self):
         """
@@ -422,14 +450,14 @@ class BinaryLabel(ttk.Label):
         Sets the most significant bit
         :return: None
         """
-        self.set_bit(self._bit_width-1)
+        self.set_bit(self._bit_width - 1)
 
     def clear_msb(self):
         """
         Clears the most significant bit
         :return: None
         """
-        self.clear_bit(self._bit_width-1)
+        self.clear_bit(self._bit_width - 1)
 
     def toggle_lsb(self):
         """
@@ -458,6 +486,7 @@ class ByteLabel(BinaryLabel):
     Has been replaced with more general BinaryLabel.
     Still here for backwards compatibility.
     """
+
     pass
 
 
@@ -488,8 +517,14 @@ class ScrollableFrame(ttk.Frame):
     :param args: the arguments to pass along to the frame
     :param kwargs: the arguments/options to pass along to the frame
     """
-    def __init__(self, master: Union[tk.Frame, ttk.Frame, tk.Toplevel, tk.Tk],
-                 height: int = 400, *args, **kwargs):
+
+    def __init__(
+        self,
+        master: Union[tk.Frame, ttk.Frame, tk.Toplevel, tk.Tk],
+        height: int = 400,
+        *args,
+        **kwargs,
+    ):
         super().__init__(master, *args, **kwargs)
         self._parent = master
 
@@ -500,9 +535,8 @@ class ScrollableFrame(ttk.Frame):
         self.scrollable_frame.bind(
             "<Configure>",
             lambda e: self._canvas.configure(
-                scrollregion=self._canvas.bbox("all"),
-                width=e.width
-            )
+                scrollregion=self._canvas.bbox("all"), width=e.width
+            ),
         )
 
         self._canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
@@ -518,16 +552,16 @@ class ScrollableFrame(ttk.Frame):
         self._canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     root = tk.Tk()
 
     sf = ScrollableFrame(root)
     sf.pack()
 
     def add_widget(i):
-        tk.Label(sf.scrollable_frame, text=f'label {i}').grid(sticky='w')
+        tk.Label(sf.scrollable_frame, text=f"label {i}").grid(sticky="w")
 
     for i in range(40):
-        sf.after(i*100, lambda i=i: add_widget(i))
+        sf.after(i * 100, lambda i=i: add_widget(i))
 
     root.mainloop()

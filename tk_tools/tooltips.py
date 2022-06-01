@@ -16,13 +16,12 @@ class ToolTip(object):
     :param time: the time to display the text, in milliseconds
     """
 
-    def __init__(self, widget, text: str = 'widget info', time: int = 4000):
+    def __init__(self, widget, text: str = "widget info", time: int = 4000):
         self._widget = widget
         self._text = text
         self._time = time
 
-        self._widget.bind("<Enter>",
-                          lambda _: self._widget.after(500, self._enter()))
+        self._widget.bind("<Enter>", lambda _: self._widget.after(500, self._enter()))
         self._widget.bind("<Leave>", self._close)
 
         self._tw = None
@@ -38,9 +37,15 @@ class ToolTip(object):
         # Leaves only the label and removes the app window
         self._tw.wm_overrideredirect(True)
         self._tw.wm_geometry("+%d+%d" % (x, y))
-        label = tk.Label(self._tw, text=self._text, justify='left',
-                         background='#FFFFDD', relief='solid', borderwidth=1,
-                         font=("times", "8", "normal"))
+        label = tk.Label(
+            self._tw,
+            text=self._text,
+            justify="left",
+            background="#FFFFDD",
+            relief="solid",
+            borderwidth=1,
+            font=("times", "8", "normal"),
+        )
 
         label.pack(ipadx=1)
 
