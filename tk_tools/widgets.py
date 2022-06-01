@@ -1,7 +1,7 @@
 import logging
 import tkinter as tk
 import tkinter.ttk as ttk
-from typing import List
+from typing import List, Union
 
 
 logger = logging.getLogger(__name__)
@@ -459,3 +459,75 @@ class ByteLabel(BinaryLabel):
     Still here for backwards compatibility.
     """
     pass
+
+
+class ScrollableFrame(ttk.Frame):
+    """
+    Add scrollable frame which will automatically adjust to the contents.  Note that widgets must be packed or \
+    gridded on the ``scrollable_frame`` widget contained within the object.
+
+    Example:
+
+        root = tk.Tk()
+
+        sf = ScrollableFrame(root)
+        sf.pack()
+
+        # add a long list of widgets
+        def add_widget(i):
+            tk.Label(sf.scrollable_frame,  # <--- note that widgets are being added to the scrollable_frame!
+                     text=f'label {i}').grid(sticky='w')
+
+        for i in range(40):
+            sf.after(i*100, lambda i=i: add_widget(i))
+
+        root.mainloop()
+
+    :param master: the master widget
+    :param height: an integer specifying the height in pixels
+    :param args: the arguments to pass along to the frame
+    :param kwargs: the arguments/options to pass along to the frame
+    """
+    def __init__(self, master: Union[tk.Frame, ttk.Frame, tk.Toplevel, tk.Tk],
+                 height: int = 400, *args, **kwargs):
+        super().__init__(master, *args, **kwargs)
+        self._parent = master
+
+        self._canvas = tk.Canvas(self, height=height)
+        scrollbar = ttk.Scrollbar(self, orient="vertical", command=self._canvas.yview)
+        self.scrollable_frame = ttk.Frame(self._canvas)
+
+        self.scrollable_frame.bind(
+            "<Configure>",
+            lambda e: self._canvas.configure(
+                scrollregion=self._canvas.bbox("all"),
+                width=e.width
+            )
+        )
+
+        self._canvas.create_window((0, 0), window=self.scrollable_frame, anchor="nw")
+
+        self._canvas.configure(yscrollcommand=scrollbar.set)
+
+        self._canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+
+        self._canvas.bind_all("<MouseWheel>", self._on_mousewheel)
+
+    def _on_mousewheel(self, event):
+        self._canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
+
+
+if __name__ == '__main__':
+    root = tk.Tk()
+
+    sf = ScrollableFrame(root)
+    sf.pack()
+
+    def add_widget(i):
+        tk.Label(sf.scrollable_frame, text=f'label {i}').grid(sticky='w')
+
+    for i in range(40):
+        sf.after(i*100, lambda i=i: add_widget(i))
+
+    root.mainloop()

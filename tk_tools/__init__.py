@@ -1,20 +1,22 @@
-from tk_tools.canvas import RotaryScale, Gauge, Graph, Led
-from tk_tools.groups import EntryGrid, LabelGrid, \
-    KeyValueEntry, ButtonGrid, Calendar, MultiSlotFrame, \
-    SevenSegment, SevenSegmentDigits
-from tk_tools.widgets import SmartOptionMenu, SmartSpinBox, \
-    SmartCheckbutton, SmartListBox, BinaryLabel, ByteLabel
+from tk_tools.canvas import Gauge, Graph, Led, RotaryScale
+
+from tk_tools.groups import ButtonGrid, Calendar, EntryGrid, KeyValueEntry, LabelGrid, \
+    MultiSlotFrame, SevenSegment, SevenSegmentDigits
+
+from tk_tools.widgets import BinaryLabel, ByteLabel, ScrollableFrame, SmartCheckbutton, SmartListBox, SmartOptionMenu, SmartSpinBox
+
 from tk_tools.tooltips import ToolTip
 
 from tk_tools.version import __version__
 
 
 __all__ = [
-    'RotaryScale', 'Gauge', 'Graph', 'Led',
-    'EntryGrid', 'LabelGrid', 'ButtonGrid', 'KeyValueEntry',
-    'SmartOptionMenu', 'SmartSpinBox', 'SmartCheckbutton',
-    'SmartListBox', 'Calendar', 'MultiSlotFrame',
+    'BinaryLabel', 'ButtonGrid', 'Calendar',
+    'ByteLabel', 'EntryGrid', 'Gauge', 'Graph', 'KeyValueEntry', 'LabelGrid', 'Led',
+    'MultiSlotFrame',
+    'RotaryScale', 'ScrollableFrame',
+    'SmartCheckbutton', 'SmartListBox', 'SmartOptionMenu', 'SmartSpinBox',
     'SevenSegment', 'SevenSegmentDigits',
-    'BinaryLabel', 'ByteLabel', 'ToolTip',
+    'ToolTip',
     '__version__'
 ]
