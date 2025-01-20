@@ -31,4 +31,5 @@ jobs:
         uses: astral-sh/setup-uv@v3
 
       - name: Execute Tests
-        run: uv run pytest -v tests/ --cov=tk_tools
+        # run: uv run pytest -v tests/ --cov=tk_tools
+        run: xvfb-run uv run pytest -v tests/ --cov=tk_tools
