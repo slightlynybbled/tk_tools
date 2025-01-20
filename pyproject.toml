@@ -24,6 +24,7 @@ dev = [
     "coverage>=7.6.10",
     "pytest>=8.3.4",
     "pytest-cov>=6.0.0",
+    "pyvirtualdisplay>=3.0",
     "ruff>=0.9.2",
     "sphinx>=8.1.3",
 ]
