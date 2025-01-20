@@ -38,4 +38,4 @@ jobs:
 
       - name: Execute Tests
         # run: uv run pytest -v tests/ --cov=tk_tools
-        run: xvfb-run uv run pytest -v tests/ --cov=tk_tools
+        run: xvfb-run uv run -a pytest -v tests/ --cov=tk_tools
