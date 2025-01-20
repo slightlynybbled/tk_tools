@@ -30,6 +30,9 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v3
 
+      - name: Install tk_tools
+        run: uv pip install -e .
+
       - name: Execute Tests
         # run: uv run pytest -v tests/ --cov=tk_tools
         run: xvfb-run uv run pytest -v tests/ --cov=tk_tools
