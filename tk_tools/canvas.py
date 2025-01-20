@@ -1,5 +1,4 @@
 import tkinter as tk
-import tkinter.ttk as ttk
 import cmath
 import sys
 import logging
