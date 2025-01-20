@@ -46,7 +46,9 @@ jobs:
 #          uv run sphinx-build -b html . _build
 
       - name: Build docs
-        run: uv run sphinx-build -b html . ./html
+        run: | 
+          cd docs/
+          uv run sphinx-build -b html . ./html
 
       - name: Publish distribution 📦 to Test PyPI with UV
         run: uv publish --token ${{ secrets.TEST_PYPI_API_TOKEN }} --publish-url https://test.pypi.org/legacy/
