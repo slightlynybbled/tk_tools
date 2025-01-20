@@ -1,3 +1,5 @@
+import importlib.metadata
+
 from tk_tools.canvas import Gauge, Graph, Led, RotaryScale
 
 from tk_tools.groups import (
@@ -23,7 +25,7 @@ from tk_tools.widgets import (
 
 from tk_tools.tooltips import ToolTip
 
-from tk_tools.version import __version__
+__version__ = importlib.metadata.version("tk_tools")
 
 
 __all__ = [

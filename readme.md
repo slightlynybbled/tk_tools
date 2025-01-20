@@ -61,11 +61,11 @@ Here are some examples screenshots of the widgets you can create:
 
 ![Rotary-Scale](https://tk-tools.readthedocs.io/en/latest/_images/rotary-scale.png)
 
-# Dependencies
-
-This package is dependant on [engineering_notation](https://pypi.org/project/engineering-notation/), which is one of my other packages.
-
 # Testing
+
+## Dev Installation
+
+    $>uv pip install -e .
 
 Basic testing has been instantiated *however* it is currently limited.  To execute style testing:
 
