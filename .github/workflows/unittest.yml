@@ -13,12 +13,6 @@ jobs:
       - name: Install xvfb
         run: sudo apt-get install -y xvfb
 
-#      - name: Export Display
-#        run: export DISPLAY=':99.0'
-#
-#      - name: Setup xvfb
-#        run: Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-
       - name: Check out repo
         uses: actions/checkout@v4
 
@@ -37,5 +31,4 @@ jobs:
         run: uv pip install -e .
 
       - name: Execute Tests
-        # run: uv run pytest -v tests/ --cov=tk_tools
         run: xvfb-run -a uv run pytest -v tests/ --cov=tk_tools
