@@ -38,13 +38,6 @@ jobs:
       - name: Build wheel file in `dist/`
         run: uv build
 
-#      - name: Build docs
-#        run: |
-#          mkdir gh-pages
-#          touch gh-pages/.nojekyll
-#          cd docs/
-#          uv run sphinx-build -b html . _build
-
       - name: Build docs
         run: | 
           cd docs/

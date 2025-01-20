@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Install xvfb
+        run: sudo apt-get install -y xvfb
+
       - name: Checkout repo
         uses: actions/checkout@v4
 
@@ -21,26 +24,29 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v3
 
+      - name: Create venv
+        run: uv venv
+
+      - name: Install tk_tools
+        run: uv pip install -e .
+
       - name: Execute Tests
-        run: uv run pytest -v tests/ --cov=tk_tools
+        run: xvfb-run -a uv run pytest -v tests/ --cov=tk_tools
 
       - name: Build wheel file in `dist/`
         run: uv build
 
       - name: Build docs
-        run: |
-          mkdir gh-pages
-          touch gh-pages/.nojekyll
+        run: | 
           cd docs/
-          uv run sphinx-build -b html . _build
-          cp -r _build/* ../gh-pages/
+          uv run sphinx-build -b html . ./html
 
-      - name: Deploy documentation
-        if: ${{ github.event_name == 'push' }}
-        uses: JamesIves/github-pages-deploy-action@4.1.4
-        with:
-          branch: gh-pages
-          folder: gh-pages
+#      - name: Deploy documentation
+#        if: ${{ github.event_name == 'push' }}
+#        uses: JamesIves/github-pages-deploy-action@4.1.4
+#        with:
+#          branch: gh-pages
+#          folder: gh-pages
 
-      - name: Publish distribution 📦 to Test PyPI with UV
+      - name: Publish distribution 📦 to PyPI with UV
         run: uv publish --token ${{ secrets.PYPI_API_TOKEN }}
